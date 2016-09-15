@@ -9,20 +9,60 @@ namespace Star_Dundee_WPF
     class FileParser
     {
 
-        public void readFile()
+        public bool readFile()
         {
             string fileName = "../../DataFiles/test4_link1.rec";
 
-            string[] lineInFile = System.IO.File.ReadAllLines(fileName);
-
-            Console.WriteLine("Reading......");
-
-            foreach (string line in lineInFile)
+            if (System.IO.File.Exists(fileName))
             {
-                Console.WriteLine("\t" + line);
+
+                string[] lineInFile = System.IO.File.ReadAllLines(fileName);
+
+                Console.WriteLine("Reading......");
+
+                foreach (string line in lineInFile)
+                {
+                    Console.WriteLine("\t" + line);
+                }
+
+                Console.WriteLine("Reading Complete");
+
+                parseFile(lineInFile);
+            }
+            else
+            {
+                Console.WriteLine("Error reading file");
             }
 
-            Console.WriteLine("Reading Complete");
+            return System.IO.File.Exists(fileName);
+        }
+
+        public void parseFile(string[] lineInFile)
+        {
+            string startTimeStamp = lineInFile[0];
+            string endTimeStamp = lineInFile[lineInFile.Length - 1];
+
+            int portNumber = Convert.ToInt32(lineInFile[1]);
+
+            List<string> currentPackets = new List<string>();
+            string currentPacket = "";
+
+
+            for (int i = 2; i < lineInFile.Length - 2; i++)
+            {
+                if (lineInFile[i].Equals(""))
+                {
+
+                    if (!currentPacket.Equals(""))
+                    {
+                        currentPackets.Add(currentPacket);
+                        currentPacket = "";
+                    }
+                    
+                }else{
+                    currentPacket += lineInFile[i] + "*";
+                }
+            }
         }
 
     }

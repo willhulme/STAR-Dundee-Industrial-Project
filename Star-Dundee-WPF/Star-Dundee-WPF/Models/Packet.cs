@@ -13,19 +13,16 @@ namespace Star_Dundee_WPF.Models
         Data theData;
         int totalChars;
 
-
-
-
     }
 
 
     enum ErrorType {
+        noError,
         disconnect,
         parity,
         crc,
         eep,
         timeout,
         sequence
-
     };
 }

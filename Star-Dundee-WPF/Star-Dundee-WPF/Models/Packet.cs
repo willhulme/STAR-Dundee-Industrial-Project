@@ -13,6 +13,12 @@ namespace Star_Dundee_WPF.Models
         Data theData;
         int totalChars;
 
+        public Packet(DateTime timeStamp, Data theData)
+        {
+            this.timestamp = timeStamp;
+            this.theData = theData;
+        }
+
     }
 
 

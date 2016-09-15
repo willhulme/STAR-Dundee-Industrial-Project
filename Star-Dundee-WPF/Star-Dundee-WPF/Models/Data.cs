@@ -11,5 +11,10 @@ namespace Star_Dundee_WPF.Models
         string address;
         string sequenceNum;
         string[] data;
+
+        public Data(string[] data)
+        {
+            this.data = data;
+        }
     }
 }

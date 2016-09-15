@@ -69,7 +69,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CRC32.cs" />
     <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\CRC.cs" />
     <Compile Include="Models\Packet.cs" />
     <Compile Include="Models\Port.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CRC32.cs" />
+    <Compile Include="Models\CRC8.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\Checkmate.cs" />
     <Compile Include="Models\Packet.cs" />

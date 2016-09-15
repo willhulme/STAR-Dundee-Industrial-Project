@@ -24,5 +24,12 @@ namespace Star_Dundee_WPF
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FileParser myFileParser = new FileParser();
+
+            myFileParser.readFile();
+        }
     }
 }

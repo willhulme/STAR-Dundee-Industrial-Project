@@ -48,7 +48,7 @@ namespace Star_Dundee_WPF
             string currentPacket = "";
 
 
-            for (int i = 2; i < lineInFile.Length - 2; i++)
+            for (int i = 2; i < lineInFile.Length - 1; i++)
             {
                 if (lineInFile[i].Equals(""))
                 {
@@ -62,6 +62,10 @@ namespace Star_Dundee_WPF
                 }else{
                     currentPacket += lineInFile[i] + "*";
                 }
+            }
+
+            foreach(string packet in currentPackets){
+                Console.WriteLine(packet);
             }
         }
 

@@ -72,10 +72,7 @@
   <ItemGroup>
     <Compile Include="Models\CRC32.cs" />
     <Compile Include="Models\Data.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\Checkmate.cs" />
-=======
->>>>>>> a312f1652b0537dfa2f86a774ed56217964563c1
     <Compile Include="Models\Packet.cs" />
     <Compile Include="Models\Port.cs" />
     <Compile Include="Models\Recording.cs" />

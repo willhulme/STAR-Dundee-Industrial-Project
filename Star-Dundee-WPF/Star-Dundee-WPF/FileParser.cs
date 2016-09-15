@@ -11,7 +11,7 @@ namespace Star_Dundee_WPF
 
         public void readFile()
         {
-            string fileName = "";
+            string fileName = "../../DataFiles/test4_link1.rec";
 
             string[] lineInFile = System.IO.File.ReadAllLines(fileName);
         }

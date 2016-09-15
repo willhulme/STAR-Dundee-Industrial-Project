@@ -10,6 +10,6 @@ namespace Star_Dundee_WPF.Models
     {
         string address;
         string sequenceNum;
-        string data;
+        string[] data;
     }
 }

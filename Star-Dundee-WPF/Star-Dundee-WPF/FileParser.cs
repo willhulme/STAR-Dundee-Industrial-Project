@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Star_Dundee_WPF.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Star_Dundee_WPF
 
         public bool readFile()
         {
-            string fileName = "../../DataFiles/test4_link1.rec";
+            string fileName = "../../DataFiles/test1_link1.rec";
 
             if (System.IO.File.Exists(fileName))
             {
@@ -66,6 +67,41 @@ namespace Star_Dundee_WPF
 
             foreach(string packet in currentPackets){
                 Console.WriteLine(packet);
+            }
+
+            splitData(currentPackets);
+        }
+
+        public void splitData(List<string> currentPackets)
+        {
+            List<Packet> packets = new List<Packet>();
+
+            foreach (string packetString in currentPackets)
+            {
+                string[] packetData = packetString.Split('*');
+
+                if (packetData[1].Equals("P"))
+                {
+                    DateTime packetTimeStamp = DateTime.Parse(packetData[0]);
+
+                    string[] dataPairs = packetData[2].Split(' ');
+
+                    Data newData = new Data(dataPairs);
+
+                    Packet newPacket = new Packet(packetTimeStamp, newData);
+
+                    Console.WriteLine("\t" + packetTimeStamp);
+
+                    foreach (string data in dataPairs)
+                    {
+                        Console.WriteLine("\t \t" + data);
+                    }
+                }
+
+                foreach (string data in packetData)
+                {
+                    Console.WriteLine(data);
+                }
             }
         }
 

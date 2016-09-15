@@ -10,7 +10,7 @@ namespace Star_Dundee_WPF.Models
     class Checkmate
     {
         Crc32 crc32 = new Crc32();
-        string checkmate(string cargo)
+        public string checkmate(string cargo)
         {
             string hash = string.Empty;
             byte[] byteArray = Encoding.UTF8.GetBytes(cargo);

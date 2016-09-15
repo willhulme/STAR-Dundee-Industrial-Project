@@ -45,7 +45,7 @@ namespace Star_Dundee_WPF.Models
 
         public void testCRC()
         {
-            string cargo = "2c";
+            string cargo = "60 00 44 66 8d";
             string[] bufferString = cargo.Split(' ');
             byte[] bufferArray = bufferString.Select(s => Convert.ToByte(s, 16)).ToArray();
             RMAP_CalculateCRC(bufferArray, bufferArray.Length);
@@ -76,6 +76,7 @@ namespace Star_Dundee_WPF.Models
             {
                 /* The value of the byte from the buffer is XORed with the current CRC value. */
                 /* The result is then used to lookup the new CRC value from the lookup table. */
+                //buffer = (byte)(crc ^ pBuffer[i]);
                 crc = RMAP_CRCTable[(byte)(crc ^ pBuffer[i])];
             }
             return crc;

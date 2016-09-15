@@ -14,6 +14,11 @@ namespace Star_Dundee_WPF
             string fileName = "";
 
             string[] lineInFile = System.IO.File.ReadAllLines(fileName);
+
+            foreach (string line in lineInFile)
+            {
+                Console.WriteLine("\t" + line);
+            }
         }
 
     }

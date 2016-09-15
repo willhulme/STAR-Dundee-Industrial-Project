@@ -63,12 +63,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileParser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CRC32.cs" />
+    <Compile Include="Models\CRC8.cs" />
+    <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\Checkmate.cs" />
+    <Compile Include="Models\Packet.cs" />
+    <Compile Include="Models\Port.cs" />
+    <Compile Include="Models\Recording.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +94,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="DataFiles\test1_link1.rec" />
+    <None Include="DataFiles\test2_link1.rec" />
+    <None Include="DataFiles\test2_link3.rec" />
+    <None Include="DataFiles\test3_link1.rec" />
+    <None Include="DataFiles\test4_link1.rec" />
+    <None Include="DataFiles\test4_link2.rec" />
+    <None Include="DataFiles\test5_link1.rec" />
+    <None Include="DataFiles\test5_link2.rec" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DataFiles\readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

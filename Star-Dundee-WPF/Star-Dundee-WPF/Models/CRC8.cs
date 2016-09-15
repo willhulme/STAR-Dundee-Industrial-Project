@@ -43,9 +43,9 @@ namespace Star_Dundee_WPF.Models
 };
 
 
-        void testCRC()
+        public void testCRC()
         {
-            string cargo = "b8 39 f6 33 93 db b7 3b d9 32 7b d8 88 d4 ce 74 34 91 8f 83 4e a9 52 5b a6 3d 02 46 2f 04 cb d6 02 3f 36 79 a6 ef 96 4d 8f 45 a4 36 e4 5a 66 2d 86 20 55 db 4d 99 be 66 95 46 69 8b f9 e3 79 ed 5e 51 93 ac 34 d4 42 3a f8 7e 9a 6a fd eb 1c ca 6d 2f da 33 8a 0d dc 9e 3a 6a c1 39 c3 00 a9 bb d3";
+            string cargo = "2c";
             string[] bufferString = cargo.Split(' ');
             byte[] bufferArray = bufferString.Select(s => Convert.ToByte(s, 16)).ToArray();
             RMAP_CalculateCRC(bufferArray, bufferArray.Length);

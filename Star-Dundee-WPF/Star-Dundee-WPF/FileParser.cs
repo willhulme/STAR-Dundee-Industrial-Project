@@ -76,6 +76,9 @@ namespace Star_Dundee_WPF
         {
             List<Packet> packets = new List<Packet>();
 
+            //here tests the sequence stuff
+            Sequencer s = new Sequencer();
+
             foreach (string packetString in currentPackets)
             {
                 string[] packetData = packetString.Split('*');
@@ -88,7 +91,14 @@ namespace Star_Dundee_WPF
 
                     Data newData = new Data(dataPairs);
 
+
+                   
+
+
+
                     Packet newPacket = new Packet(packetTimeStamp, newData);
+
+                    packets.Add(newPacket);
 
                     Console.WriteLine("\t" + packetTimeStamp);
 
@@ -98,10 +108,16 @@ namespace Star_Dundee_WPF
                     }
                 }
 
+                s.findSequence(packets);
+
                 foreach (string data in packetData)
                 {
                     Console.WriteLine(data);
                 }
+
+
+
+
             }
         }
 

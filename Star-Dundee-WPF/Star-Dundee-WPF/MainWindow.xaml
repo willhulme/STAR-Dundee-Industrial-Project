@@ -5,17 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Star_Dundee_WPF"
         mc:Ignorable="d"
-<<<<<<< HEAD
+
         Title="SpaceWire Analyser" Height="695" Width="1129" Source="SpaceHome.xaml">
     
 </NavigationWindow>
-=======
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button x:Name="button" Content="Test" HorizontalAlignment="Left" Margin="221,243,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Button x:Name="btnTest" Content="Button" HorizontalAlignment="Left" Margin="187,118,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Button x:Name="button1" Content="Parse&#xD;&#xA;Test" HorizontalAlignment="Left" Height="45" Margin="446,64,0,0" VerticalAlignment="Top" Width="50" Click="button1_Click"/>
-
-    </Grid>
-</Window>
->>>>>>> 9f9c4522ec1b3d41ecad4ddebc9a5193cdd09684

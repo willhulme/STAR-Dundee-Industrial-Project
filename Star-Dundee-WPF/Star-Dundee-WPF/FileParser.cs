@@ -12,7 +12,7 @@ namespace Star_Dundee_WPF
 
         public bool readFile()
         {
-            string fileName = "../../DataFiles/test5_link1.rec";
+            string fileName = "../../DataFiles/test2_link1.rec";
 
             if (System.IO.File.Exists(fileName))
             {
@@ -23,7 +23,7 @@ namespace Star_Dundee_WPF
 
                 foreach (string line in lineInFile)
                 {
-                    Console.WriteLine("\t" + line);
+                    //Console.WriteLine("\t" + line);
                 }
 
                 Console.WriteLine("Reading Complete");
@@ -65,9 +65,9 @@ namespace Star_Dundee_WPF
                 }
             }
 
-            foreach(string packet in currentPackets){
-                Console.WriteLine(packet);
-            }
+           // foreach(string packet in currentPackets){
+               // Console.WriteLine(packet);
+          //  }
 
             splitData(currentPackets);
         }
@@ -105,7 +105,7 @@ namespace Star_Dundee_WPF
 
                     foreach (string data in dataPairs)
                     {
-                        Console.WriteLine("\t \t" + data);
+                       // Console.WriteLine("\t \t" + data);
                     }
                 }
 
@@ -113,7 +113,7 @@ namespace Star_Dundee_WPF
 
                 foreach (string data in packetData)
                 {
-                    Console.WriteLine(data);
+                   // Console.WriteLine(data);
                 }
 
 

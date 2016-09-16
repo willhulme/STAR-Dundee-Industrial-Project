@@ -22,7 +22,7 @@ namespace Star_Dundee_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        Checkmate CRC = new Checkmate();
+        //Checkmate CRC = new Checkmate();
         CRC8 crc8 = new CRC8();
         public MainWindow()
         {

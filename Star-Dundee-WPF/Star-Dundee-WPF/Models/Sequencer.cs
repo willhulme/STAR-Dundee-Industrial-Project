@@ -23,17 +23,98 @@ namespace Star_Dundee_WPF.Models
 
 
 
-            int sequenceIndex;
+
             List<int[]> convertedData = getDecValues(dataSets, dataSetLength);
 
 
-            for (int i = 0; i < convertedData.Count(); i++)
+            //for (int i = 0; i < convertedData.Count(); i++)
+           // {
+             //   for (int j = 0; j < dataSetLength; j++)
+             //   {
+              //      Console.Write(" " + convertedData[i][j]);
+              //  }
+             //   Console.WriteLine("");
+          //  }
+
+
+            int result = getTheSequenceIndex(convertedData);
+            Console.WriteLine("");
+            Console.WriteLine(result);
+            Console.WriteLine("");
+
+        }
+
+
+        public int getTheSequenceIndex(List<int[]> theData)
+        {
+
+            int[] test1 = { 2, 5, 12, 14, 23 };
+            int[] test2 = { 7, 5, 13, 15, 24 };
+            int[] test3 = { 7, 5, 14, 16, 25 };
+            int[] test4 = { 91, 5, 15, 17, 26 };
+            int[] test5 = { 17, 5, 16, 18, 46 };
+            int[] test6 = { 17, 5, 17, 0, 46 };
+
+            List<int[]> theTestData = new List<int[]>();
+            theTestData.Add(test1);
+            theTestData.Add(test2);
+            theTestData.Add(test3);
+            theTestData.Add(test4);
+            theTestData.Add(test5);
+            theTestData.Add(test6);
+
+            List<int> possibleIndex = new List<int>();
+            int sequenceIndex;
+
+
+            // int[] prev = theTestData[0];
+            //  int[] curr = theTestData[1];
+
+            int[] prev = theData[0];
+            int[] curr = theData[1];
+
+            //Compare first two lines of data to find potential sequence number index
+            for (int i = 0; i < theData[0].Count(); i++)
             {
-                for (int j = 0; j < dataSetLength; j++)
+
+                if (curr[i] == (prev[i] + 1))
                 {
-                    Console.Write(" " + convertedData[i][j]);
+                    possibleIndex.Add(i);
                 }
-                Console.WriteLine("");
+
+            }
+
+
+
+            for (int i = 2; i < theData.Count(); i++)
+            {
+                curr = theData[i];
+                prev = theData[i - 1];
+
+                for (int x = 0; x < possibleIndex.Count(); x++)
+                {
+                    int currIndex = possibleIndex[x];
+                    if (curr[currIndex] == (prev[currIndex] + 1))
+                    {
+                        //Still could be the index
+                        Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
+                    }
+                    else
+                    {
+                        possibleIndex.Remove(currIndex);
+                    }
+
+                }
+
+            }
+
+            if (possibleIndex.Count() == 1)
+            {
+                return possibleIndex[0];
+
+            }
+            else {
+                return -1;
             }
 
         }
@@ -50,24 +131,25 @@ namespace Star_Dundee_WPF.Models
                 foreach (string currString in currSet)
                 {
                     int x = Convert.ToInt32(currString, 16);
-                    Console.WriteLine(" - " + currString + " - " + x + " - ");
+                    //Console.WriteLine(" - " + currString + " - " + x + " - ");
                     intList.Add(x);
                 }
                 converted.Add(intList.ToArray());
             }
             Console.WriteLine("");
 
-            for (int i = 0; i < converted.Count(); i++)
-            {
-                for (int j = 0; j < dataSetLength; j++)
-                {
-                    Console.Write(" " + converted[i][j]);
-                }
-                Console.WriteLine("");
-            }
+            //for (int i = 0; i < converted.Count(); i++)
+            //{
+            //    for (int j = 0; j < dataSetLength; j++)
+            //    {
+                    //Console.Write(" " + converted[i][j]);
+            //    }
+            //    Console.WriteLine("");
+           // }
             Console.WriteLine("\n DONE \n");
             return converted;
         }
-
     }
+
+
 }

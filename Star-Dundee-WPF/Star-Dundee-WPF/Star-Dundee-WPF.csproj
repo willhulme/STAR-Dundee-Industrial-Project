@@ -77,13 +77,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CRC32.cs" />
     <Compile Include="Models\CRC8.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\Checkmate.cs" />
     <Compile Include="Models\Packet.cs" />
     <Compile Include="Models\Port.cs" />
     <Compile Include="Models\Recording.cs" />
+    <Compile Include="Models\Sequencer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

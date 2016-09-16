@@ -95,7 +95,7 @@ namespace Star_Dundee_WPF
                 }
                 //TODO - Add an else if to check packetData[1] is "E"
                 // If so, associate the error with the last packet
-
+                //--Matt
 
             }
             

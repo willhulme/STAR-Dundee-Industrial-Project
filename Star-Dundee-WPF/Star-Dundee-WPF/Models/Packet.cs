@@ -34,6 +34,7 @@ namespace Star_Dundee_WPF.Models
         crc,
         eep,
         timeout,
+        babblingIdiot,
         sequence
     };
 }

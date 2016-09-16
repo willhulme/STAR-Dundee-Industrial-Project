@@ -55,6 +55,11 @@ namespace Star_Dundee_WPF.Models
             }
 
 
+
+            //TODO Add in ability to detect babbling idiot error if same seq number is detected in a row
+            //Count if repeated sequence error and then compare packet data of all to check if identical
+            //--Matt
+
             //Loop through the remaining lines of data
             for (int i = 2; i < theData.Count(); i++)
             {

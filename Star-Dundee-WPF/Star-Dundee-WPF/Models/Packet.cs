@@ -10,7 +10,7 @@ namespace Star_Dundee_WPF.Models
     {
         DateTime timestamp;
         ErrorType errors;
-        Data theData;
+        public Data theData;
         int totalChars;
 
         public Packet(DateTime timeStamp, Data theData)

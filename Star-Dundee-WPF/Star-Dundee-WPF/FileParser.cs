@@ -92,11 +92,6 @@ namespace Star_Dundee_WPF
 
                     Data newData = new Data(dataPairs);
 
-
-                   
-
-
-
                     Packet newPacket = new Packet(packetTimeStamp, newData);
 
                     packets.Add(newPacket);
@@ -109,19 +104,29 @@ namespace Star_Dundee_WPF
                     }
                 }
 
-                
-
-                foreach (string data in packetData)
-                {
-                   // Console.WriteLine(data);
-                }
-
-
-
 
             }
-            s.findSequence(packets);
+            
+            int seqIndex = s.findSequence(packets);
+            if (seqIndex != -1)
+            {
+                foreach (Packet p in packets)
+                {
+                    p.theData.setSeqIndex(seqIndex);
+                }
+                applySequenceNumbers(packets);
+            }
+            Console.WriteLine("++");
         }
 
+        public void applySequenceNumbers(List<Packet> packets)
+        {
+            foreach (Packet p in packets)
+            {
+                int index = p.theData.getSeqIndex();
+                string seqNum = p.theData.getTheData()[index];
+                p.theData.setSeqNumber(seqNum);
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Star_Dundee_WPF.Models
 {
     class Sequencer
     {
-        public void findSequence(List<Packet> p)
+        public int findSequence(List<Packet> p)
         {
 
             List<string[]> dataSets = new List<string[]>();
@@ -41,6 +41,7 @@ namespace Star_Dundee_WPF.Models
             Console.WriteLine("");
             Console.WriteLine(result);
             Console.WriteLine("");
+            return result;
 
         }
 
@@ -48,27 +49,10 @@ namespace Star_Dundee_WPF.Models
         public int getTheSequenceIndex(List<int[]> theData)
         {
 
-            int[] test1 = { 2, 5, 12, 14, 23 };
-            int[] test2 = { 7, 5, 13, 15, 24 };
-            int[] test3 = { 7, 5, 14, 16, 25 };
-            int[] test4 = { 91, 5, 15, 17, 26 };
-            int[] test5 = { 17, 5, 16, 18, 46 };
-            int[] test6 = { 17, 5, 17, 0, 46 };
-
-            List<int[]> theTestData = new List<int[]>();
-            theTestData.Add(test1);
-            theTestData.Add(test2);
-            theTestData.Add(test3);
-            theTestData.Add(test4);
-            theTestData.Add(test5);
-            theTestData.Add(test6);
 
             List<int> possibleIndex = new List<int>();
             int sequenceIndex;
 
-
-            // int[] prev = theTestData[0];
-            //  int[] curr = theTestData[1];
 
             int[] prev = theData[0];
             int[] curr = theData[1];

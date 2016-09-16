@@ -19,6 +19,11 @@ namespace Star_Dundee_WPF.Models
             this.theData = theData;
         }
 
+        public Data getData() {
+            return this.theData;
+
+        }
+
     }
 
 

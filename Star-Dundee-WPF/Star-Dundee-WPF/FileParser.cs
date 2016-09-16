@@ -12,7 +12,7 @@ namespace Star_Dundee_WPF
 
         public bool readFile()
         {
-            string fileName = "../../DataFiles/test1_link1.rec";
+            string fileName = "../../DataFiles/test5_link1.rec";
 
             if (System.IO.File.Exists(fileName))
             {
@@ -75,6 +75,7 @@ namespace Star_Dundee_WPF
         public void splitData(List<string> currentPackets)
         {
             List<Packet> packets = new List<Packet>();
+            
 
             //here tests the sequence stuff
             Sequencer s = new Sequencer();
@@ -108,7 +109,7 @@ namespace Star_Dundee_WPF
                     }
                 }
 
-                s.findSequence(packets);
+                
 
                 foreach (string data in packetData)
                 {
@@ -119,6 +120,7 @@ namespace Star_Dundee_WPF
 
 
             }
+            s.findSequence(packets);
         }
 
     }

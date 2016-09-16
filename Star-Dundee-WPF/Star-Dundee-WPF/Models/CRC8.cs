@@ -42,44 +42,33 @@ namespace Star_Dundee_WPF.Models
  0xba, 0x2b, 0x59, 0xc8, 0xbd, 0x2c, 0x5e, 0xcf,
 };
 
-
-        public void testCRC()
+        //Check takes the cargo, removes whitespace, converts hex to dec, and places it into a byte array.
+        public int Check(string cargo)
         {
-            string cargo = "60 00 44 66 8d";
             string[] bufferString = cargo.Split(' ');
             byte[] bufferArray = bufferString.Select(s => Convert.ToByte(s, 16)).ToArray();
-            RMAP_CalculateCRC(bufferArray, bufferArray.Length);
+            int crc = RMAP_CalculateCRC(bufferArray);
+            return crc;
         }
 
-
-
-
-        /**
-        * Calculate an 8-bit CRC for the given buffer.
-        *
-        * @param pBuffer the buffer to calculate the CRC for
-        * @param len the length of the buffer
-        *
-        * @return the 8-bit RMAP CRC for the specified buffer
-        */
-        int RMAP_CalculateCRC(byte[] pBuffer, long len)
+        //Calculates the CRC of the cargo in the byte array. 
+        //Returns -1 if empty. Returns -2 if invalid length. Returns 0 if correct.
+        int RMAP_CalculateCRC(byte[] pBuffer)
         {
-            long i;
-            byte crc = 0;
+            int crc = 0;
             if (pBuffer == null)
             {
-                //puts("No buffer specified");
-                Console.WriteLine("");
                 return -1;
             }
-            for (i = 0; i < len; i++)
+            for (int i = 0; i < pBuffer.Length; i++)
             {
-                /* The value of the byte from the buffer is XORed with the current CRC value. */
-                /* The result is then used to lookup the new CRC value from the lookup table. */
-                //buffer = (byte)(crc ^ pBuffer[i]);
                 crc = RMAP_CRCTable[(byte)(crc ^ pBuffer[i])];
+                if (crc == 0 && i != pBuffer.Length)
+                {
+                    return -2;
+                }
             }
-            return crc;
+            return 0;
         }
     }
 }

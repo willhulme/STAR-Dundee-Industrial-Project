@@ -28,7 +28,7 @@ namespace Star_Dundee_WPF.Models
             List<int[]> convertedData = getDecValues(dataSets, dataSetLength);
 
             //Function call to get the sequence index
-            int result = getTheSequenceIndex(convertedData,p);
+            int result = getTheSequenceIndex(convertedData, p);
             return result;
 
         }
@@ -36,13 +36,35 @@ namespace Star_Dundee_WPF.Models
 
         public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
         {
-            //Create list to store possible index values
-            List<int> possibleIndex = new List<int>();
 
             //Set initial current and previous values for data comparison
             int[] prev = theData[0];
             int[] curr = theData[1];
             int[] next = theData[2];
+            int repeatCount = 0;
+
+            //Create list to store possible index values
+            List<int> possibleIndex = getPossibleIndexList(theData, curr, prev);
+            possibleIndex = parseForSequence(theData, curr, prev, possibleIndex,p);
+
+
+            //If there is only one possible sequence index left, return it as the index
+            if (possibleIndex.Count() == 1)
+            {
+                return possibleIndex[0];
+
+            }
+            else {
+                //Return if there is less or more than one possibility
+                return -1;
+            }
+
+        }
+
+        public List<int> getPossibleIndexList(List<int[]> theData, int[] curr, int[] prev)
+        {
+
+            List<int> possibleIndex = new List<int>();
 
             //Compare only first two lines of data to find potential sequence number index
             for (int i = 0; i < theData[0].Count(); i++)
@@ -55,7 +77,14 @@ namespace Star_Dundee_WPF.Models
                 }
             }
 
+            return possibleIndex;
 
+        }
+
+
+
+        public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex,List<Packet> p)
+        {
 
             //TODO Add in ability to detect babbling idiot error if same seq number is detected in a row
             //Count if repeated sequence error and then compare packet data of all to check if identical
@@ -82,7 +111,8 @@ namespace Star_Dundee_WPF.Models
                     //Out of range exception breaks this here if error and shorter data string than expected is found
                     //File Test 6, link 5
 
-                    try {
+                    try
+                    {
                         if (curr[currIndex] == (prev[currIndex] + 1 + packetsSkipped))
                         {
                             //Still could be the index
@@ -112,7 +142,9 @@ namespace Star_Dundee_WPF.Models
                                 }
                             }
                         }
-                    } catch (IndexOutOfRangeException RE) {
+                    }
+                    catch (IndexOutOfRangeException RE)
+                    {
 
                         Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex);
                         packetsSkipped++;
@@ -120,16 +152,8 @@ namespace Star_Dundee_WPF.Models
                 }
             }
 
-            //If there is only one possible sequence index left, return it as the index
-            if (possibleIndex.Count() == 1)
-            {
-                return possibleIndex[0];
+            return possibleIndex;
 
-            }
-            else {
-                //Return if there is less or more than one possibility
-                return -1;
-            }
 
         }
 

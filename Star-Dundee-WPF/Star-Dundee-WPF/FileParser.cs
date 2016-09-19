@@ -13,7 +13,7 @@ namespace Star_Dundee_WPF
         public bool readFile()
         {
             //set path for file to be read
-            string fileName = "../../DataFiles/test2_link1.rec";
+            string fileName = "../../DataFiles/test1/link1.rec";
 
             //check file exists
             if (System.IO.File.Exists(fileName))
@@ -71,6 +71,8 @@ namespace Star_Dundee_WPF
             List<Packet> packets = new List<Packet>();
             Sequencer s = new Sequencer();
 
+            int packetCount = 0;
+
             //Loop through all packet data stored in strings 
             foreach (string packetString in currentPackets)
             {
@@ -92,6 +94,14 @@ namespace Star_Dundee_WPF
 
                     //Add to list of packets
                     packets.Add(newPacket);
+
+                    //increment packet count
+                    packetCount++;
+                }
+                else if (packetData[1].Equals("E")) {
+
+                    packets[packetCount - 1].setError(true,"");
+
                 }
                 //TODO - Add an else if to check packetData[1] is "E"
                 // If so, associate the error with the last packet
@@ -123,6 +133,7 @@ namespace Star_Dundee_WPF
                 string seqNum = p.theData.getTheData()[index];
                 p.theData.setSeqNumber(seqNum);
             }
+            Console.WriteLine("\"\"");
         }
     }
 }

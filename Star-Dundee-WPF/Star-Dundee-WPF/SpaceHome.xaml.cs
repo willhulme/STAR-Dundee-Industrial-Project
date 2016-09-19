@@ -75,5 +75,12 @@ namespace Star_Dundee_WPF
                 OverviewDataGrid.Columns.Add(dataGridColumn);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FileParser myFileParser = new FileParser();
+
+            myFileParser.readFile();
+        }
     }
 }

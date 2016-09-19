@@ -28,13 +28,13 @@ namespace Star_Dundee_WPF.Models
             List<int[]> convertedData = getDecValues(dataSets, dataSetLength);
 
             //Function call to get the sequence index
-            int result = getTheSequenceIndex(convertedData);
+            int result = getTheSequenceIndex(convertedData,p);
             return result;
 
         }
 
 
-        public int getTheSequenceIndex(List<int[]> theData)
+        public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
         {
             //Create list to store possible index values
             List<int> possibleIndex = new List<int>();
@@ -42,6 +42,7 @@ namespace Star_Dundee_WPF.Models
             //Set initial current and previous values for data comparison
             int[] prev = theData[0];
             int[] curr = theData[1];
+            int[] next = theData[2];
 
             //Compare only first two lines of data to find potential sequence number index
             for (int i = 0; i < theData[0].Count(); i++)
@@ -60,27 +61,61 @@ namespace Star_Dundee_WPF.Models
             //Count if repeated sequence error and then compare packet data of all to check if identical
             //--Matt
 
+            int packetsSkipped = 0;
+
+
             //Loop through the remaining lines of data
             for (int i = 2; i < theData.Count(); i++)
             {
                 //Set current and previous lines for comparing
                 curr = theData[i];
                 prev = theData[i - 1];
+                //next = theData[i + 1];
 
                 //For every possible index identified
                 for (int x = 0; x < possibleIndex.Count(); x++)
                 {
                     int currIndex = possibleIndex[x];
                     //Check next line for increment
-                    if (curr[currIndex] == (prev[currIndex] + 1))
-                    {
-                        //Still could be the index
-                        Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
-                    }
-                    else
-                    {
-                        //Incremented value not found so remove from list of possibilities
-                        possibleIndex.Remove(currIndex);
+
+
+                    //Out of range exception breaks this here if error and shorter data string than expected is found
+                    //File Test 6, link 5
+
+                    try {
+                        if (curr[currIndex] == (prev[currIndex] + 1 + packetsSkipped))
+                        {
+                            //Still could be the index
+                            Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
+                            packetsSkipped = 0;
+                        }
+                        else
+                        {
+                            //Check if is 1 more than expected and then if next packet is error then sequence error happens here
+                            if (curr[currIndex] == (prev[currIndex] + 2) && p[i + 1].getErrorStatus())
+                            {
+                                //Still could be the index
+                                Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
+                                packetsSkipped = 0;
+
+
+                                p[i + 1].setError(true, "sequence");
+
+                                //sequence error here
+                            }
+                            else {
+                                if (!p[i].getErrorStatus())
+                                {
+                                    //Incremented value not found so remove from list of possibilities
+                                    possibleIndex.Remove(currIndex);
+                                    packetsSkipped = 0;
+                                }
+                            }
+                        }
+                    } catch (IndexOutOfRangeException RE) {
+
+                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex);
+                        packetsSkipped++;
                     }
                 }
             }

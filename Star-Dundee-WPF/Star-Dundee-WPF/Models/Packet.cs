@@ -12,6 +12,7 @@ namespace Star_Dundee_WPF.Models
         ErrorType errors;
         public Data theData;
         int totalChars;
+        bool hasError;
 
         public Packet(DateTime timeStamp, Data theData)
         {
@@ -23,6 +24,19 @@ namespace Star_Dundee_WPF.Models
             return this.theData;
 
         }
+
+        public bool getErrorStatus() {
+            return hasError;
+
+        }
+
+        public void setError(bool err, string type) {
+            hasError = err;
+
+            //Distinguish error type, pass in and set enum value
+
+        }
+
 
     }
 

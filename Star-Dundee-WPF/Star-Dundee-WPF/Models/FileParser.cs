@@ -9,10 +9,14 @@ namespace Star_Dundee_WPF
 {
     class FileParser
     {
+        Port thePort;
+
+        string theFilepath = "../../DataFiles/test3/link1.rec";
         bool fileRead;
 
         public void parse() {
 
+            
             List<string> packetData;
             string[] fileData =  readFile();
             List<Packet> packets = new List<Packet>();
@@ -52,30 +56,53 @@ namespace Star_Dundee_WPF
 
             Console.WriteLine("     ");
 
+            printRecordData(packets);
+
+
+            thePort.setPackets(packets);
+
+
+
+        }
+
+
+
+        public void printRecordData( List<Packet> packets) {
+
             int packetcount = 1;
 
-            foreach(Packet p in packets) {
+
+            Console.WriteLine("PRINTING DATA\n");
+            Console.WriteLine("Port Number : " + thePort.getPortNumber());
+            Console.WriteLine("Starting Timestamp : " + thePort.getStart());
+            Console.WriteLine("Ending Timestamp : " + thePort.getEnd());
+
+            Console.WriteLine("\n\n");
+
+            foreach (Packet p in packets)
+            {
 
                 Console.WriteLine("TimeStamp : " + p.getTimestamp());
 
                 string[] stringData = p.theData.getTheData();
                 Console.Write("DataString : ");
 
-                foreach (string s in stringData) {
+                foreach (string s in stringData)
+                {
 
                     Console.Write(s + " ");
 
                 }
 
                 Console.Write("\n");
-                Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());          
+                Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                 Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
 
 
                 Console.WriteLine("Has Errors? : " + p.getErrorStatus());
                 Console.WriteLine("Error Type : " + p.getErrorType());
 
-                Console.WriteLine("Packet Count : "+ packetcount);
+                Console.WriteLine("Packet Count : " + packetcount);
 
                 packetcount++;
                 Console.WriteLine(" ");
@@ -83,12 +110,13 @@ namespace Star_Dundee_WPF
 
             Console.WriteLine(" ");
 
+
         }
 
         public string[] readFile()
         {
             //set path for file to be read
-            string fileName = "../../DataFiles/test3/link1.rec";
+            string fileName = theFilepath;
             fileRead = false;
 
             //check file exists
@@ -118,6 +146,16 @@ namespace Star_Dundee_WPF
             string startTimeStamp = lineInFile[0];
             string endTimeStamp = lineInFile[lineInFile.Length - 1];
             int portNumber = Convert.ToInt32(lineInFile[1]);
+
+            DateTime start = new DateTime();
+            start = DateTime.Parse(startTimeStamp);
+
+
+            DateTime end = new DateTime();
+            end = DateTime.Parse(endTimeStamp);
+
+            thePort = new Port(portNumber,  start, end);
+
 
             List<string> currentPackets = new List<string>();
             string currentPacket = "";

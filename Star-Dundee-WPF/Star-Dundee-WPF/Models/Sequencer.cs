@@ -124,7 +124,7 @@ namespace Star_Dundee_WPF.Models
                         if (curr[currIndex] == (prev[currIndex] + 1 + packetsSkipped))
                         {
                             //Still could be the index
-                            Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
+                           // Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
                             packetsSkipped = 0;
                         }
                         else if (curr[currIndex] == (prev[currIndex])) {
@@ -167,7 +167,7 @@ namespace Star_Dundee_WPF.Models
                             if (curr[currIndex] == (prev[currIndex] + 2) && p[i + 1].getErrorStatus())
                             {
                                 //Still could be the index
-                                Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
+                                //Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
                                 packetsSkipped = 0;
 
 

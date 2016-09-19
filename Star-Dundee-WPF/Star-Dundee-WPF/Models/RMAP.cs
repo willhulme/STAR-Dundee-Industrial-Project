@@ -65,6 +65,7 @@ namespace Star_Dundee_WPF.Models
                 for(int i = 10; i < characterBytes.Length-1; i++)
                 {
                     data[j] = characterBytes[i];
+                    j++;
                 }
                 dataCRC = characterBytes[(characterBytes.Length - 1)];
             }
@@ -93,6 +94,7 @@ namespace Star_Dundee_WPF.Models
                     for (int k = 14+i; i < characterBytes.Length - 1; i++)
                     {
                         data[j] = characterBytes[k];
+                        j++;
                     }
                     dataCRC = characterBytes[(characterBytes.Length - 1)];
                 }

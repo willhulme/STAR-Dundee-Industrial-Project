@@ -88,7 +88,7 @@ namespace Star_Dundee_WPF
         public string[] readFile()
         {
             //set path for file to be read
-            string fileName = "../../DataFiles/test4/link1.rec";
+            string fileName = "../../DataFiles/test3/link1.rec";
             fileRead = false;
 
             //check file exists
@@ -182,7 +182,7 @@ namespace Star_Dundee_WPF
                 else if (packetData[1].Equals("E")) {
 
                     //Disconnect or parity
-                    string errorType = packetData[2];
+                    string errorType = packetData[2].ToLower();
 
                     packets[packetCount - 1].setError(true,errorType);
 

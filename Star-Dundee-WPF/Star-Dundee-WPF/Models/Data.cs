@@ -30,6 +30,11 @@ namespace Star_Dundee_WPF.Models
             return this.sequenceIndex;
         }
 
+        public string getSeqNumber() {
+
+            return this.sequenceNum;
+        }
+
 
         public void setSeqNumber(string number)
         {

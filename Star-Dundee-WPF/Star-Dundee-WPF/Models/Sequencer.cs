@@ -33,7 +33,6 @@ namespace Star_Dundee_WPF.Models
 
         }
 
-
         public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
         {
 
@@ -54,9 +53,15 @@ namespace Star_Dundee_WPF.Models
                 return possibleIndex[0];
 
             }
-            else {
-                //Return if there is less or more than one possibility
+            else if (possibleIndex.Count() == 0)
+            {
+                //Return if there is less than one possibility
                 return -1;
+            }
+            else
+            {
+                //Return
+                return -2;
             }
 
         }
@@ -81,15 +86,8 @@ namespace Star_Dundee_WPF.Models
 
         }
 
-
-
         public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex,List<Packet> p)
         {
-
-            //TODO Add in ability to detect babbling idiot error if same seq number is detected in a row
-            //Count if repeated sequence error and then compare packet data of all to check if identical
-            //--Matt
-
             int packetsSkipped = 0;
 
 
@@ -108,8 +106,16 @@ namespace Star_Dundee_WPF.Models
                     //Check next line for increment
 
 
+
+                    //TODO - Matt
+                    //
                     //Out of range exception breaks this here if error and shorter data string than expected is found
                     //File Test 6, link 5
+                    //
+                    //allow for going from ff(255) back to 00 as valid
+                    //
+                    //Add in ability to detect babbling idiot error if same seq number is detected in a row
+                    //Count if repeated sequence error and then compare packet data of all to check if identical
 
                     try
                     {
@@ -146,7 +152,7 @@ namespace Star_Dundee_WPF.Models
                     catch (IndexOutOfRangeException RE)
                     {
 
-                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex);
+                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + "|| AT LINE " + i) ;
                         packetsSkipped++;
                     }
                 }
@@ -156,7 +162,6 @@ namespace Star_Dundee_WPF.Models
 
 
         }
-
 
         public List<int[]> getDecValues(List<string[]> dataSets, int dataSetLength)
         {

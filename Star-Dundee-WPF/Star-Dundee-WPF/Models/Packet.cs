@@ -20,20 +20,61 @@ namespace Star_Dundee_WPF.Models
             this.theData = theData;
         }
 
-        public Data getData() {
+        public Data getData()
+        {
             return this.theData;
 
         }
 
-        public bool getErrorStatus() {
+        public DateTime getTimestamp() {
+            return this.timestamp;
+        }
+
+
+        public bool getErrorStatus()
+        {
             return hasError;
 
         }
 
-        public void setError(bool err, string type) {
+        public ErrorType getErrorType() {
+
+            return errors;
+        }
+
+        public void setError(bool err, string type)
+        {
             hasError = err;
 
             //Distinguish error type, pass in and set enum value
+
+            switch (type)
+            {
+                case "sequence":
+
+                    this.errors = ErrorType.sequence;
+                    break;
+
+                case "disconnect":
+
+                    this.errors = ErrorType.disconnect;
+                    break;
+
+                case "parity":
+
+                    this.errors = ErrorType.parity;
+                    break;
+
+                case "noError":
+
+                    this.errors = ErrorType.noError;
+                    break;
+
+                case "":
+                    Console.WriteLine("errors occured - maybe");
+                    break;
+
+            }
 
         }
 
@@ -41,7 +82,8 @@ namespace Star_Dundee_WPF.Models
     }
 
 
-    enum ErrorType {
+    enum ErrorType
+    {
         noError,
         disconnect,
         parity,

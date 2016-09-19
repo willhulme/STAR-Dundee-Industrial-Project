@@ -80,7 +80,7 @@ namespace Star_Dundee_WPF
         {
             FileParser myFileParser = new FileParser();
 
-            myFileParser.readFile();
+            myFileParser.parse();
         }
     }
 }

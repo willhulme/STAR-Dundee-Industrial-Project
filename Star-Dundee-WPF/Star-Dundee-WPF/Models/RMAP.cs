@@ -42,29 +42,29 @@ namespace Star_Dundee_WPF.Models
         {
             string[] characters = packet.Split(' ');
             byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
-            ptCmdSp = characterBytes[2];
+            ptCmdSp = characterBytes[0];
             command = getCommandType(ptCmdSp);
 
             if (command.Contains("REPLY"))
             {
-                status = characterBytes[3];
-                destinationlogicalAddress = characterBytes[4];
-                transactionID[0] = characterBytes[5];
-                transactionID[1] = characterBytes[6];
+                status = characterBytes[1];
+                destinationlogicalAddress = characterBytes[2];
+                transactionID[0] = characterBytes[3];
+                transactionID[1] = characterBytes[4];
 
                 if(command.Equals("WRITE REPLY"))
                 {
-                    replyCRC = characterBytes[7];
+                    replyCRC = characterBytes[5];
                     return;
                 }
-                dataLength[0] = characterBytes[8];
-                dataLength[1] = characterBytes[9];
-                dataLength[2] = characterBytes[10];
+                dataLength[0] = characterBytes[6];
+                dataLength[1] = characterBytes[7];
+                dataLength[2] = characterBytes[8];
                 dataLengthInt = arrayToInt(dataLength);
-                headerCRC = characterBytes[11];
+                headerCRC = characterBytes[9];
                 data = new byte[dataLengthInt];
                 int j = 0;
-                for(int i = 12; i < characterBytes.Length-1; i++)
+                for(int i = 10; i < characterBytes.Length-1; i++)
                 {
                     data[j] = characterBytes[i];
                 }
@@ -72,24 +72,24 @@ namespace Star_Dundee_WPF.Models
             }
             else
             {
-                destinationKey = characterBytes[3];
-                sourcelogicalAddress = characterBytes[4];
-                transactionID[0] = characterBytes[5];
-                transactionID[1] = characterBytes[6];
+                destinationKey = characterBytes[1];
+                sourcelogicalAddress = characterBytes[2];
+                transactionID[0] = characterBytes[3];
+                transactionID[1] = characterBytes[4];
 
                 if (command.Equals("WRITE"))
                 {
-                    extWriteAdd = characterBytes[7];
-                    byte[] writeBytes = new byte[4] { characterBytes[8], characterBytes[9], characterBytes[10], characterBytes[11] };
+                    extWriteAdd = characterBytes[5];
+                    byte[] writeBytes = new byte[4] { characterBytes[6], characterBytes[7], characterBytes[8], characterBytes[9] };
                     writeAddress = arrayToInt(writeBytes);
-                    dataLength[0] = characterBytes[12];
-                    dataLength[1] = characterBytes[13];
-                    dataLength[2] = characterBytes[14];
+                    dataLength[0] = characterBytes[10];
+                    dataLength[1] = characterBytes[11];
+                    dataLength[2] = characterBytes[12];
                     dataLengthInt = arrayToInt(dataLength);
-                    headerCRC = characterBytes[15];
+                    headerCRC = characterBytes[13];
                     data = new byte[dataLengthInt];
                     int j = 0;
-                    for (int i = 16; i < characterBytes.Length - 1; i++)
+                    for (int i = 14; i < characterBytes.Length - 1; i++)
                     {
                         data[j] = characterBytes[i];
                     }
@@ -97,14 +97,14 @@ namespace Star_Dundee_WPF.Models
                 }
                 else if (command.Equals("READ"))
                 {
-                    extReadAdd = characterBytes[7];
-                    byte[] readBytes = new byte[4] { characterBytes[8], characterBytes[9], characterBytes[10], characterBytes[11] };
+                    extReadAdd = characterBytes[5];
+                    byte[] readBytes = new byte[4] { characterBytes[6], characterBytes[7], characterBytes[8], characterBytes[9] };
                     readAddress = arrayToInt(readBytes);
-                    dataLength[0] = characterBytes[12];
-                    dataLength[1] = characterBytes[13];
-                    dataLength[2] = characterBytes[14];
+                    dataLength[0] = characterBytes[10];
+                    dataLength[1] = characterBytes[11];
+                    dataLength[2] = characterBytes[12];
                     dataLengthInt = arrayToInt(dataLength);
-                    headerCRC = characterBytes[15];
+                    headerCRC = characterBytes[13];
                 }
             }
             printPacketDetails(this);

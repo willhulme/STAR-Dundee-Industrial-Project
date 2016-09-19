@@ -44,16 +44,87 @@ namespace Star_Dundee_WPF.Models
 
             if (command.Contains("REPLY"))
             {
-                status = characterBytes[1];
-                destinationlogicalAddress = characterBytes[2];
-                transactionID[0] = characterBytes[3];
-                transactionID[1] = characterBytes[4];
+                getReplyPacket(characterBytes);
+            }
+            else
+            {
+                GetCommandPacket(characterBytes);
+            }
+            printPacketDetails(this);
 
-                if(command.Equals("WRITE REPLY"))
-                {
-                    replyCRC = characterBytes[5];
-                    return;
-                }
+        }
+
+        private void GetCommandPacket(byte[] characterBytes)
+        {
+            destinationKey = characterBytes[1];
+            int i = sourceAddLen * 4;
+            sourcelogicalAddress = characterBytes[2 + i];
+            transactionID[0] = characterBytes[3 + i];
+            transactionID[1] = characterBytes[4 + i];
+
+            if (command.Equals("WRITE"))
+            {
+                //i = GetWritePacket(characterBytes, i);
+                GetWritePacket(characterBytes, i);
+            }
+            else if (command.Equals("READ"))
+            {
+
+                GetReadPacket(characterBytes, i);
+            }
+        }
+
+        private void GetReadPacket(byte[] characterBytes, int i)
+        {
+            extReadAdd = characterBytes[5 + i];
+            byte[] readBytes = new byte[4] { characterBytes[6 + i], characterBytes[7 + i], characterBytes[8 + i], characterBytes[9 + i] };
+            Array.Reverse(readBytes);
+            readAddress = arrayToInt(readBytes);
+            dataLength[0] = characterBytes[10 + i];
+            dataLength[1] = characterBytes[11 + i];
+            dataLength[2] = characterBytes[12 + i];
+            Array.Reverse(dataLength);
+            dataLengthInt = arrayToInt(dataLength);
+            headerCRC = characterBytes[13 + i];
+        }
+
+        private int GetWritePacket(byte[] characterBytes, int i)
+        {
+            extWriteAdd = characterBytes[5 + i];
+            byte[] writeBytes = new byte[4] { characterBytes[6 + i], characterBytes[7 + i], characterBytes[8 + i], characterBytes[9 + i] };
+            Array.Reverse(writeBytes);
+            writeAddress = arrayToInt(writeBytes);
+            dataLength[0] = characterBytes[10 + i];
+            dataLength[1] = characterBytes[11 + i];
+            dataLength[2] = characterBytes[12 + i];
+            Array.Reverse(dataLength);
+            dataLengthInt = arrayToInt(dataLength);
+            headerCRC = characterBytes[13 + i];
+            data = new byte[dataLengthInt];
+            int j = 0;
+            for (int k = 14 + i; i < characterBytes.Length - 1; i++)
+            {
+                data[j] = characterBytes[k];
+                j++;
+            }
+            dataCRC = characterBytes[(characterBytes.Length - 1)];
+            return i;
+        }
+
+        private void getReplyPacket(byte[] characterBytes)
+        {
+            status = characterBytes[1];
+            destinationlogicalAddress = characterBytes[2];
+            transactionID[0] = characterBytes[3];
+            transactionID[1] = characterBytes[4];
+
+            if (command.Equals("WRITE REPLY"))
+            {
+                replyCRC = characterBytes[5];
+                //return;
+            }
+            else
+            {
                 dataLength[0] = characterBytes[6];
                 dataLength[1] = characterBytes[7];
                 dataLength[2] = characterBytes[8];
@@ -62,59 +133,13 @@ namespace Star_Dundee_WPF.Models
                 headerCRC = characterBytes[9];
                 data = new byte[dataLengthInt];
                 int j = 0;
-                for(int i = 10; i < characterBytes.Length-1; i++)
+                for (int i = 10; i < characterBytes.Length - 1; i++)
                 {
                     data[j] = characterBytes[i];
                     j++;
                 }
                 dataCRC = characterBytes[(characterBytes.Length - 1)];
             }
-            else
-            {
-                destinationKey = characterBytes[1];
-                int i = sourceAddLen*4;
-                sourcelogicalAddress = characterBytes[2+i];
-                transactionID[0] = characterBytes[3+i];
-                transactionID[1] = characterBytes[4+i];
-
-                if (command.Equals("WRITE"))
-                {
-                    extWriteAdd = characterBytes[5+i];
-                    byte[] writeBytes = new byte[4] { characterBytes[6+i], characterBytes[7+i], characterBytes[8+i], characterBytes[9+i] };
-                    Array.Reverse(writeBytes);
-                    writeAddress = arrayToInt(writeBytes);
-                    dataLength[0] = characterBytes[10+i];
-                    dataLength[1] = characterBytes[11+i];
-                    dataLength[2] = characterBytes[12+i];
-                    Array.Reverse(dataLength);
-                    dataLengthInt = arrayToInt(dataLength);
-                    headerCRC = characterBytes[13+i];
-                    data = new byte[dataLengthInt];
-                    int j = 0;
-                    for (int k = 14+i; i < characterBytes.Length - 1; i++)
-                    {
-                        data[j] = characterBytes[k];
-                        j++;
-                    }
-                    dataCRC = characterBytes[(characterBytes.Length - 1)];
-                }
-                else if (command.Equals("READ"))
-                {
-
-                    extReadAdd = characterBytes[5+i];
-                    byte[] readBytes = new byte[4] { characterBytes[6+i], characterBytes[7+i], characterBytes[8+i], characterBytes[9+i] };
-                    Array.Reverse(readBytes);
-                    readAddress = arrayToInt(readBytes);
-                    dataLength[0] = characterBytes[10+i];
-                    dataLength[1] = characterBytes[11+i];
-                    dataLength[2] = characterBytes[12+i];
-                    Array.Reverse(dataLength);
-                    dataLengthInt = arrayToInt(dataLength);
-                    headerCRC = characterBytes[13+i];
-                }
-            }
-            printPacketDetails(this);
-
         }
 
         private uint arrayToInt(byte[] dataLength)

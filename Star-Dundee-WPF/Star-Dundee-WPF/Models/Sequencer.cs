@@ -89,7 +89,9 @@ namespace Star_Dundee_WPF.Models
         public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex,List<Packet> p)
         {
             int packetsSkipped = 0;
-
+            int idiotCount = 0;
+            int firstIdiotIndex = 0;
+            bool idiotsSet = false;
 
             //Loop through the remaining lines of data
             for (int i = 2; i < theData.Count(); i++)
@@ -124,6 +126,40 @@ namespace Star_Dundee_WPF.Models
                             //Still could be the index
                             Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
                             packetsSkipped = 0;
+                        }
+                        else if (curr[currIndex] == (prev[currIndex])) {
+
+
+                            //Compare actual strings
+                            if (curr.SequenceEqual(prev))
+                            {
+                                if (idiotCount == 0)
+                                {
+                                    firstIdiotIndex = i - 1;
+
+                                }
+                                if (idiotCount >= 4)
+                                {
+                                    if (!idiotsSet)
+                                    {
+                                        for (int y = firstIdiotIndex; y < i; y++)
+                                        {
+                                            p[y].setError(true, "babbling");
+                                        }
+                                    }
+                                    p[i].setError(true, "babbling");
+
+                                }
+
+
+                                idiotCount++;
+                            }
+                            else {
+                                possibleIndex.Remove(currIndex);
+                                packetsSkipped = 0;
+
+                            }
+
                         }
                         else
                         {

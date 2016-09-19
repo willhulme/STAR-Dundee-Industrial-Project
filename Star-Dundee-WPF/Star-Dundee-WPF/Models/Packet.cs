@@ -70,6 +70,9 @@ namespace Star_Dundee_WPF.Models
                     this.errors = ErrorType.noError;
                     break;
 
+                case "babbling":
+                    this.errors = ErrorType.babblingIdiot;
+                    break;
                 case "":
                     Console.WriteLine("errors occured - maybe");
                     break;

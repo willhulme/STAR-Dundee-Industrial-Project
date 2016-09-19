@@ -83,6 +83,7 @@
     <Compile Include="Models\Packet.cs" />
     <Compile Include="Models\Port.cs" />
     <Compile Include="Models\Recording.cs" />
+    <Compile Include="Models\RMAP.cs" />
     <Compile Include="Models\Sequencer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

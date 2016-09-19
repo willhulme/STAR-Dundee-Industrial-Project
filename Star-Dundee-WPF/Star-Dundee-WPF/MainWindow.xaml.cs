@@ -23,8 +23,10 @@ namespace Star_Dundee_WPF
     public partial class MainWindow : NavigationWindow
     {
         CRC8 crc8 = new CRC8();
+        RMAP rmap = new RMAP();
         public MainWindow()
         {
+            rmap.buildPacket("2d 01 7c 00 57 ff fb 00 00 50 08 2e f3 e3 58 99 aa ef e5 20 25");
             InitializeComponent();
         }
 

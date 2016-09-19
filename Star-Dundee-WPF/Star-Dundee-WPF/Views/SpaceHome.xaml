@@ -9,7 +9,7 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Images/space_background.jpg"/>
+            <ImageBrush ImageSource="pack://application:,,,/Images/space_background.jpg"/>
         </Grid.Background>
 
         <Grid.ColumnDefinitions>

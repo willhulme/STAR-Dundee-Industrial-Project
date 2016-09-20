@@ -11,6 +11,7 @@ namespace Star_Dundee_WPF
     {
         Port thePort;
         bool fileRead;
+        Checkmate crc_check = new Checkmate();
 
         public void parse(string[] filePaths) {
             foreach (string file in filePaths)
@@ -222,10 +223,8 @@ namespace Star_Dundee_WPF
 
                 }
             }
-
-            return packets;
-            
-            
+            packets = crc_check.Check(packets);
+            return packets;      
         }
 
         public void applySequenceNumbers(List<Packet> packets)

@@ -13,6 +13,7 @@ namespace Star_Dundee_WPF.Models
         public Data theData;
         int totalChars;
         bool hasError;
+        public Packet() { }
 
         public Packet(DateTime timeStamp, Data theData)
         {

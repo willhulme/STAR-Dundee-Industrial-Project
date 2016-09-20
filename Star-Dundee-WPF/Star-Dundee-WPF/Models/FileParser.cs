@@ -10,6 +10,8 @@ namespace Star_Dundee_WPF
     class FileParser
     {
         Port thePort;
+        bool fileRead;
+        Checkmate crc_check = new Checkmate();
 
         public void parse(string[] filePaths)
         {
@@ -269,10 +271,8 @@ namespace Star_Dundee_WPF
                 }
                 //TODO Add check for EEP
             }
-
-            return packets;
-
-
+            packets = crc_check.Check(packets);
+            return packets;      
         }
 
         public void applySequenceNumbers(List<Packet> packets)

@@ -10,7 +10,6 @@ namespace Star_Dundee_WPF
     class FileParser
     {
         Port thePort;
-        bool fileRead;
 
         public void parse(string[] filePaths)
         {
@@ -63,7 +62,9 @@ namespace Star_Dundee_WPF
                     thePort.setPackets(packets);
 
                 }
-            }else{
+            }
+            else
+            {
                 Console.WriteLine("Error reading file(s) - please try again");
             }
         }
@@ -101,8 +102,7 @@ namespace Star_Dundee_WPF
         public void printRecordData(List<Packet> packets)
         {
 
-            int packetcount = 1;
-
+            int packetcount = 0;
 
             Console.WriteLine("PRINTING DATA\n");
             Console.WriteLine("Port Number : " + thePort.getPortNumber());
@@ -113,6 +113,7 @@ namespace Star_Dundee_WPF
 
             foreach (Packet p in packets)
             {
+                packetcount++;
 
                 Console.WriteLine("TimeStamp : " + p.getTimestamp());
 
@@ -136,38 +137,25 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine("Packet Count : " + packetcount);
 
-                packetcount++;
                 Console.WriteLine(" ");
             }
 
             Console.WriteLine(" ");
 
-
         }
 
         public string[] readFile(string dir)
         {
-            fileRead = false;
 
-            //check file exists
-            if (System.IO.File.Exists(dir))
-            {
-                Console.WriteLine("Reading......");
-                //read file into string array
-                string[] lineInFile = System.IO.File.ReadAllLines(dir);
-                Console.WriteLine("Reading Complete");
-                fileRead = true;
-                return lineInFile;
+            Console.WriteLine("Reading......");
 
-            }
-            else
-            {
-                Console.WriteLine("Error reading file");
-                fileRead = false;
-                return null;
-            }
+            //read file into string array
+            string[] lineInFile = System.IO.File.ReadAllLines(dir);
 
-            //return System.IO.File.Exists(fileName);
+            Console.WriteLine("Reading Complete");
+            
+            return lineInFile;
+
         }
 
         public List<string> parseFile(string[] lineInFile)

@@ -1,4 +1,4 @@
-﻿ using Star_Dundee_WPF.Models;
+﻿using Star_Dundee_WPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,60 +12,94 @@ namespace Star_Dundee_WPF
         Port thePort;
         bool fileRead;
 
-        public void parse(string[] filePaths) {
-            foreach (string file in filePaths)
+        public void parse(string[] filePaths)
+        {
+
+            if (checkTimeStamps(filePaths))
             {
-            List<string> packetData;
-            string[] fileData =  readFile(file);
-            List<Packet> packets = new List<Packet>();
 
-
-            if (fileRead)//fileData != null)
-            {
-                packetData = parseFile(fileData);
-                packets = splitData(packetData);
-
-
-                //Call to find sequnce index of the data
-                Sequencer s = new Sequencer();
-                int seqIndex = s.findSequence(packets);
-
-                //If a non-error value is returned
-                if (seqIndex >= 0)
+                foreach (string file in filePaths)
                 {
-                    // For each packet
-                    foreach (Packet p in packets)
+                    List<string> packetData;
+                    string[] fileData = readFile(file);
+                    List<Packet> packets = new List<Packet>();
+
+
+                    packetData = parseFile(fileData);
+                    packets = splitData(packetData);
+
+
+                    //Call to find sequnce index of the data
+                    Sequencer s = new Sequencer();
+                    int seqIndex = s.findSequence(packets);
+
+                    //If a non-error value is returned
+                    if (seqIndex >= 0)
                     {
-                        //Set the index to the actual data objects
-                        p.theData.setSeqIndex(seqIndex);
+                        // For each packet
+                        foreach (Packet p in packets)
+                        {
+                            //Set the index to the actual data objects
+                            p.theData.setSeqIndex(seqIndex);
+                        }
+                        applySequenceNumbers(packets);
                     }
-                    applySequenceNumbers(packets);
+                    else if (seqIndex == -1 || seqIndex == -2)
+                    {
+                        //No sequence number Identifiable
+                        Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
+                    }
+                    else
+                    {
+                        //Error
+                        Console.WriteLine("Broke");
+                    }
+
+
+                    Console.WriteLine("     ");
+
+                    printRecordData(packets);
+
+                    thePort.setPackets(packets);
+
                 }
-                else if (seqIndex == -1 || seqIndex == -2)
-                {
-                    //No sequence number Identifiable
-                    Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
-                }
-                else {
-                    //Error
-                    Console.WriteLine("Broke");
-                }
-            }
-
-            Console.WriteLine("     ");
-
-            printRecordData(packets);
-
-
-            thePort.setPackets(packets);
-
-
+            }else{
+                Console.WriteLine("Error reading file(s) - please try again");
             }
         }
 
+        public bool checkTimeStamps(string[] filePaths)
+        {
+            string[] startTimes = new string[filePaths.Length];
+
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                if (System.IO.File.Exists(filePaths[i]))
+                {
+                    System.IO.StreamReader currentFile = new System.IO.StreamReader(filePaths[i]);
+                    startTimes[i] = currentFile.ReadLine();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            bool matchingStamps = true;
+            int counter = 0;
+
+            while (matchingStamps && counter < startTimes.Length - 1)
+            {
+                matchingStamps = startTimes[counter].Equals(startTimes[counter + 1]);
+                counter++;
+            }
+
+            return matchingStamps;
+        }
 
 
-        public void printRecordData( List<Packet> packets) {
+        public void printRecordData(List<Packet> packets)
+        {
 
             int packetcount = 1;
 
@@ -124,7 +158,7 @@ namespace Star_Dundee_WPF
                 Console.WriteLine("Reading Complete");
                 fileRead = true;
                 return lineInFile;
-                
+
             }
             else
             {
@@ -150,7 +184,7 @@ namespace Star_Dundee_WPF
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
 
-            thePort = new Port(portNumber,  start, end);
+            thePort = new Port(portNumber, start, end);
 
 
             List<string> currentPackets = new List<string>();
@@ -169,20 +203,22 @@ namespace Star_Dundee_WPF
                         currentPackets.Add(currentPacket);
                         currentPacket = "";
                     }
-                    
-                }else{
+
+                }
+                else
+                {
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
                 }
             }
             return currentPackets;
-            
+
         }
 
         public List<Packet> splitData(List<string> currentPackets)
         {
             List<Packet> packets = new List<Packet>();
-          
+
 
             int packetCount = 0;
 
@@ -213,19 +249,20 @@ namespace Star_Dundee_WPF
                     //increment packet count
                     packetCount++;
                 }
-                else if (packetData[1].Equals("E")) {
+                else if (packetData[1].Equals("E"))
+                {
 
                     //Disconnect or parity
                     string errorType = packetData[2].ToLower();
 
-                    packets[packetCount - 1].setError(true,errorType);
+                    packets[packetCount - 1].setError(true, errorType);
 
                 }
             }
 
             return packets;
-            
-            
+
+
         }
 
         public void applySequenceNumbers(List<Packet> packets)

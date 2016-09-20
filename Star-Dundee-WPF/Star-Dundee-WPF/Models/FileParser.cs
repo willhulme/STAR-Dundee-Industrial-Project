@@ -24,11 +24,8 @@ namespace Star_Dundee_WPF
                     List<string> packetData;
                     string[] fileData = readFile(file);
 
-
-
                     packetData = parseFile(fileData);
                     packets = splitData(packetData);
-
 
                     //Call to find sequnce index of the data
                     Sequencer s = new Sequencer();
@@ -62,11 +59,7 @@ namespace Star_Dundee_WPF
 
                 printRecordData(packets);
 
-
                 thePort.setPackets(packets);
-
-
-
             }
             else
             {
@@ -95,12 +88,8 @@ namespace Star_Dundee_WPF
                 }
             }
 
-
-
-
             bool matchingStamps = true;
             int counter = 0;
-
 
             while (matchingStamps && counter < startTimes.Length - 1)
             {
@@ -144,7 +133,6 @@ namespace Star_Dundee_WPF
                 Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                 Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
 
-
                 Console.WriteLine("Has Errors? : " + p.getErrorStatus());
                 Console.WriteLine("Error Type : " + p.getErrorType());
 
@@ -169,7 +157,6 @@ namespace Star_Dundee_WPF
 
             return lineInFile;
 
-
         }
 
         public List<string> parseFile(string[] lineInFile)
@@ -182,12 +169,10 @@ namespace Star_Dundee_WPF
             DateTime start = new DateTime();
             start = DateTime.Parse(startTimeStamp);
 
-
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
 
             thePort = new Port(portNumber, start, end);
-
 
             List<string> currentPackets = new List<string>();
             string currentPacket = "";
@@ -207,7 +192,6 @@ namespace Star_Dundee_WPF
                     }
 
                 }
-
                 else
                 {
 
@@ -222,7 +206,6 @@ namespace Star_Dundee_WPF
         public List<Packet> splitData(List<string> currentPackets)
         {
             List<Packet> packets = new List<Packet>();
-
 
             int packetCount = 0;
 

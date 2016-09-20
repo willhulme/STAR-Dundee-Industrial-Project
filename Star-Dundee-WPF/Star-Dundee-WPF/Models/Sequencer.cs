@@ -44,7 +44,7 @@ namespace Star_Dundee_WPF.Models
 
             //Create list to store possible index values
             List<int> possibleIndex = getPossibleIndexList(theData, curr, prev);
-            possibleIndex = parseForSequence(theData, curr, prev, possibleIndex,p);
+            possibleIndex = parseForSequence(theData, curr, prev, possibleIndex, p);
 
 
             //If there is only one possible sequence index left, return it as the index
@@ -86,7 +86,7 @@ namespace Star_Dundee_WPF.Models
 
         }
 
-        public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex,List<Packet> p)
+        public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex, List<Packet> p)
         {
             int packetsSkipped = 0;
             int idiotCount = 0;
@@ -113,21 +113,26 @@ namespace Star_Dundee_WPF.Models
                     //
                     //Out of range exception breaks this here if error and shorter data string than expected is found
                     //File Test 6, link 5
-                    //
-                    //allow for going from ff(255) back to 00 as valid
-                    //
-                    //Add in ability to detect babbling idiot error if same seq number is detected in a row
-                    //Count if repeated sequence error and then compare packet data of all to check if identical
+                    
+
 
                     try
                     {
                         if (curr[currIndex] == (prev[currIndex] + 1 + packetsSkipped))
                         {
                             //Still could be the index
-                           // Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
+                            // Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
                             packetsSkipped = 0;
                         }
-                        else if (curr[currIndex] == (prev[currIndex])) {
+                        //allow for going from ff(255) back to 00 as valid   test 5/link1
+                        else if (prev[currIndex] == 255 && curr[currIndex] == 00)
+                        {
+                            packetsSkipped = 0;
+                        }
+
+
+                        else if (curr[currIndex] == (prev[currIndex]))
+                        {
 
 
                             //Compare actual strings
@@ -188,7 +193,7 @@ namespace Star_Dundee_WPF.Models
                     catch (IndexOutOfRangeException RE)
                     {
 
-                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + "|| AT LINE " + i) ;
+                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + "|| AT LINE " + i);
                         packetsSkipped++;
                     }
                 }

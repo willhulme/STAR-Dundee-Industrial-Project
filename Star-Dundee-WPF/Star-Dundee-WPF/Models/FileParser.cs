@@ -1,4 +1,4 @@
-﻿ using Star_Dundee_WPF.Models;
+﻿using Star_Dundee_WPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,52 +12,57 @@ namespace Star_Dundee_WPF
         Port thePort;
         bool fileRead;
 
-        public void parse(string[] filePaths) {
+        public void parse(string[] filePaths)
+        {
             foreach (string file in filePaths)
             {
-            List<string> packetData;
-            string[] fileData =  readFile(file);
-            List<Packet> packets = new List<Packet>();
+                List<string> packetData;
+                string[] fileData = readFile(file);
 
 
-            if (fileRead)//fileData != null)
-            {
-                packetData = parseFile(fileData);
-                packets = splitData(packetData);
 
 
-                //Call to find sequnce index of the data
-                Sequencer s = new Sequencer();
-                int seqIndex = s.findSequence(packets);
+                List<Packet> packets = new List<Packet>();
 
-                //If a non-error value is returned
-                if (seqIndex >= 0)
+
+                if (fileRead)//fileData != null)
                 {
-                    // For each packet
-                    foreach (Packet p in packets)
+                    packetData = parseFile(fileData);
+                    packets = splitData(packetData);
+
+
+                    //Call to find sequnce index of the data
+                    Sequencer s = new Sequencer();
+                    int seqIndex = s.findSequence(packets);
+
+                    //If a non-error value is returned
+                    if (seqIndex >= 0)
                     {
-                        //Set the index to the actual data objects
-                        p.theData.setSeqIndex(seqIndex);
+                        // For each packet
+                        foreach (Packet p in packets)
+                        {
+                            //Set the index to the actual data objects
+                            p.theData.setSeqIndex(seqIndex);
+                        }
+                        applySequenceNumbers(packets);
                     }
-                    applySequenceNumbers(packets);
+                    else if (seqIndex == -1 || seqIndex == -2)
+                    {
+                        //No sequence number Identifiable
+                        Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
+                    }
+                    else {
+                        //Error
+                        Console.WriteLine("Broke");
+                    }
                 }
-                else if (seqIndex == -1 || seqIndex == -2)
-                {
-                    //No sequence number Identifiable
-                    Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
-                }
-                else {
-                    //Error
-                    Console.WriteLine("Broke");
-                }
-            }
 
-            Console.WriteLine("     ");
+                Console.WriteLine("     ");
 
-            printRecordData(packets);
+                printRecordData(packets);
 
 
-            thePort.setPackets(packets);
+                thePort.setPackets(packets);
 
 
             }
@@ -65,7 +70,8 @@ namespace Star_Dundee_WPF
 
 
 
-        public void printRecordData( List<Packet> packets) {
+        public void printRecordData(List<Packet> packets)
+        {
 
             int packetcount = 1;
 
@@ -124,7 +130,7 @@ namespace Star_Dundee_WPF
                 Console.WriteLine("Reading Complete");
                 fileRead = true;
                 return lineInFile;
-                
+
             }
             else
             {
@@ -150,7 +156,7 @@ namespace Star_Dundee_WPF
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
 
-            thePort = new Port(portNumber,  start, end);
+            thePort = new Port(portNumber, start, end);
 
 
             List<string> currentPackets = new List<string>();
@@ -169,20 +175,21 @@ namespace Star_Dundee_WPF
                         currentPackets.Add(currentPacket);
                         currentPacket = "";
                     }
-                    
-                }else{
+
+                }
+                else {
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
                 }
             }
             return currentPackets;
-            
+
         }
 
         public List<Packet> splitData(List<string> currentPackets)
         {
             List<Packet> packets = new List<Packet>();
-          
+
 
             int packetCount = 0;
 
@@ -213,19 +220,21 @@ namespace Star_Dundee_WPF
                     //increment packet count
                     packetCount++;
                 }
-                else if (packetData[1].Equals("E")) {
+                else if (packetData[1].Equals("E"))
+                {
 
                     //Disconnect or parity
                     string errorType = packetData[2].ToLower();
 
-                    packets[packetCount - 1].setError(true,errorType);
+                    packets[packetCount - 1].setError(true, errorType);
 
                 }
+                //TODO Add check for EEP
             }
 
             return packets;
-            
-            
+
+
         }
 
         public void applySequenceNumbers(List<Packet> packets)
@@ -233,9 +242,17 @@ namespace Star_Dundee_WPF
             foreach (Packet p in packets)
             {
                 //For each packet, add the sequence number to the objects, based on its index 
-                int index = p.theData.getSeqIndex();
-                string seqNum = p.theData.getTheData()[index];
-                p.theData.setSeqNumber(seqNum);
+                //If packet has no error or sequence error
+                if (!p.getErrorStatus() || ( p.getErrorStatus() && p.getErrorType()==ErrorType.sequence))
+                {
+
+                    //TODO - MATT
+                    //make work with sequence numbers on errored packet
+
+                    int index = p.theData.getSeqIndex();
+                    string seqNum = p.theData.getTheData()[index];
+                    p.theData.setSeqNumber(seqNum);
+                }
             }
             Console.WriteLine("\"\"");
         }

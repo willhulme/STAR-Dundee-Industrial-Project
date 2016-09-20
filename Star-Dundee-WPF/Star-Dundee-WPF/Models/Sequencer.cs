@@ -100,21 +100,26 @@ namespace Star_Dundee_WPF.Models
                 curr = theData[i];
                 prev = theData[i - 1];
                 //next = theData[i + 1];
-
+                if (i == 512) {
+                    Console.WriteLine("");
+                }
                 //For every possible index identified
                 for (int x = 0; x < possibleIndex.Count(); x++)
                 {
                     int currIndex = possibleIndex[x];
                     //Check next line for increment
 
-
-
                     //TODO - Matt
                     //
                     //Out of range exception breaks this here if error and shorter data string than expected is found
                     //File Test 6, link 5
-                    
 
+                    //Sequence number issuse when error occurs on packet ff & next 00 compares to fe from 2 packets before
+
+                    if (packetsSkipped > 0) {
+
+                        prev = theData[i - (1 + packetsSkipped)];
+                    }
 
                     try
                     {
@@ -123,23 +128,29 @@ namespace Star_Dundee_WPF.Models
                             //Still could be the index
                             // Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
                             packetsSkipped = 0;
+                            Console.WriteLine("1");
                         }
                         //allow for going from ff(255) back to 00 as valid   test 5/link1
                         else if (prev[currIndex] == 255 && curr[currIndex] == 00)
                         {
                             packetsSkipped = 0;
+                            Console.WriteLine("2");
                         }
 
+                        else if (packetsSkipped>0 && (prev[currIndex]+packetsSkipped) == 255 && ((curr[currIndex]-packetsSkipped) == 00 || curr[currIndex]==00)) {
+                            packetsSkipped = 0;
+                        }
 
                         else if (curr[currIndex] == (prev[currIndex]))
                         {
-
+                            Console.WriteLine("3");
 
                             //Compare actual strings
                             if (curr.SequenceEqual(prev))
                             {
                                 if (idiotCount == 0)
                                 {
+                                    Console.WriteLine("4");
                                     firstIdiotIndex = i - 1;
 
                                 }
@@ -149,6 +160,7 @@ namespace Star_Dundee_WPF.Models
                                     {
                                         for (int y = firstIdiotIndex; y < i; y++)
                                         {
+                                            Console.WriteLine("5");
                                             p[y].setError(true, "babbling");
                                         }
                                     }
@@ -160,6 +172,7 @@ namespace Star_Dundee_WPF.Models
                                 idiotCount++;
                             }
                             else {
+                                Console.WriteLine("6");
                                 possibleIndex.Remove(currIndex);
                                 packetsSkipped = 0;
 
@@ -193,7 +206,7 @@ namespace Star_Dundee_WPF.Models
                     catch (IndexOutOfRangeException RE)
                     {
 
-                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + "|| AT LINE " + i);
+                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + " || AT LINE " + i + " || SKIPPED : " + packetsSkipped);
                         packetsSkipped++;
                     }
                 }

@@ -10,15 +10,13 @@ namespace Star_Dundee_WPF
     class FileParser
     {
         Port thePort;
-
-        string theFilepath = "../../DataFiles/test3/link1.rec";
         bool fileRead;
 
-        public void parse() {
-
-            
+        public void parse(string[] filePaths) {
+            foreach (string file in filePaths)
+            {
             List<string> packetData;
-            string[] fileData =  readFile();
+            string[] fileData =  readFile(file);
             List<Packet> packets = new List<Packet>();
 
 
@@ -62,7 +60,7 @@ namespace Star_Dundee_WPF
             thePort.setPackets(packets);
 
 
-
+            }
         }
 
 
@@ -113,18 +111,16 @@ namespace Star_Dundee_WPF
 
         }
 
-        public string[] readFile()
+        public string[] readFile(string dir)
         {
-            //set path for file to be read
-            string fileName = theFilepath;
             fileRead = false;
 
             //check file exists
-            if (System.IO.File.Exists(fileName))
+            if (System.IO.File.Exists(dir))
             {
                 Console.WriteLine("Reading......");
                 //read file into string array
-                string[] lineInFile = System.IO.File.ReadAllLines(fileName);
+                string[] lineInFile = System.IO.File.ReadAllLines(dir);
                 Console.WriteLine("Reading Complete");
                 fileRead = true;
                 return lineInFile;

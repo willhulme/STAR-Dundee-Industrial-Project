@@ -30,11 +30,6 @@ namespace Star_Dundee_WPF
                     packets = splitData(packetData);
 
 
-                    packetData = parseFile(fileData);
-                    packets = splitData(packetData);
-
-
-
                     //Call to find sequnce index of the data
                     Sequencer s = new Sequencer();
                     int seqIndex = s.findSequence(packets);
@@ -67,8 +62,6 @@ namespace Star_Dundee_WPF
 
                 printRecordData(packets);
 
-
-                Console.WriteLine("     ");
 
                 thePort.setPackets(packets);
 

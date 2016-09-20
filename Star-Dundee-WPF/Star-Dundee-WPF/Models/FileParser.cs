@@ -10,25 +10,27 @@ namespace Star_Dundee_WPF
     class FileParser
     {
         Port thePort;
-        bool fileRead;
 
         public void parse(string[] filePaths)
         {
-            foreach (string file in filePaths)
+            List<Packet> packets = new List<Packet>();
+            if (checkTimeStamps(filePaths))
             {
-                List<string> packetData;
-                string[] fileData = readFile(file);
 
-
-
-
-                List<Packet> packets = new List<Packet>();
-
-
-                if (fileRead)//fileData != null)
+                foreach (string file in filePaths)
                 {
+                    List<string> packetData;
+                    string[] fileData = readFile(file);
+
+
+
                     packetData = parseFile(fileData);
                     packets = splitData(packetData);
+
+
+                    packetData = parseFile(fileData);
+                    packets = splitData(packetData);
+
 
 
                     //Call to find sequnce index of the data
@@ -51,7 +53,9 @@ namespace Star_Dundee_WPF
                         //No sequence number Identifiable
                         Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
                     }
-                    else {
+
+                    else
+                    {
                         //Error
                         Console.WriteLine("Broke");
                     }
@@ -62,19 +66,61 @@ namespace Star_Dundee_WPF
                 printRecordData(packets);
 
 
+                Console.WriteLine("     ");
+
                 thePort.setPackets(packets);
 
 
+
+            }
+            else
+            {
+                Console.WriteLine("Error reading file(s) - please try again");
             }
         }
 
 
 
+
+
+        public bool checkTimeStamps(string[] filePaths)
+        {
+            string[] startTimes = new string[filePaths.Length];
+
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                if (System.IO.File.Exists(filePaths[i]))
+                {
+                    System.IO.StreamReader currentFile = new System.IO.StreamReader(filePaths[i]);
+                    startTimes[i] = currentFile.ReadLine();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+
+
+
+            bool matchingStamps = true;
+            int counter = 0;
+
+
+            while (matchingStamps && counter < startTimes.Length - 1)
+            {
+                matchingStamps = startTimes[counter].Equals(startTimes[counter + 1]);
+                counter++;
+            }
+
+            return matchingStamps;
+        }
+
+
         public void printRecordData(List<Packet> packets)
         {
 
-            int packetcount = 1;
-
+            int packetcount = 0;
 
             Console.WriteLine("PRINTING DATA\n");
             Console.WriteLine("Port Number : " + thePort.getPortNumber());
@@ -85,6 +131,7 @@ namespace Star_Dundee_WPF
 
             foreach (Packet p in packets)
             {
+                packetcount++;
 
                 Console.WriteLine("TimeStamp : " + p.getTimestamp());
 
@@ -108,38 +155,26 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine("Packet Count : " + packetcount);
 
-                packetcount++;
                 Console.WriteLine(" ");
             }
 
             Console.WriteLine(" ");
 
-
         }
 
         public string[] readFile(string dir)
         {
-            fileRead = false;
 
-            //check file exists
-            if (System.IO.File.Exists(dir))
-            {
-                Console.WriteLine("Reading......");
-                //read file into string array
-                string[] lineInFile = System.IO.File.ReadAllLines(dir);
-                Console.WriteLine("Reading Complete");
-                fileRead = true;
-                return lineInFile;
+            Console.WriteLine("Reading......");
 
-            }
-            else
-            {
-                Console.WriteLine("Error reading file");
-                fileRead = false;
-                return null;
-            }
+            //read file into string array
+            string[] lineInFile = System.IO.File.ReadAllLines(dir);
 
-            //return System.IO.File.Exists(fileName);
+            Console.WriteLine("Reading Complete");
+
+            return lineInFile;
+
+
         }
 
         public List<string> parseFile(string[] lineInFile)
@@ -177,14 +212,17 @@ namespace Star_Dundee_WPF
                     }
 
                 }
-                else {
+
+                else
+                {
+
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
+                    }
                 }
-            }
-            return currentPackets;
+                return currentPackets;
 
-        }
+            }
 
         public List<Packet> splitData(List<string> currentPackets)
         {
@@ -243,7 +281,7 @@ namespace Star_Dundee_WPF
             {
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
-                if (!p.getErrorStatus() || ( p.getErrorStatus() && p.getErrorType()==ErrorType.sequence))
+                if (!p.getErrorStatus() || (p.getErrorStatus() && p.getErrorType() == ErrorType.sequence))
                 {
 
                     //TODO - MATT

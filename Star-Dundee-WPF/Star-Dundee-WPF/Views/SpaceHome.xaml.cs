@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
+
 
 
 
@@ -36,9 +39,16 @@ namespace Star_Dundee_WPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileParser myFileParser = new FileParser();
-
-            myFileParser.readFile();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "Recording files (*.rec;)|*.rec;|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string[] files = openFileDialog.FileNames;
+                FileParser myFileParser = new FileParser();
+                myFileParser.parse(files);
+            }
         }
     }
 
@@ -58,12 +68,14 @@ namespace Star_Dundee_WPF
             else if (errorString == "Babbling Idiot") return Brushes.Plum;
             else if (errorString == "") return Brushes.LightBlue;
             else return Brushes.LightSteelBlue;
-            
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
             throw new NotImplementedException();
+
         }
     }
 }

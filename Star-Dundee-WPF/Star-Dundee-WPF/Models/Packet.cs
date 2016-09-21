@@ -13,6 +13,7 @@ namespace Star_Dundee_WPF.Models
         public Data theData;
         int totalChars;
         bool hasError;
+        public Packet() { }
 
         public Packet(DateTime timeStamp, Data theData)
         {
@@ -20,20 +21,68 @@ namespace Star_Dundee_WPF.Models
             this.theData = theData;
         }
 
-        public Data getData() {
+        public Data getData()
+        {
             return this.theData;
 
         }
 
-        public bool getErrorStatus() {
+        public DateTime getTimestamp() {
+            return this.timestamp;
+        }
+
+
+        public bool getErrorStatus()
+        {
             return hasError;
 
         }
 
-        public void setError(bool err, string type) {
+        public ErrorType getErrorType() {
+
+            return errors;
+        }
+
+        public void setError(bool err, string type)
+        {
             hasError = err;
 
             //Distinguish error type, pass in and set enum value
+
+            switch (type)
+            {
+                case "sequence":
+
+                    this.errors = ErrorType.sequence;
+                    break;
+
+                case "disconnect":
+
+                    this.errors = ErrorType.disconnect;
+                    break;
+
+                case "parity":
+
+                    this.errors = ErrorType.parity;
+                    break;
+
+                case "noError":
+
+                    this.errors = ErrorType.noError;
+                    break;
+                case "eep":
+
+                    this.errors = ErrorType.eep;
+                    break;
+
+                case "babbling":
+                    this.errors = ErrorType.babblingIdiot;
+                    break;
+                case "":
+                    Console.WriteLine("errors occured - maybe");
+                    break;
+
+            }
 
         }
 
@@ -41,11 +90,14 @@ namespace Star_Dundee_WPF.Models
     }
 
 
-    enum ErrorType {
+    enum ErrorType
+    {
         noError,
         disconnect,
         parity,
-        crc,
+        crcHeader,
+        crcData,
+        length,
         eep,
         timeout,
         babblingIdiot,

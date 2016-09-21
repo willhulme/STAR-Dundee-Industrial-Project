@@ -8,7 +8,7 @@ namespace Star_Dundee_WPF.Models
 {
     class Port
     {
-        string name;
+        int portNumber;
         DateTime startTime;
         DateTime stopTime;
         List<Packet> packets;
@@ -18,6 +18,57 @@ namespace Star_Dundee_WPF.Models
         int dataRate;
         int errorRate;
         int packetRate;
-    
+
+
+
+        public Port(int prt, DateTime start, DateTime end) {
+
+            this.portNumber = prt;
+            this.startTime = start;
+            this.stopTime = end;
+
+
+            packets = new List<Packet>();
+
+        }
+
+
+        public DateTime getStart() {
+            return this.startTime;
+
+        }
+
+        public List<Packet> getPackets() {
+            return this.packets;
+
+        }
+
+
+        public int getPortNumber() {
+            return this.portNumber;
+        }
+
+        public DateTime getEnd()
+        {
+            return this.stopTime;
+
+        }
+
+
+        public void setPackets(List<Packet> p) {
+            this.packets = p;
+
+        }
+
+        public void addPacketToList(Packet p)
+        {
+            packets.Add(p);
+
+        }
+
+
     }
+
+
+
 }

@@ -28,41 +28,134 @@ namespace Star_Dundee_WPF.Models
             List<int[]> convertedData = getDecValues(dataSets, dataSetLength);
 
             //Function call to get the sequence index
-            int result = getTheSequenceIndex(convertedData,p);
+            int result = getTheSequenceIndex(convertedData, p);
+            parseForAddress(convertedData, p);
+            
             return result;
 
         }
 
-
         public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
         {
-            //Create list to store possible index values
-            List<int> possibleIndex = new List<int>();
-
             //Set initial current and previous values for data comparison
             int[] prev = theData[0];
             int[] curr = theData[1];
             int[] next = theData[2];
+            int repeatCount = 0;
+
+            //Create list to store possible index values
+            List<int> possibleIndex = getPossibleIndexList(theData, curr, prev,1);
+            if (possibleIndex.Count()>0)
+            {
+                possibleIndex = parseForSequence(theData, curr, prev, possibleIndex, p, 1);
+            }
+            List<int> possibleIndexTwo = getPossibleIndexList(theData, curr, prev,2);
+            if (possibleIndexTwo.Count() > 0)
+            {
+                possibleIndexTwo = parseForSequence(theData, curr, prev, possibleIndexTwo, p, 2);
+            }
+
+            //If there is only one possible sequence index left, return it as the index
+            if (possibleIndex.Count() == 1 && possibleIndexTwo.Count() ==0)
+            {
+                return possibleIndex[0];
+
+            }
+            else if (possibleIndex.Count() == 0 && possibleIndexTwo.Count() == 1)
+            {
+                //Return if there is less than one possibility
+                return possibleIndexTwo[0]; 
+            }
+            else if (possibleIndex.Count() == 1 && possibleIndexTwo.Count() == 1)
+            {
+                //Return if there is less than one possibility
+                return possibleIndex[0];
+            }
+            else
+            {
+                //Return
+                return -1;
+            }
+
+        }
+
+
+        public void parseForAddress(List<int[]> theData, List<Packet> p)
+        {
+            for (int i = 0;i<theData.Count();i++)
+            {
+                int[] curr = theData[i];
+                string[] currDataSet = p[i].getData().getTheData();
+                if (curr[0] < 32)
+                {
+                    //path addressing
+                    string addString = "";
+                    for (int j=0;j<curr.Length;j++) {
+                        if (curr[j] != 254)
+                        {
+                            addString += (currDataSet[j] + " ");
+                        }
+                        else
+                        {
+                            addString += currDataSet[j];
+                            p[i].getData().setAddress(addString);
+                            break;
+                        }
+                    }
+                    
+                }
+                else if (curr[0] >= 32 && curr[0] <= 255)
+                {
+                    p[i].getData().setAddress(currDataSet[0]);
+                }
+            }
+        }
+
+        public List<int> getPossibleIndexList(List<int[]> theData, int[] curr, int[] prev, int increment)
+        {
+
+            List<int> possibleIndex = new List<int>();
 
             //Compare only first two lines of data to find potential sequence number index
             for (int i = 0; i < theData[0].Count(); i++)
             {
                 //Check if current is exactly 1 more than previous
-                if (curr[i] == (prev[i] + 1))
+                if (curr[i] == (prev[i] + increment))
+                {
+                    //If so add to list for possible index
+                    possibleIndex.Add(i);
+                }
+            }
+            return possibleIndex;
+
+        }
+
+
+        public List<int> getPossibleIndexListTwo(List<int[]> theData, int[] curr, int[] prev)
+        {
+            List<int> possibleIndex = new List<int>();
+
+            //Compare only first two lines of data to find potential sequence number index
+            for (int i = 0; i < theData[0].Count(); i++)
+            {
+                //Check if current is exactly 1 more than previous
+                if (curr[i] == (prev[i] + 2))
                 {
                     //If so add to list for possible index
                     possibleIndex.Add(i);
                 }
             }
 
+            return possibleIndex;
 
+        }
 
-            //TODO Add in ability to detect babbling idiot error if same seq number is detected in a row
-            //Count if repeated sequence error and then compare packet data of all to check if identical
-            //--Matt
-
+        public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex, List<Packet> p, int incrementSize)
+        {
             int packetsSkipped = 0;
-
+            int idiotCount = 0;
+            int firstIdiotIndex = 0;
+            bool idiotsSet = false;
 
             //Loop through the remaining lines of data
             for (int i = 2; i < theData.Count(); i++)
@@ -78,29 +171,87 @@ namespace Star_Dundee_WPF.Models
                     int currIndex = possibleIndex[x];
                     //Check next line for increment
 
-
+                    //TODO - Matt
+                    //
                     //Out of range exception breaks this here if error and shorter data string than expected is found
                     //File Test 6, link 5
 
-                    try {
-                        if (curr[currIndex] == (prev[currIndex] + 1 + packetsSkipped))
+                    //Sequence number issuse when error occurs on packet ff & next 00 compares to fe from 2 packets before
+
+                    if (packetsSkipped > 0)
+                    {
+
+                        prev = theData[i - (incrementSize + packetsSkipped)];
+                    }
+
+                    try
+                    {
+                        if (curr[currIndex] == (prev[currIndex] + incrementSize + packetsSkipped))
                         {
                             //Still could be the index
-                            Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
+                            // Console.WriteLine(" === " + currIndex + " === " + curr[currIndex]);
                             packetsSkipped = 0;
+                        }
+                        //allow for going from ff(255) back to 00 as valid   test 5/link1
+                        else if (prev[currIndex] == 255 && curr[currIndex] == 00 && incrementSize ==1)
+                        {
+                            packetsSkipped = 0;
+                        }
+
+                        else if (prev[currIndex] == 254 && curr[currIndex] == 00 && incrementSize == 2)
+                        {
+                            packetsSkipped = 0;
+                        }
+
+                        else if (prev[currIndex] == 255 && curr[currIndex] == 01 && incrementSize == 2)
+                        {
+                            packetsSkipped = 0;
+                        }
+
+                        else if (packetsSkipped > 0 && (prev[currIndex] + packetsSkipped) == 255 && ((curr[currIndex] - packetsSkipped) == 00 || curr[currIndex] == 00))
+                        {
+                            packetsSkipped = 0;
+                        }
+
+                        else if (curr[currIndex] == (prev[currIndex]))
+                        {
+
+                            //Compare actual strings
+                            if (curr.SequenceEqual(prev))
+                            {
+                                if (idiotCount == 0)
+                                {
+                                    firstIdiotIndex = i - 1;
+                                }
+                                if (idiotCount >= 4)
+                                {
+                                    if (!idiotsSet)
+                                    {
+                                        for (int y = firstIdiotIndex; y < i; y++)
+                                        {
+                                            p[y].setError(true, "babbling");
+                                        }
+                                    }
+                                    p[i].setError(true, "babbling");
+
+                                }
+                                idiotCount++;
+                            }
+                            else {
+
+                                possibleIndex.Remove(currIndex);
+                                packetsSkipped = 0;
+                            }
                         }
                         else
                         {
                             //Check if is 1 more than expected and then if next packet is error then sequence error happens here
-                            if (curr[currIndex] == (prev[currIndex] + 2) && p[i + 1].getErrorStatus())
+                            if (curr[currIndex] == (prev[currIndex] + 2*incrementSize) && p[i + 1].getErrorStatus())
                             {
                                 //Still could be the index
-                                Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
+                                //Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
                                 packetsSkipped = 0;
-
-
                                 p[i + 1].setError(true, "sequence");
-
                                 //sequence error here
                             }
                             else {
@@ -112,27 +263,20 @@ namespace Star_Dundee_WPF.Models
                                 }
                             }
                         }
-                    } catch (IndexOutOfRangeException RE) {
+                    }
+                    catch (IndexOutOfRangeException RE)
+                    {
 
-                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex);
+                        Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + " || AT LINE " + i + " || SKIPPED : " + packetsSkipped);
                         packetsSkipped++;
                     }
                 }
             }
 
-            //If there is only one possible sequence index left, return it as the index
-            if (possibleIndex.Count() == 1)
-            {
-                return possibleIndex[0];
+            return possibleIndex;
 
-            }
-            else {
-                //Return if there is less or more than one possibility
-                return -1;
-            }
 
         }
-
 
         public List<int[]> getDecValues(List<string[]> dataSets, int dataSetLength)
         {

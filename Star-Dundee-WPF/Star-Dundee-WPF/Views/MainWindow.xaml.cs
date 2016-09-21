@@ -26,7 +26,9 @@ namespace Star_Dundee_WPF
         RMAP rmap = new RMAP();
         public MainWindow()
         {
-            rmap.buildPacket("2d 01 7c 00 57 ff fb 00 00 50 08 2e f3 e3 58 99 aa ef e5 20 25");
+
+            rmap.buildPacket("4d 20 00 00 03 02 fe 00 01 00 00 00 01 00 00 00 04 f0");
+            //crc8.Check("4c 01 7c 20 4a 00 00 00 00 01 00 00 00 00 04 1c 00 00 44 66 8d");
             InitializeComponent();
         }
 
@@ -39,9 +41,9 @@ namespace Star_Dundee_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            FileParser myFileParser = new FileParser();
+           // FileParser myFileParser = new FileParser();
 
-            myFileParser.readFile();
+           // myFileParser.readFile();
         }
     }
 }

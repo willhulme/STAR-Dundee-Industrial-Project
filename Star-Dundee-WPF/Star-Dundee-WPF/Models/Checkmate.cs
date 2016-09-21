@@ -9,10 +9,14 @@ namespace Star_Dundee_WPF.Models
     class Checkmate
     {
         CRC8 CRC = new CRC8();
-        private bool lenCheck(string cargo)
+        Packet Packet = new Packet();
+        public List<Packet> Check(List<Packet> Packet)
         {
-            CRC.Check(cargo);
-            return true;
+            foreach (Packet item in Packet)
+            {
+                string[] cargo = item.theData.getTheData();
+            }
+            return Packet;
         }
     }
 }

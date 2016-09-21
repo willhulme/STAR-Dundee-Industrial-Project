@@ -103,14 +103,22 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DataFiles\test1_link1.rec" />
-    <None Include="DataFiles\test2_link1.rec" />
-    <None Include="DataFiles\test2_link3.rec" />
-    <None Include="DataFiles\test3_link1.rec" />
-    <None Include="DataFiles\test4_link1.rec" />
-    <None Include="DataFiles\test4_link2.rec" />
-    <None Include="DataFiles\test5_link1.rec" />
-    <None Include="DataFiles\test5_link2.rec" />
+    <None Include="DataFiles\test1\link1.rec" />
+    <None Include="DataFiles\test2\link1.rec" />
+    <None Include="DataFiles\test2\link3.rec" />
+    <None Include="DataFiles\test3\link1.rec" />
+    <None Include="DataFiles\test4\link1.rec" />
+    <None Include="DataFiles\test4\link2.rec" />
+    <None Include="DataFiles\test5\link1.rec" />
+    <None Include="DataFiles\test5\link2.rec" />
+    <None Include="DataFiles\test6\link1.rec" />
+    <None Include="DataFiles\test6\link2.rec" />
+    <None Include="DataFiles\test6\link3.rec" />
+    <None Include="DataFiles\test6\link4.rec" />
+    <None Include="DataFiles\test6\link5.rec" />
+    <None Include="DataFiles\test6\link6.rec" />
+    <None Include="DataFiles\test6\link7.rec" />
+    <None Include="DataFiles\test6\link8.rec" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -121,11 +129,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DataFiles\readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\space_background.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

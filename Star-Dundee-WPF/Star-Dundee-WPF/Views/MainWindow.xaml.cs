@@ -26,7 +26,9 @@ namespace Star_Dundee_WPF
         RMAP rmap = new RMAP();
         public MainWindow()
         {
+
             rmap.buildPacket("4d 20 00 00 03 02 fe 00 01 00 00 00 01 00 00 00 04 f0");
+            //crc8.Check("4c 01 7c 20 4a 00 00 00 00 01 00 00 00 00 04 1c 00 00 44 66 8d");
             InitializeComponent();
         }
 

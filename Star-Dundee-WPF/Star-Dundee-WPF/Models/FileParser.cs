@@ -133,6 +133,8 @@ namespace Star_Dundee_WPF
                 Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                 Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
 
+                Console.WriteLine("Packet Address : " + p.theData.getAddress());
+
                 Console.WriteLine("Has Errors? : " + p.getErrorStatus());
                 Console.WriteLine("Error Type : " + p.getErrorType());
 
@@ -242,8 +244,10 @@ namespace Star_Dundee_WPF
                     //Disconnect or parity
                     string errorType = packetData[2].ToLower();
 
-                    packets[packetCount - 1].setError(true, errorType);
-
+                    if (packets[packetCount - 1].getErrorType() == ErrorType.noError)
+                    {
+                        packets[packetCount - 1].setError(true, errorType);
+                    }
                 }
                 //TODO Add check for EEP
             }
@@ -257,7 +261,7 @@ namespace Star_Dundee_WPF
             {
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
-                if (!p.getErrorStatus() || (p.getErrorStatus() && p.getErrorType() == ErrorType.sequence))
+                if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
 
                     //TODO - MATT

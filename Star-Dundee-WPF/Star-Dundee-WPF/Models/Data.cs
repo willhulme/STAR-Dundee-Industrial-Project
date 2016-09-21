@@ -24,6 +24,17 @@ namespace Star_Dundee_WPF.Models
             this.sequenceIndex = index;
         }
 
+        public void setAddress(string add)
+        {
+            this.address = add;
+        }
+
+        public string getAddress()
+        {
+            return this.address;
+        }
+
+
 
         public int getSeqIndex()
         {

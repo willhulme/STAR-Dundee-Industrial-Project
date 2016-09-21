@@ -38,6 +38,12 @@ namespace Star_Dundee_WPF.Models
 
         }
 
+        public List<Packet> getPackets() {
+            return this.packets;
+
+        }
+
+
         public int getPortNumber() {
             return this.portNumber;
         }

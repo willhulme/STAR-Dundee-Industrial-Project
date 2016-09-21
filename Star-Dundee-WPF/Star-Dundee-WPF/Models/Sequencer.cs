@@ -98,8 +98,6 @@ namespace Star_Dundee_WPF.Models
                     p[i].getData().setAddress(currDataSet[0]);
                 }
             }
-            //If less than 32 then path addressing, address is all bytes up to a 254 (fe) 
-            //Else if 32->255 then is logical address
         }
 
         public List<int> getPossibleIndexList(List<int[]> theData, int[] curr, int[] prev)

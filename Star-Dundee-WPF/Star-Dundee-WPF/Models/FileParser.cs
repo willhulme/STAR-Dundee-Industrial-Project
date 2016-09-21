@@ -9,13 +9,18 @@ namespace Star_Dundee_WPF
 {
     class FileParser
     {
+        Recording theRecord;
+        List<Port> thePorts;
         Port thePort;
         bool fileRead;
         Checkmate crc_check = new Checkmate();
 
         public void parse(string[] filePaths)
         {
+            theRecord = new Recording();
+            thePorts = new List<Port>();
             List<Packet> packets = new List<Packet>();
+
             if (checkTimeStamps(filePaths))
             {
 
@@ -53,13 +58,15 @@ namespace Star_Dundee_WPF
                         //Error
                         Console.WriteLine("Broke");
                     }
+
+                    thePort.setPackets(packets);
+                    thePorts.Add(thePort);
+
                 }
 
-                Console.WriteLine("     ");
 
-                printRecordData(packets);
-
-                thePort.setPackets(packets);
+                printRecordData(thePorts);
+                theRecord.setPorts(thePorts);
             }
             else
             {
@@ -101,50 +108,57 @@ namespace Star_Dundee_WPF
         }
 
 
-        public void printRecordData(List<Packet> packets)
+        public void printRecordData(List<Port> ports)
         {
 
             int packetcount = 0;
-
-            Console.WriteLine("PRINTING DATA\n");
-            Console.WriteLine("Port Number : " + thePort.getPortNumber());
-            Console.WriteLine("Starting Timestamp : " + thePort.getStart());
-            Console.WriteLine("Ending Timestamp : " + thePort.getEnd());
-
-            Console.WriteLine("\n\n");
-
-            foreach (Packet p in packets)
+            int currPort;
+            foreach (Port thePort in ports)
             {
-                packetcount++;
+                List<Packet> packets = thePort.getPackets();
+                currPort = thePort.getPortNumber();
+                packetcount = 0;
 
-                Console.WriteLine("TimeStamp : " + p.getTimestamp());
+                Console.WriteLine("PRINTING DATA\n");
+                Console.WriteLine("Port Number : " + currPort);
+                Console.WriteLine("Starting Timestamp : " + thePort.getStart());
+                Console.WriteLine("Ending Timestamp : " + thePort.getEnd());
 
-                string[] stringData = p.theData.getTheData();
-                Console.Write("DataString : ");
+                Console.WriteLine("\n\n");
 
-                foreach (string s in stringData)
+                foreach (Packet p in packets)
                 {
+                    packetcount++;
 
-                    Console.Write(s + " ");
+                    Console.WriteLine("TimeStamp : " + p.getTimestamp());
 
+                    string[] stringData = p.theData.getTheData();
+                    Console.Write("DataString : ");
+
+                    foreach (string s in stringData)
+                    {
+
+                        Console.Write(s + " ");
+
+                    }
+
+                    Console.Write("\n");
+                    Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
+                    Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
+
+                    Console.WriteLine("Packet Address : " + p.theData.getAddress());
+
+                    Console.WriteLine("Has Errors? : " + p.getErrorStatus());
+                    Console.WriteLine("Error Type : " + p.getErrorType());
+
+                    Console.WriteLine("Packet Count : [Port " + currPort + "] " + packetcount);
+
+                    Console.WriteLine(" ");
                 }
 
-                Console.Write("\n");
-                Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
-                Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
-
-                Console.WriteLine("Packet Address : " + p.theData.getAddress());
-
-                Console.WriteLine("Has Errors? : " + p.getErrorStatus());
-                Console.WriteLine("Error Type : " + p.getErrorType());
-
-                Console.WriteLine("Packet Count : " + packetcount);
-
                 Console.WriteLine(" ");
+
             }
-
-            Console.WriteLine(" ");
-
         }
 
         public string[] readFile(string dir)
@@ -174,6 +188,8 @@ namespace Star_Dundee_WPF
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
 
+            //Port newPort = new Port(portNumber, start, end);
+
             thePort = new Port(portNumber, start, end);
 
             List<string> currentPackets = new List<string>();
@@ -199,11 +215,11 @@ namespace Star_Dundee_WPF
 
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
-                    }
                 }
-                return currentPackets;
-
             }
+            return currentPackets;
+
+        }
 
         public List<Packet> splitData(List<string> currentPackets)
         {
@@ -252,7 +268,7 @@ namespace Star_Dundee_WPF
                 //TODO Add check for EEP
             }
             packets = crc_check.Check(packets);
-            return packets;      
+            return packets;
         }
 
         public void applySequenceNumbers(List<Packet> packets)

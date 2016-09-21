@@ -15,5 +15,15 @@ namespace Star_Dundee_WPF.Models
         int dataRate;
         int errorRate;
         int packetRate;
+
+
+
+        public void setPorts(List<Port> lp) {
+
+            this.ports = lp;
+
+        }
+
+
     }
 }

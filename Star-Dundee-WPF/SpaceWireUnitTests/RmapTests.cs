@@ -101,5 +101,26 @@ namespace SpaceWireUnitTests
             Assert.AreEqual(dataCRC, rmap.dataCRC);
 
         }
+
+        [TestMethod]
+        public void TestRMAPWriteReplyLogicAddress()
+        {
+            string cargo = "3c 00 4c 00 00 2c";
+            RMAP rmap = new RMAP();
+            rmap.buildPacket(cargo);
+
+            string command = rmap.command;
+            byte[] transactionID = new byte[2] { 0x00, 0x00 };
+            byte destinationLogicalAdd = 0x4c;
+            uint status = 0x00;
+            byte replyCRC = 0x2c;
+
+            Assert.AreEqual("WRITE REPLY", command);
+            CollectionAssert.AreEqual(transactionID, rmap.transactionID);
+            Assert.AreEqual(destinationLogicalAdd, rmap.destinationlogicalAddress);
+            Assert.AreEqual(status, rmap.status);
+            Assert.AreEqual(replyCRC, rmap.replyCRC);
+
+        }
     }
 }

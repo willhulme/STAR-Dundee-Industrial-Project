@@ -9,28 +9,28 @@ namespace Star_Dundee_WPF.Models
 {
     class RMAP
     {
-        byte sourcelogicalAddress { get; set; }
-        byte destinationlogicalAddress { get; set; }
+        public byte sourcelogicalAddress { get; set; }
+        public byte destinationlogicalAddress { get; set; }
         byte ptCmdSp { get; set; }
-        bool hasSourceAdd;
-        byte sourceAddLen;
+        //bool hasSourceAdd;
+        public byte sourceAddLen;
         public string command { get; set; }
-        byte destinationKey { get; set; }
-        byte sourceLAdd { get; set; }
+        public byte destinationKey { get; set; }
+        public byte sourceLAdd { get; set; }
         //ushort transactionID { get; set; }
-        byte[] transactionID = new byte[2];
-        byte extWriteAdd { get; set; }
-        byte extReadAdd { get; set; }
-        uint writeAddress { get; set; }
-        uint readAddress { get; set; }
-        byte[] dataLength = new byte[3];
-        uint dataLengthInt { get; set; }
-        byte[] data { get; set; }
-        byte headerCRC { get; set; }
-        byte dataCRC { get; set; }
-        byte replyCRC { get; set; }
-        byte reserved { get; set; }
-        byte status { get; set; }
+        public byte[] transactionID = new byte[2];
+        public byte extWriteAdd { get; set; }
+        public byte extReadAdd { get; set; }
+        public uint writeAddress { get; set; }
+        public uint readAddress { get; set; }
+        public byte[] dataLength = new byte[3];
+        public uint dataLengthInt { get; set; }
+        public byte[] data { get; set; }
+        public byte headerCRC { get; set; }
+        public byte dataCRC { get; set; }
+        public byte replyCRC { get; set; }
+        public byte reserved { get; set; }
+        public byte status { get; set; }
 
         public RMAP() { } //CONSTRUCTOR
  
@@ -102,7 +102,7 @@ namespace Star_Dundee_WPF.Models
             headerCRC = characterBytes[13 + i];
             data = new byte[dataLengthInt];
             int j = 0;
-            for (int k = 14 + i; i < characterBytes.Length - 1; i++)
+            for (int k = 14 + i; k < characterBytes.Length - 1; k++)
             {
                 data[j] = characterBytes[k];
                 j++;
@@ -247,6 +247,8 @@ namespace Star_Dundee_WPF.Models
                 Console.Write("COMMAND: {0:x}/{1}\nDESTINATION KEY: {2:x}\nSOURCE LOGICAL ADDRESS: {3:x}\nTRANSACTION IDENTIFIER: {4:x}",packet.ptCmdSp,packet.command,packet.destinationKey,packet.sourceLAdd,packet.transactionID[1]);
             }
         }
+
+
 
     }
 

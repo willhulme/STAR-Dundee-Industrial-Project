@@ -113,13 +113,9 @@ namespace Star_Dundee_WPF
                 currPort = thePort.getPortNumber();
                 packetcount = 0;
 
-
-
                 Console.WriteLine("PRINTING DATA\n");
                 Console.WriteLine("Port Number : " + currPort);
                 Console.WriteLine("Starting Timestamp : " + thePort.getStart().ToString(timeFormat));
-
-                //DateTime.Now.ToString("HH:mm:ss.ffffff");
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
 

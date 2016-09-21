@@ -37,7 +37,6 @@ namespace Star_Dundee_WPF.Models
 
         public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
         {
-
             //Set initial current and previous values for data comparison
             int[] prev = theData[0];
             int[] curr = theData[1];
@@ -127,7 +126,6 @@ namespace Star_Dundee_WPF.Models
                     possibleIndex.Add(i);
                 }
             }
-
             return possibleIndex;
 
         }
@@ -135,7 +133,6 @@ namespace Star_Dundee_WPF.Models
 
         public List<int> getPossibleIndexListTwo(List<int[]> theData, int[] curr, int[] prev)
         {
-
             List<int> possibleIndex = new List<int>();
 
             //Compare only first two lines of data to find potential sequence number index

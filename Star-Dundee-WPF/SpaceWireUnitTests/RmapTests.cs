@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Star_Dundee_WPF.Models;
+using System.Collections.Generic;
 
 namespace SpaceWireUnitTests
 {
@@ -121,6 +122,45 @@ namespace SpaceWireUnitTests
             Assert.AreEqual(status, rmap.status);
             Assert.AreEqual(replyCRC, rmap.replyCRC);
 
+        }
+
+        [TestMethod]
+        public void TestSourceLength()
+        {
+            List<Packet> list;
+            Checkmate checkm8;
+            initiateCheckmate(out list, out checkm8);
+            checkm8.Check(list);
+            Assert.AreEqual("3", checkm8.testHeader);
+        }
+
+        [TestMethod]
+        public void TestDataSplit()
+        {
+            List<Packet> list;
+            Checkmate checkm8;
+            initiateCheckmate(out list, out checkm8);
+            checkm8.Check(list);
+            Assert.AreEqual("3", checkm8.testHeader);
+        }
+
+        private static void initiateCheckmate(out List<Packet> list, out Checkmate checkm8)
+        {
+            string cargo = "fe 01 0f 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d";
+            string[] dataPairs = cargo.Split(' ');
+            DateTime dt = DateTime.ParseExact("08-09-2016 16:59:59.985", "dd-MM-yyyy HH:mm:ss.fff", null);
+            Data data = new Data(dataPairs);
+            Packet packet = new Packet(dt, data);
+            list = new List<Packet>();
+            list.Add(packet);
+            checkm8 = new Checkmate();
+        }
+
+        [TestMethod]
+        public void TestCRC()
+        {
+            CRC8 crcTest = new CRC8();
+            Assert.AreEqual(0, crcTest.Check("fe 01 0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d"));
         }
     }
 }

@@ -10,13 +10,16 @@ namespace Star_Dundee_WPF.Models
     {
         CRC8 CRC = new CRC8();
         Packet Packet = new Packet();
+        RMAP testRmapPlzRemovePlz = new RMAP();
+        public string testHeader;
         public List<Packet> Check(List<Packet> Packet)
         {
             foreach (Packet item in Packet)
             {
                 string[] cargo = item.theData.getTheData();
+                testHeader = testRmapPlzRemovePlz.GetHeader(cargo);
             }
             return Packet;
         }
     }
-}
+} 

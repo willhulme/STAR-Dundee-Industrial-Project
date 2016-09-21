@@ -178,13 +178,13 @@ namespace Star_Dundee_WPF.Models
             bool[] sourceAddressBits = new bool[2];
             commandResponseBit = getBit(cmdByte, 7);
             writeReadBit = getBit(cmdByte, 6);
-            sourceAddressBits[0] = getBit(cmdByte, 2);
-            sourceAddressBits[1] = getBit(cmdByte, 1);
+            
              if(writeReadBit == false)
              {
                  readModWrite = getBit(cmdByte, 5);
              }
-
+            sourceAddressBits[0] = getBit(cmdByte, 2);
+            sourceAddressBits[1] = getBit(cmdByte, 1);
             cmdBits = new bool[] { readModWrite, writeReadBit, commandResponseBit };
             BitArray bitArray = new BitArray(cmdBits);
             command = identifyCommand(bitArray);
@@ -246,6 +246,44 @@ namespace Star_Dundee_WPF.Models
             {
                 Console.Write("COMMAND: {0:x}/{1}\nDESTINATION KEY: {2:x}\nSOURCE LOGICAL ADDRESS: {3:x}\nTRANSACTION IDENTIFIER: {4:x}",packet.ptCmdSp,packet.command,packet.destinationKey,packet.sourceLAdd,packet.transactionID[1]);
             }
+        }
+
+        public string GetHeader(string[] packetCharacters)
+        {
+            int i = 0;
+            //int index = 0;
+            string command;
+            byte[] characterBytes = packetCharacters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            
+            while(characterBytes[i] < 32)
+            {
+                i++;
+            }
+
+            command = getCommandType(characterBytes[i + 2]);
+            //return command;
+            if(command.Equals("WRITE REPLY") || command.Equals("READ"))
+            {
+                return String.Join(" ", packetCharacters);
+            }
+            else
+            {
+                if(command.Equals("WRITE"))
+                {
+                    
+                }
+
+                return  GetSourcePathLength(characterBytes[i + 2]).ToString();
+            }
+
+        }
+
+        private int GetSourcePathLength(byte cmdByte)
+        {
+            bool[] sourceAddressBits = new bool[2];
+            sourceAddressBits[0] = getBit(cmdByte, 2);
+            sourceAddressBits[1] = getBit(cmdByte, 1);
+            return calcsourceAdd(sourceAddressBits);
         }
 
 

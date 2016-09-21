@@ -14,6 +14,7 @@ namespace Star_Dundee_WPF
         Port thePort;
         bool fileRead;
         Checkmate crc_check = new Checkmate();
+        int currentPort;
 
         public void parse(string[] filePaths)
         {
@@ -21,14 +22,16 @@ namespace Star_Dundee_WPF
             thePorts = new List<Port>();
             List<Packet> packets = new List<Packet>();
 
+            //Check timestamps match and files actually exist
             if (checkTimeStamps(filePaths))
             {
-
+                //For every file selected
                 foreach (string file in filePaths)
                 {
                     List<string> packetData;
-                    string[] fileData = readFile(file);
 
+                    //Read file into string array, parse & split
+                    string[] fileData = readFile(file);
                     packetData = parseFile(fileData);
                     packets = splitData(packetData);
 
@@ -52,19 +55,14 @@ namespace Star_Dundee_WPF
                         //No sequence number Identifiable
                         Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
                     }
-
                     else
                     {
                         //Error
                         Console.WriteLine("Broke");
                     }
-
                     thePort.setPackets(packets);
                     thePorts.Add(thePort);
-
                 }
-
-
                 printRecordData(thePorts);
                 theRecord.setPorts(thePorts);
             }
@@ -181,15 +179,13 @@ namespace Star_Dundee_WPF
             string startTimeStamp = lineInFile[0];
             string endTimeStamp = lineInFile[lineInFile.Length - 1];
             int portNumber = Convert.ToInt32(lineInFile[1]);
+            currentPort = portNumber;
 
+            //Store isolated data in necessary data types
             DateTime start = new DateTime();
             start = DateTime.Parse(startTimeStamp);
-
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
-
-            //Port newPort = new Port(portNumber, start, end);
-
             thePort = new Port(portNumber, start, end);
 
             List<string> currentPackets = new List<string>();
@@ -208,23 +204,19 @@ namespace Star_Dundee_WPF
                         currentPackets.Add(currentPacket);
                         currentPacket = "";
                     }
-
                 }
                 else
-                {
-
+                { 
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
                 }
             }
             return currentPackets;
-
         }
 
         public List<Packet> splitData(List<string> currentPackets)
         {
             List<Packet> packets = new List<Packet>();
-
             int packetCount = 0;
 
             //Loop through all packet data stored in strings 
@@ -246,7 +238,19 @@ namespace Star_Dundee_WPF
                     Data newData = new Data(dataPairs);
                     Packet newPacket = new Packet(packetTimeStamp, newData);
 
-                    newPacket.setError(false, "noError");
+                    if (packetData[3].Equals("EOP"))
+                    {
+                        newPacket.setError(false, "noError");
+                    }
+                    else if (packetData[3].Equals("EEP"))
+                    {
+                        newPacket.setError(true, "eep");
+                    }
+                    else if (packetData[3].Equals("None"))
+                    {
+                        Console.Write("");
+                        //newPacket.setError(false, "eep");
+                    }
 
                     //Add to list of packets
                     packets.Add(newPacket);
@@ -275,6 +279,7 @@ namespace Star_Dundee_WPF
         {
             foreach (Packet p in packets)
             {
+
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))

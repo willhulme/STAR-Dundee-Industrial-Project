@@ -70,6 +70,10 @@ namespace Star_Dundee_WPF.Models
 
                     this.errors = ErrorType.noError;
                     break;
+                case "eep":
+
+                    this.errors = ErrorType.eep;
+                    break;
 
                 case "babbling":
                     this.errors = ErrorType.babblingIdiot;

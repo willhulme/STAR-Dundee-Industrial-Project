@@ -72,10 +72,6 @@ namespace Star_Dundee_WPF
             }
         }
 
-
-
-
-
         public bool checkTimeStamps(string[] filePaths)
         {
             string[] startTimes = new string[filePaths.Length];
@@ -105,10 +101,8 @@ namespace Star_Dundee_WPF
             return matchingStamps;
         }
 
-
         public void printRecordData(List<Port> ports)
         {
-
             int packetcount = 0;
             int currPort;
             foreach (Port thePort in ports)
@@ -135,9 +129,7 @@ namespace Star_Dundee_WPF
 
                     foreach (string s in stringData)
                     {
-
                         Console.Write(s + " ");
-
                     }
 
                     Console.Write("\n");
@@ -260,7 +252,6 @@ namespace Star_Dundee_WPF
                 }
                 else if (packetData[1].Equals("E"))
                 {
-
                     //Disconnect or parity
                     string errorType = packetData[2].ToLower();
 
@@ -269,7 +260,6 @@ namespace Star_Dundee_WPF
                         packets[packetCount - 1].setError(true, errorType);
                     }
                 }
-                //TODO Add check for EEP
             }
             packets = crc_check.Check(packets);
             return packets;
@@ -279,7 +269,6 @@ namespace Star_Dundee_WPF
         {
             foreach (Packet p in packets)
             {
-
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))

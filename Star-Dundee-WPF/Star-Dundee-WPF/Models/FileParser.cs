@@ -103,6 +103,8 @@ namespace Star_Dundee_WPF
 
         public void printRecordData(List<Port> ports)
         {
+            string timeFormat= "dd-MM-yyyy HH:mm:ss.fff";
+
             int packetcount = 0;
             int currPort;
             foreach (Port thePort in ports)
@@ -111,10 +113,15 @@ namespace Star_Dundee_WPF
                 currPort = thePort.getPortNumber();
                 packetcount = 0;
 
+
+
                 Console.WriteLine("PRINTING DATA\n");
                 Console.WriteLine("Port Number : " + currPort);
-                Console.WriteLine("Starting Timestamp : " + thePort.getStart());
-                Console.WriteLine("Ending Timestamp : " + thePort.getEnd());
+                Console.WriteLine("Starting Timestamp : " + thePort.getStart().ToString(timeFormat));
+
+                //DateTime.Now.ToString("HH:mm:ss.ffffff");
+
+                Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
 
                 Console.WriteLine("\n\n");
 
@@ -122,7 +129,7 @@ namespace Star_Dundee_WPF
                 {
                     packetcount++;
 
-                    Console.WriteLine("TimeStamp : " + p.getTimestamp());
+                    Console.WriteLine("TimeStamp : " + p.getTimestamp().ToString(timeFormat));
 
                     string[] stringData = p.theData.getTheData();
                     Console.Write("DataString : ");

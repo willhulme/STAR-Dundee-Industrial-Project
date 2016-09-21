@@ -19,7 +19,6 @@ using Microsoft.Win32;
 
 
 
-
 namespace Star_Dundee_WPF
 {
     /// <summary>
@@ -73,6 +72,7 @@ namespace Star_Dundee_WPF
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
 
             throw new NotImplementedException();
 

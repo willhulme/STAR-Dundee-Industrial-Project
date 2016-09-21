@@ -19,14 +19,12 @@ namespace Star_Dundee_WPF.Models
 
 
 
-        public void setPorts(List<Port> lp) {
+        public void setPorts(List<Port> lp)
+        {
 
             this.ports = lp;
 
         }
-
-
-
     }
 }
 

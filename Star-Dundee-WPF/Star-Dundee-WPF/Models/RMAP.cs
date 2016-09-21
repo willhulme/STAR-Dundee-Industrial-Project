@@ -14,7 +14,7 @@ namespace Star_Dundee_WPF.Models
         byte ptCmdSp { get; set; }
         bool hasSourceAdd;
         byte sourceAddLen;
-        string command { get; set; }
+        public string command { get; set; }
         byte destinationKey { get; set; }
         byte sourceLAdd { get; set; }
         //ushort transactionID { get; set; }

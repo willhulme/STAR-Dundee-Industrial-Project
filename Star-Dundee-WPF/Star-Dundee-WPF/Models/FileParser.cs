@@ -61,6 +61,7 @@ namespace Star_Dundee_WPF
                         Console.WriteLine("Broke");
                     }
                     thePort.setPackets(packets);
+                    thePort.setTotals();
                     thePorts.Add(thePort);
                 }
                 printRecordData(thePorts);
@@ -118,6 +119,10 @@ namespace Star_Dundee_WPF
                 Console.WriteLine("Starting Timestamp : " + thePort.getStart().ToString(timeFormat));
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
+
+                Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
+                Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
+
 
                 Console.WriteLine("\n\n");
 

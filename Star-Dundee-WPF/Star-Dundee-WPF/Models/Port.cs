@@ -33,6 +33,20 @@ namespace Star_Dundee_WPF.Models
         }
 
 
+
+        public int getTotalPackets() {
+            return this.totalPackets;
+
+        }
+
+
+        public int getTotalErrors()
+        {
+            return this.totalErrors;
+
+        }
+
+
         public DateTime getStart() {
             return this.startTime;
 
@@ -52,6 +66,32 @@ namespace Star_Dundee_WPF.Models
         {
             return this.stopTime;
 
+        }
+
+        public void setTotals() {
+            setPacketTotal();
+            setErrorTotal();
+        }
+
+        public void setErrorTotal() {
+            int errorCount = 0;
+            foreach (Packet p in packets)
+            {
+                if (p.getErrorStatus())
+                {
+                    errorCount++;
+                }
+
+            }
+
+
+            totalErrors = errorCount;
+
+
+        }
+
+        public void setPacketTotal() {
+            totalPackets = packets.Count();
         }
 
 

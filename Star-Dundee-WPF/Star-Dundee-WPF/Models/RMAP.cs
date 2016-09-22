@@ -175,7 +175,7 @@ namespace Star_Dundee_WPF.Models
             bool readModWrite = false;
             bool[] cmdBits;
             string command = "";
-            bool[] sourceAddressBits = new bool[2];
+            //bool[] sourceAddressBits = new bool[2];
             commandResponseBit = getBit(cmdByte, 7);
             writeReadBit = getBit(cmdByte, 6);
             
@@ -183,12 +183,13 @@ namespace Star_Dundee_WPF.Models
              {
                  readModWrite = getBit(cmdByte, 5);
              }
-            sourceAddressBits[0] = getBit(cmdByte, 2);
-            sourceAddressBits[1] = getBit(cmdByte, 1);
+            //sourceAddressBits[0] = getBit(cmdByte, 2);
+            //sourceAddressBits[1] = getBit(cmdByte, 1);
             cmdBits = new bool[] { readModWrite, writeReadBit, commandResponseBit };
             BitArray bitArray = new BitArray(cmdBits);
             command = identifyCommand(bitArray);
-            sourceAddLen = calcsourceAdd(sourceAddressBits);
+            //sourceAddLen = calcsourceAdd(sourceAddressBits);
+            sourceAddLen = (byte)GetSourcePathLength(cmdByte);
 
             return command;
 
@@ -248,7 +249,7 @@ namespace Star_Dundee_WPF.Models
             }
         }
 
-        public string GetHeader(string[] packetCharacters)
+        public string[] GetHeader(string[] packetCharacters)
         {
             int i = 0;
             //int index = 0;
@@ -264,16 +265,40 @@ namespace Star_Dundee_WPF.Models
             //return command;
             if(command.Equals("WRITE REPLY") || command.Equals("READ"))
             {
-                return String.Join(" ", packetCharacters);
+                string[] headerOnly = new string[1];
+                headerOnly[0] = String.Join(" ", packetCharacters);
+                return headerOnly;
             }
             else
             {
-                if(command.Equals("WRITE"))
+                string[] headerAndData = new string[2];
+                if (command.Equals("WRITE") || command.Equals("READ-MODIFY-WRITE"))
                 {
-                    
+                    int j = (GetSourcePathLength(characterBytes[i + 2])*4);
+                    i += (16 + j);
+                    string [] headerCharacters = new string[i];
+                    string [] dataCharacters = new string[characterBytes.Length - i];
+
+                    Array.Copy(packetCharacters, 0, headerCharacters, 0, i);
+                    Array.Copy(packetCharacters, i, dataCharacters, 0, dataCharacters.Length);
+
+                    headerAndData[0] = String.Join(" ", headerCharacters);
+                    headerAndData[1] = String.Join(" ", dataCharacters);
+                }
+                else if (command.Equals("READ REPLY") || command.Equals("READ-MODIFY-WRITE REPLY"))
+                {
+                    i += 12;
+                    string[] headerCharacters = new string[i];
+                    string[] dataCharacters = new string[characterBytes.Length - i];
+
+                    Array.Copy(packetCharacters, 0, headerCharacters, 0, i);
+                    Array.Copy(packetCharacters, i, dataCharacters, 0, dataCharacters.Length);
+
+                    headerAndData[0] = String.Join(" ", headerCharacters);
+                    headerAndData[1] = String.Join(" ", dataCharacters);
                 }
 
-                return  GetSourcePathLength(characterBytes[i + 2]).ToString();
+                return headerAndData;
             }
 
         }

@@ -99,6 +99,7 @@ namespace Star_Dundee_WPF.Models
                         {
                             addString += currDataSet[j];
                             p[i].getData().setAddress(addString);
+                            p[i].getData().setProtocol(currDataSet[j+1]);
                             break;
                         }
                     }
@@ -107,6 +108,7 @@ namespace Star_Dundee_WPF.Models
                 else if (curr[0] >= 32 && curr[0] <= 255)
                 {
                     p[i].getData().setAddress(currDataSet[0]);
+                    p[i].getData().setProtocol(currDataSet[1]);
                 }
             }
         }

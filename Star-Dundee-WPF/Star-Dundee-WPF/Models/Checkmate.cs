@@ -18,16 +18,19 @@ namespace Star_Dundee_WPF.Models
         {
             foreach (Packet item in Packet)
             {
-                string[] cargo = item.theData.getTheData();
-                dataHeaderSplittest = testRmapPlzRemovePlz.GetHeader(cargo);
-                if (dataHeaderSplittest.Length > 1)
+                if (!item.getErrorStatus())
                 {
-                    testHeader = dataHeaderSplittest[0]; //HEADER
-                    testData = dataHeaderSplittest[1]; //DATA
-                }
-                else
-                {
-                    testHeader = dataHeaderSplittest[0];
+                    string[] cargo = item.theData.getTheData();
+                    dataHeaderSplittest = testRmapPlzRemovePlz.GetHeader(cargo);
+                    if (dataHeaderSplittest.Length > 1)
+                    {
+                        testHeader = dataHeaderSplittest[0]; //HEADER
+                        testData = dataHeaderSplittest[1]; //DATA
+                    }
+                    else
+                    {
+                        testHeader = dataHeaderSplittest[0];
+                    }
                 }
             }
             return Packet;

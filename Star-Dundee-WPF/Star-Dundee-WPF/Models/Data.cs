@@ -10,6 +10,7 @@ namespace Star_Dundee_WPF.Models
     {
         string address;
         string sequenceNum;
+        string protocolID;
         int sequenceIndex;
         string[] data;
 
@@ -18,6 +19,13 @@ namespace Star_Dundee_WPF.Models
             this.data = data;
         }
 
+        public string getProtocol() {
+            return this.protocolID;
+        }
+
+        public void setProtocol(string pID) {
+            this.protocolID = pID;
+        }
 
         public void setSeqIndex(int index)
         {

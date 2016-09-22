@@ -139,6 +139,8 @@ namespace Star_Dundee_WPF
                     Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                     Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
 
+                    Console.WriteLine("Protocol ID : " + p.theData.getProtocol());
+
                     Console.WriteLine("Packet Address : " + p.theData.getAddress());
 
                     Console.WriteLine("Has Errors? : " + p.getErrorStatus());

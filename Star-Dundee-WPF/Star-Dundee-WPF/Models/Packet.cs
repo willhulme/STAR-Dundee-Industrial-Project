@@ -78,6 +78,19 @@ namespace Star_Dundee_WPF.Models
                 case "babbling":
                     this.errors = ErrorType.babblingIdiot;
                     break;
+
+                case "length":
+                    this.errors = ErrorType.length;
+                    break;
+
+                case "headercrc":
+                    this.errors = ErrorType.crcHeader;
+                    break;
+
+                case "datacrc":
+                    this.errors = ErrorType.crcData;
+                    break;
+
                 case "":
                     Console.WriteLine("errors occured - maybe");
                     break;

@@ -283,10 +283,8 @@ namespace Star_Dundee_WPF
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
-
                     //TODO - MATT
                     //make work with sequence numbers on errored packet
-
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
                     p.theData.setSeqNumber(seqNum);

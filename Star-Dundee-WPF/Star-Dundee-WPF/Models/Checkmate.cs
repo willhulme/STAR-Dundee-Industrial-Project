@@ -56,11 +56,11 @@ namespace Star_Dundee_WPF.Models
                     //        testHeader = dataHeaderSplittest[0];
 
                     //    }
-                    //}
-                    return Packet;
                 }
+                return Packet;
             }
         }
     }
 }
+
 

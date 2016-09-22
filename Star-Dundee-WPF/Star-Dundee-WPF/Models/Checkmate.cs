@@ -42,9 +42,25 @@ namespace Star_Dundee_WPF.Models
                     {
                         item.setError(true, "headercrc");
                     }
+                    //if (!item.getErrorStatus())
+                    //{
+                    //    string[] cargo = item.theData.getTheData();
+                    //    dataHeaderSplittest = testRmapPlzRemovePlz.GetHeader(cargo);
+                    //    if (dataHeaderSplittest.Length > 1)
+                    //    {
+                    //        testHeader = dataHeaderSplittest[0]; //HEADER
+                    //        testData = dataHeaderSplittest[1]; //DATA
+                    //    }
+                    //    else
+                    //    {
+                    //        testHeader = dataHeaderSplittest[0];
+
+                    //    }
+                    //}
+                    return Packet;
                 }
             }
-            return Packet;
         }
     }
 }
+

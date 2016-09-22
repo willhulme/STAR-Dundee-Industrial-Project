@@ -61,6 +61,7 @@ namespace Star_Dundee_WPF
                         Console.WriteLine("Broke");
                     }
                     thePort.setPackets(packets);
+                    thePort.setTotals();
                     thePorts.Add(thePort);
                 }
                 printRecordData(thePorts);
@@ -119,6 +120,10 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
 
+                Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
+                Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
+
+
                 Console.WriteLine("\n\n");
 
                 foreach (Packet p in packets)
@@ -138,6 +143,8 @@ namespace Star_Dundee_WPF
                     Console.Write("\n");
                     Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                     Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
+
+                    Console.WriteLine("Protocol ID : " + p.theData.getProtocol());
 
                     Console.WriteLine("Packet Address : " + p.theData.getAddress());
 
@@ -276,10 +283,8 @@ namespace Star_Dundee_WPF
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
-
                     //TODO - MATT
                     //make work with sequence numbers on errored packet
-
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
                     p.theData.setSeqNumber(seqNum);

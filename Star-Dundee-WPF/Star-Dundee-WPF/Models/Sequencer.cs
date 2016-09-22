@@ -30,7 +30,7 @@ namespace Star_Dundee_WPF.Models
             //Function call to get the sequence index
             int result = getTheSequenceIndex(convertedData, p);
             parseForAddress(convertedData, p);
-            
+
             return result;
 
         }
@@ -44,19 +44,19 @@ namespace Star_Dundee_WPF.Models
             int repeatCount = 0;
 
             //Create list to store possible index values
-            List<int> possibleIndex = getPossibleIndexList(theData, curr, prev,1);
-            if (possibleIndex.Count()>0)
+            List<int> possibleIndex = getPossibleIndexList(theData, curr, prev, 1);
+            if (possibleIndex.Count() > 0)
             {
                 possibleIndex = parseForSequence(theData, curr, prev, possibleIndex, p, 1);
             }
-            List<int> possibleIndexTwo = getPossibleIndexList(theData, curr, prev,2);
+            List<int> possibleIndexTwo = getPossibleIndexList(theData, curr, prev, 2);
             if (possibleIndexTwo.Count() > 0)
             {
                 possibleIndexTwo = parseForSequence(theData, curr, prev, possibleIndexTwo, p, 2);
             }
 
             //If there is only one possible sequence index left, return it as the index
-            if (possibleIndex.Count() == 1 && possibleIndexTwo.Count() ==0)
+            if (possibleIndex.Count() == 1 && possibleIndexTwo.Count() == 0)
             {
                 return possibleIndex[0];
 
@@ -64,7 +64,7 @@ namespace Star_Dundee_WPF.Models
             else if (possibleIndex.Count() == 0 && possibleIndexTwo.Count() == 1)
             {
                 //Return if there is less than one possibility
-                return possibleIndexTwo[0]; 
+                return possibleIndexTwo[0];
             }
             else if (possibleIndex.Count() == 1 && possibleIndexTwo.Count() == 1)
             {
@@ -82,7 +82,7 @@ namespace Star_Dundee_WPF.Models
 
         public void parseForAddress(List<int[]> theData, List<Packet> p)
         {
-            for (int i = 0;i<theData.Count();i++)
+            for (int i = 0; i < theData.Count(); i++)
             {
                 int[] curr = theData[i];
                 string[] currDataSet = p[i].getData().getTheData();
@@ -90,7 +90,8 @@ namespace Star_Dundee_WPF.Models
                 {
                     //path addressing
                     string addString = "";
-                    for (int j=0;j<curr.Length;j++) {
+                    for (int j = 0; j < curr.Length; j++)
+                    {
                         if (curr[j] != 254)
                         {
                             addString += (currDataSet[j] + " ");
@@ -99,21 +100,21 @@ namespace Star_Dundee_WPF.Models
                         {
                             addString += currDataSet[j];
                             p[i].getData().setAddress(addString);
+                            p[i].getData().setProtocol(currDataSet[j + 1]);
                             break;
                         }
                     }
-                    
                 }
                 else if (curr[0] >= 32 && curr[0] <= 255)
                 {
                     p[i].getData().setAddress(currDataSet[0]);
+                    p[i].getData().setProtocol(currDataSet[1]);
                 }
             }
         }
 
         public List<int> getPossibleIndexList(List<int[]> theData, int[] curr, int[] prev, int increment)
         {
-
             List<int> possibleIndex = new List<int>();
 
             //Compare only first two lines of data to find potential sequence number index
@@ -127,7 +128,6 @@ namespace Star_Dundee_WPF.Models
                 }
             }
             return possibleIndex;
-
         }
 
 
@@ -145,9 +145,7 @@ namespace Star_Dundee_WPF.Models
                     possibleIndex.Add(i);
                 }
             }
-
             return possibleIndex;
-
         }
 
         public List<int> parseForSequence(List<int[]> theData, int[] curr, int[] prev, List<int> possibleIndex, List<Packet> p, int incrementSize)
@@ -170,17 +168,8 @@ namespace Star_Dundee_WPF.Models
                 {
                     int currIndex = possibleIndex[x];
                     //Check next line for increment
-
-                    //TODO - Matt
-                    //
-                    //Out of range exception breaks this here if error and shorter data string than expected is found
-                    //File Test 6, link 5
-
-                    //Sequence number issuse when error occurs on packet ff & next 00 compares to fe from 2 packets before
-
                     if (packetsSkipped > 0)
                     {
-
                         prev = theData[i - (incrementSize + packetsSkipped)];
                     }
 
@@ -193,7 +182,7 @@ namespace Star_Dundee_WPF.Models
                             packetsSkipped = 0;
                         }
                         //allow for going from ff(255) back to 00 as valid   test 5/link1
-                        else if (prev[currIndex] == 255 && curr[currIndex] == 00 && incrementSize ==1)
+                        else if (prev[currIndex] == 255 && curr[currIndex] == 00 && incrementSize == 1)
                         {
                             packetsSkipped = 0;
                         }
@@ -215,7 +204,6 @@ namespace Star_Dundee_WPF.Models
 
                         else if (curr[currIndex] == (prev[currIndex]))
                         {
-
                             //Compare actual strings
                             if (curr.SequenceEqual(prev))
                             {
@@ -233,12 +221,11 @@ namespace Star_Dundee_WPF.Models
                                         }
                                     }
                                     p[i].setError(true, "babbling");
-
                                 }
                                 idiotCount++;
                             }
-                            else {
-
+                            else
+                            {
                                 possibleIndex.Remove(currIndex);
                                 packetsSkipped = 0;
                             }
@@ -246,7 +233,7 @@ namespace Star_Dundee_WPF.Models
                         else
                         {
                             //Check if is 1 more than expected and then if next packet is error then sequence error happens here
-                            if (curr[currIndex] == (prev[currIndex] + 2*incrementSize) && p[i + 1].getErrorStatus())
+                            if (curr[currIndex] == (prev[currIndex] + 2 * incrementSize) && p[i + 1].getErrorStatus())
                             {
                                 //Still could be the index
                                 //Console.WriteLine(" ++++ " + currIndex + " === " + curr[currIndex]);
@@ -266,16 +253,12 @@ namespace Star_Dundee_WPF.Models
                     }
                     catch (IndexOutOfRangeException RE)
                     {
-
                         Console.WriteLine(RE.Message + "|| AT INDEX " + currIndex + " || AT LINE " + i + " || SKIPPED : " + packetsSkipped);
                         packetsSkipped++;
                     }
                 }
             }
-
             return possibleIndex;
-
-
         }
 
         public List<int[]> getDecValues(List<string[]> dataSets, int dataSetLength)

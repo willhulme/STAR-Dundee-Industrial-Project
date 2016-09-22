@@ -20,8 +20,15 @@ namespace Star_Dundee_WPF.Models
             {
                 string[] cargo = item.theData.getTheData();
                 dataHeaderSplittest = testRmapPlzRemovePlz.GetHeader(cargo);
-                testHeader = dataHeaderSplittest[0]; //HEADER
-                testData = dataHeaderSplittest[1]; //DATA
+                if (dataHeaderSplittest.Length > 1)
+                {
+                    testHeader = dataHeaderSplittest[0]; //HEADER
+                    testData = dataHeaderSplittest[1]; //DATA
+                }
+                else
+                {
+                    testHeader = dataHeaderSplittest[0];
+                }
             }
             return Packet;
         }

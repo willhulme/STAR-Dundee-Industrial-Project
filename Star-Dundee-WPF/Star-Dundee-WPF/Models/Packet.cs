@@ -8,8 +8,8 @@ namespace Star_Dundee_WPF.Models
 {
     class Packet
     {
-        DateTime timestamp;
-        ErrorType errors;
+        public DateTime timestamp { get; set; }
+        public ErrorType errors { get; set; }
         public Data theData;
         int totalChars;
         bool hasError;
@@ -85,7 +85,6 @@ namespace Star_Dundee_WPF.Models
             }
 
         }
-
 
     }
 

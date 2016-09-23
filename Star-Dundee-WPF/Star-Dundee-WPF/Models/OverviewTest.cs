@@ -18,6 +18,20 @@ namespace Star_Dundee_WPF.Models
         public String Port7 { get; set; }
         public String Port8 { get; set; }
 
+        public OverviewTest() {
+
+            Time = "";
+            Port1 = "";
+            Port2 = "";
+            Port3 = "";
+            Port4 = "";
+            Port5 = "";
+            Port6 = "";
+            Port7 = "";
+            Port8 = "";
+           
+
+        }
 
         public OverviewTest(String time, String port1,
             String port2, String port3, String port4, String port5,
@@ -34,7 +48,7 @@ namespace Star_Dundee_WPF.Models
             this.Port8 = port8;
         }
 
-        public static List<OverviewTest> GetSampleOverviewData()
+        public static List<OverviewTest> getSampleOverviewData()
         {
             return new List<OverviewTest>(new OverviewTest[16] {
             new OverviewTest("14:27:54.245", "", "", "", "",
@@ -73,5 +87,6 @@ namespace Star_Dundee_WPF.Models
 
         });
         }
+
     }
 }

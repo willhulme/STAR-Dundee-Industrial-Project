@@ -8,10 +8,10 @@ namespace Star_Dundee_WPF.Models
 {
     class Port
     {
-        int portNumber;
-        DateTime startTime;
-        DateTime stopTime;
-        List<Packet> packets;
+        public int portNumber { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime stopTime { get; set; }
+        public List<Packet> packets { get; set; }
         int totalErrors;
         int totalPackets;
         int totalChars;

@@ -68,7 +68,7 @@ namespace Star_Dundee_WPF
                     thePort.setPackets(packets);
                     thePorts.Add(thePort);
                 }
-                printRecordData(thePorts);
+                //printRecordData(thePorts);
                 theRecord.setPorts(thePorts);
                 buildOverview();
             }
@@ -118,15 +118,17 @@ namespace Star_Dundee_WPF
                 {
                     for (int k = 0; k < theRecord.ports[j].packets.Count; k++)
                 {
-                   
-                    int value1 = overviewList.FindIndex(
-                        delegate (OverviewTest ovTest)
-                        {
-                            return ovTest.Time.Equals(theRecord.ports[j].packets[k].timestamp.ToString(timeFormat), StringComparison.Ordinal);
-                        }
-                        );
 
-                            //Get the port number and the error type and add it to the overview segment
+                    int index = overviewList.FindIndex( p => p.IDa == IDa.SystemID & p.IDb == pInputRecordMap.IDb);
+
+                    //int value1 = overviewList.FindIndex(
+                    //    delegate (OverviewTest ovTest)
+                    //    {
+                    //        return ovTest.Time.Equals(theRecord.ports[j].packets[k].timestamp.ToString(timeFormat), StringComparison.Ordinal);
+                    //    }
+                    //    );
+
+                    //Get the port number and the error type and add it to the overview segment
                     currentPort = theRecord.ports[j].portNumber;
 
                             if (currentPort == 1)                          

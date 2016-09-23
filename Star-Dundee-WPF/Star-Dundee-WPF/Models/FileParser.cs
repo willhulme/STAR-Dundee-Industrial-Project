@@ -96,9 +96,25 @@ namespace Star_Dundee_WPF
             Console.WriteLine("Port Start Time: " + currentTime.ToString(timeFormat));
             int currentPort;
 
+            //Find the time of the last packet in each port
+            List<DateTime> timeOfLastPacket = new List<DateTime>();
+
+            DateTime currentPacketTime;
+
+            for (int i = 0; i < theRecord.ports.Count; i++)
+            {
+               
+                currentPacketTime = theRecord.ports[i].packets[theRecord.ports[i].packets.Count - 1].timestamp;
+                timeOfLastPacket.Add(currentPacketTime);            
+                
+            }
+
+            //sort list in descending order
+            timeOfLastPacket.Sort((a, b) => b.CompareTo(a));
+            timeOfLastPacket[0] = timeOfLastPacket[0].AddMilliseconds(5);
 
             //Get how many overview segments we need           
-            double overviewSegments = (theRecord.ports[0].stopTime - theRecord.ports[0].startTime).TotalMilliseconds;
+            double overviewSegments = (timeOfLastPacket[0] - theRecord.ports[0].startTime).TotalMilliseconds;
             overviewSegments++;
 
             //Start to build the overview

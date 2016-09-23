@@ -27,6 +27,11 @@ namespace Star_Dundee_WPF.Models
             this.protocolID = pID;
         }
 
+        public int getChars() {
+            //Returns the number of characters in bytes
+            return data.Count();
+        }
+
         public void setSeqIndex(int index)
         {
             this.sequenceIndex = index;

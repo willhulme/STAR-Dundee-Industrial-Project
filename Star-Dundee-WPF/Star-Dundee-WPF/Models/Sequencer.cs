@@ -10,7 +10,6 @@ namespace Star_Dundee_WPF.Models
     {
         public int findSequence(List<Packet> p)
         {
-
             List<string[]> dataSets = new List<string[]>();
             int dataSetLength;
 
@@ -32,7 +31,6 @@ namespace Star_Dundee_WPF.Models
             parseForAddress(convertedData, p);
 
             return result;
-
         }
 
         public int getTheSequenceIndex(List<int[]> theData, List<Packet> p)
@@ -78,7 +76,6 @@ namespace Star_Dundee_WPF.Models
             }
 
         }
-
 
         public void parseForAddress(List<int[]> theData, List<Packet> p)
         {
@@ -129,7 +126,6 @@ namespace Star_Dundee_WPF.Models
             }
             return possibleIndex;
         }
-
 
         public List<int> getPossibleIndexListTwo(List<int[]> theData, int[] curr, int[] prev)
         {

@@ -31,11 +31,19 @@ namespace Star_Dundee_WPF.Models
             return this.timestamp;
         }
 
+        public void setTotalChars() {
+            totalChars = theData.getChars();
+        }
+
+        public int getTotalChars()
+        {
+            return this.totalChars;
+        }
+
 
         public bool getErrorStatus()
         {
             return hasError;
-
         }
 
         public ErrorType getErrorType() {
@@ -48,7 +56,6 @@ namespace Star_Dundee_WPF.Models
             hasError = err;
 
             //Distinguish error type, pass in and set enum value
-
             switch (type)
             {
                 case "sequence":
@@ -96,10 +103,7 @@ namespace Star_Dundee_WPF.Models
                     break;
 
             }
-
         }
-
-
     }
 
 

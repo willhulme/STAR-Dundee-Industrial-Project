@@ -18,45 +18,20 @@ namespace Star_Dundee_WPF.Models
             {
                 string[] cargo = item.theData.getTheData();
                 string[] SplitCargo = RMAP.GetHeader(cargo);
-                string CargoHead = SplitCargo[0]; //HEADER
-                string CargoData = SplitCargo[1]; //DATA
-                int HeadResult = CRC.Check(CargoHead);
-                int DataResult = CRC.Check(CargoData);
-                if (DataResult != 0)
+                if (!item.getErrorStatus())
                 {
-                    if (DataResult == -2)
+                    if (SplitCargo.Length > 1)
                     {
-                        item.setError(true, "length");
-                    }
-                    else
-                    {
-                        item.setError(true, "datacrc");
+                        string CargoHead = SplitCargo[0]; //HEADER
+                        string CargoData = SplitCargo[1]; //DATA
+                        int HeadResult = CRC.Check(CargoHead);
+                        int DataResult = CRC.Check(CargoData);
                     }
                 }
-                if (HeadResult != 0)
+                else
                 {
-                    if (HeadResult == -2)
-                    {
-                        item.setError(true, "length");
-                    }
-                    else
-                    {
-                        item.setError(true, "headercrc");
-                    }
-                    //if (!item.getErrorStatus())
-                    //{
-                    //    string[] cargo = item.theData.getTheData();
-                    //    dataHeaderSplittest = testRmapPlzRemovePlz.GetHeader(cargo);
-                    //    if (dataHeaderSplittest.Length > 1)
-                    //    {
-                    //        testHeader = dataHeaderSplittest[0]; //HEADER
-                    //        testData = dataHeaderSplittest[1]; //DATA
-                    //    }
-                    //    else
-                    //    {
-                    //        testHeader = dataHeaderSplittest[0];
-
-                    //    }
+                    string CargoHead = SplitCargo[0]; //HEADER
+                    int HeadResult = CRC.Check(CargoHead);
                 }
             }
             return Packet;

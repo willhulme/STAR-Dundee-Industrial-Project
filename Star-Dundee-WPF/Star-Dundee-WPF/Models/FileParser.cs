@@ -432,7 +432,7 @@ namespace Star_Dundee_WPF
                 }
             }
 
-           // packets = crc_check.Check(packets);
+           packets = crc_check.Check(packets);
 
             return packets;
         }

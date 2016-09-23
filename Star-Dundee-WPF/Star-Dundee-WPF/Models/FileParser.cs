@@ -16,13 +16,13 @@ namespace Star_Dundee_WPF
         bool fileRead;
         Checkmate crc_check = new Checkmate();
         int currentPort;
-       
+
 
         public void parse(string[] filePaths)
         {
             theRecord = new Recording();
             thePorts = new List<Port>();
-           
+
 
             List<Packet> packets = new List<Packet>();
 
@@ -38,7 +38,7 @@ namespace Star_Dundee_WPF
                     string[] fileData = readFile(file);
                     packetData = parseFile(fileData);
                     packets = splitData(packetData);
-                    
+
 
                     //Call to find sequnce index of the data
                     Sequencer s = new Sequencer();
@@ -68,7 +68,7 @@ namespace Star_Dundee_WPF
                     thePort.setPackets(packets);
                     thePorts.Add(thePort);
                 }
-                printRecordData(thePorts);
+                //printRecordData(thePorts);
                 theRecord.setPorts(thePorts);
                 buildOverview();
             }
@@ -86,7 +86,7 @@ namespace Star_Dundee_WPF
             DateTime currentTime = theRecord.ports[0].startTime;
             Console.WriteLine("Port Start Time: " + currentTime.ToString(timeFormat));
             int currentPort;
-            
+
 
             //Get how many overview segments we need           
             double overviewSegments = (theRecord.ports[0].stopTime - theRecord.ports[0].startTime).TotalMilliseconds;
@@ -115,43 +115,90 @@ namespace Star_Dundee_WPF
             currentTime = theRecord.ports[0].startTime;
             //For every packet in every port, update the overview                       
             for (int j = 0; j < theRecord.ports.Count; j++)
-                {
-                    for (int k = 0; k < theRecord.ports[j].packets.Count; k++)
-                {
-                   
-                    int value1 = overviewList.FindIndex(
-                        delegate (OverviewTest ovTest)
-                        {
-                            return ovTest.Time.Equals(theRecord.ports[j].packets[k].timestamp.ToString(timeFormat), StringComparison.Ordinal);
-                        }
-                        );
+            {
+                Port portToCheck = theRecord.ports[j];
 
-                            //Get the port number and the error type and add it to the overview segment
+                Console.WriteLine("I'm in port " + (j + 1));
+            
+       
+                int timeStampCounter = 0;
+
+                for (int k = 0; k < portToCheck.packets.Count; k++)
+                {
+                    Packet packetToCheck = portToCheck.packets[k];
+
+                    bool found = false;
+
+                    while (found == false && timeStampCounter < overviewList.Count)
+                    {
+                        found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
+                        timeStampCounter++;                        
+                    }
+
+                    //int value1 = overviewList.FindIndex(
+                    //    delegate (OverviewTest ovTest)
+                    //    {
+                    //        return ovTest.Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal);
+                    //    }
+                    //    );
+
+                    if (!found)
+                    {
+                        timeStampCounter = 0;
+
+                        while (found == false && timeStampCounter < overviewList.Count)
+                        {
+                            found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
+                            timeStampCounter++;
+                        }
+
+                        timeStampCounter--;
+
+                        Console.WriteLine("This fucked up at port " + (j+1) + ", packet " + k + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.timestamp.ToString(timeFormat));
+                    }
+
+                    //Get the port number and the error type and add it to the overview segment
                     currentPort = theRecord.ports[j].portNumber;
 
-                            if (currentPort == 1)                          
-                                overviewList[value1].Port1 = theRecord.ports[j].packets[k].errors.ToString();                            
-                            else if (currentPort == 2)
-                        overviewList[value1].Port2 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 3)
-                        overviewList[value1].Port3 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 4)
-                        overviewList[value1].Port4 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 5)
-                        overviewList[value1].Port5 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 6)
-                        overviewList[value1].Port6 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 7)
-                        overviewList[value1].Port7 = theRecord.ports[j].packets[k].errors.ToString();
-                            else if (currentPort == 8)
-                        overviewList[value1].Port8 = theRecord.ports[j].packets[k].errors.ToString();                            
-                           
-                        
+                    switch (currentPort)
+                    {
+                        case 1:
+                            overviewList[timeStampCounter].Port1 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 2:
+                            overviewList[timeStampCounter].Port2 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 3:
+                            overviewList[timeStampCounter].Port3 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 4:
+                            overviewList[timeStampCounter].Port4 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 5:
+                            overviewList[timeStampCounter].Port5 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 6:
+                            overviewList[timeStampCounter].Port6 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 7:
+                            overviewList[timeStampCounter].Port7 = packetToCheck.errors.ToString();
+                            break;
+
+                        case 8:
+                            overviewList[timeStampCounter].Port8 = packetToCheck.errors.ToString();
+                            break;
+                    }
                 }
 
-                
+
                 Console.WriteLine("Overview Segment Time: " + currentTime.ToString(timeFormat));
-                
+
             }
         }
 
@@ -186,7 +233,7 @@ namespace Star_Dundee_WPF
 
         public void printRecordData(List<Port> ports)
         {
-            string timeFormat= "dd-MM-yyyy HH:mm:ss.fff";
+            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
 
             int packetcount = 0;
             int currPort;
@@ -257,14 +304,14 @@ namespace Star_Dundee_WPF
             string startTimeStamp = lineInFile[0];
             string endTimeStamp = lineInFile[lineInFile.Length - 1];
             int portNumber = Convert.ToInt32(lineInFile[1]);
-            currentPort = portNumber;           
+            currentPort = portNumber;
 
             //Store isolated data in necessary data types
             DateTime start = new DateTime();
             start = DateTime.Parse(startTimeStamp);
             DateTime end = new DateTime();
             end = DateTime.Parse(endTimeStamp);
-            thePort = new Port(portNumber, start, end);        
+            thePort = new Port(portNumber, start, end);
 
             List<string> currentPackets = new List<string>();
             string currentPacket = "";
@@ -284,7 +331,7 @@ namespace Star_Dundee_WPF
                     }
                 }
                 else
-                { 
+                {
                     //Add line to placeholder followed by a delimiter
                     currentPacket += lineInFile[i] + "*";
                 }

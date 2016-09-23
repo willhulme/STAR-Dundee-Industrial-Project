@@ -73,7 +73,7 @@ namespace Star_Dundee_WPF
 
 
                 //print data for testing purposes
-                printRecordData(thePorts);
+               printRecordData(thePorts);
 
 
             }
@@ -160,9 +160,16 @@ namespace Star_Dundee_WPF
                     }
 
                     Console.Write("\n");
-                    Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
                     Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
 
+                    Console.Write("Sequence Number : ");
+                    string[] sequenceData = p.theData.getSeqNumber();
+
+                    foreach (string s in sequenceData)
+                    {
+                        Console.Write(s + " ");
+                    }
+                    Console.Write("\n");
                     Console.WriteLine("Protocol ID : " + p.theData.getProtocol());
 
                     Console.WriteLine("Packet Address : " + p.theData.getAddress());
@@ -293,28 +300,65 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-            //packets = crc_check.Check(packets);
+           // packets = crc_check.Check(packets);
             return packets;
         }
 
         public void applySequenceNumbers(List<Packet> packets)
         {
-            string prevSeq;
+            string [] prevSeq;
             Packet p;
+            bool isRmap;
+            string protocolID = packets[0].getData().getProtocol();
+
+            if (protocolID.Equals("01"))
+            {
+                isRmap = true;
+            }
+            else {
+                isRmap = false;
+            }
+
             for(int i = 0;i<packets.Count();i++)
             {
+                string[] sa;
                 p = packets[i];
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
+                    
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
-                    p.theData.setSeqNumber(seqNum);
+                    string prevByte = p.theData.getTheData()[index-1];
+                    if (isRmap)
+                    {
+                        string[] seqBytes = { prevByte, seqNum };
+                        sa = seqBytes;
+                    }
+                    else
+                    {
+                        string[] seqBytes = { seqNum };
+                        sa = seqBytes;
+                    }
+                        p.theData.setSeqNumber(sa);
                 }
                 else
                 {
-                    p.theData.setSeqNumber("err");
+                    string prevByte = p.theData.getTheData()[(p.theData.getSeqIndex()) - 1];
+
+
+                    if (isRmap)
+                    {
+                        string[] seqBytes = { prevByte, "err" };
+                        sa = seqBytes;
+                    }
+                    else
+                    {
+                        string[] seqBytes = { "err" };
+                        sa = seqBytes;
+                    }
+                    p.theData.setSeqNumber(sa);
                 }
                 prevSeq = p.getData().getSeqNumber();
             }

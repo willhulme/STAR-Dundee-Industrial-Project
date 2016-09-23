@@ -74,12 +74,12 @@ namespace Star_Dundee_WPF
                 theRecord.setPorts(thePorts);
                 theRecord.calculateTotals();
 
-                buildOverview();
+
 
 
                 //print data for testing purposes
-               printRecordData(thePorts);
-
+                printRecordData(thePorts);
+                buildOverview();
             }
             else
             {
@@ -242,7 +242,7 @@ namespace Star_Dundee_WPF
 
         public void printRecordData(List<Port> ports)
         {
-            string timeFormat= "dd-MM-yyyy HH:mm:ss.fff";
+            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
 
             int packetcount = 0;
             int currPort;
@@ -268,7 +268,7 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
 
-				Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
+                Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
                 Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
                 Console.WriteLine("Number of Characters : " + thePort.getTotalChars() + " Bytes");
 
@@ -432,14 +432,16 @@ namespace Star_Dundee_WPF
                 }
             }
 
-           // packets = crc_check.Check(packets);
+
+            //This breaks things
+            //packets = crc_check.Check(packets);
 
             return packets;
         }
 
         public void applySequenceNumbers(List<Packet> packets)
         {
-            string [] prevSeq;
+            string[] prevSeq = null; ;
             Packet p;
             bool isRmap;
             string protocolID = packets[0].getData().getProtocol();
@@ -452,7 +454,7 @@ namespace Star_Dundee_WPF
                 isRmap = false;
             }
 
-            for(int i = 0;i<packets.Count();i++)
+            for (int i = 0; i < packets.Count(); i++)
             {
                 string[] sa;
                 p = packets[i];
@@ -460,11 +462,9 @@ namespace Star_Dundee_WPF
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
-
-                    
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
-                    string prevByte = p.theData.getTheData()[index-1];
+                    string prevByte = p.theData.getTheData()[index - 1];
                     if (isRmap)
                     {
                         string[] seqBytes = { prevByte, seqNum };
@@ -475,12 +475,11 @@ namespace Star_Dundee_WPF
                         string[] seqBytes = { seqNum };
                         sa = seqBytes;
                     }
-                        p.theData.setSeqNumber(sa);
+                    p.theData.setSeqNumber(sa);
                 }
                 else
                 {
                     string prevByte = p.theData.getTheData()[(p.theData.getSeqIndex()) - 1];
-
 
                     if (isRmap)
                     {
@@ -498,5 +497,6 @@ namespace Star_Dundee_WPF
             }
             Console.WriteLine("\"\"");
         }
+
     }
 }

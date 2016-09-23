@@ -16,8 +16,6 @@ namespace Star_Dundee_WPF.Models
         int totalPackets;
         int totalChars;
 
-
-
         int dataRate;
         int errorRate;
         int packetRate;
@@ -87,10 +85,5 @@ namespace Star_Dundee_WPF.Models
             packets.Add(p);
 
         }
-
-
     }
-
-
-
 }

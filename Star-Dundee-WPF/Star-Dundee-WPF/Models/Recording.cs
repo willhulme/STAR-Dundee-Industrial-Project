@@ -10,15 +10,15 @@ namespace Star_Dundee_WPF.Models
     {
         public List<Port> ports { get; set; }
 
-        int numberOfPorts;
-        int totalErrors;
-        int totalPackets;
-        int totalCharacters;
+        public int numberOfPorts { get; set; }
+        int totalErrors { get; set; }
+        int totalPackets { get; set; }
+        int totalCharacters { get; set; }
 
-        int dataRate;
-        int errorRate;
-        int packetRate;
-		
+        int dataRate { get; set; }
+        int errorRate { get; set; }
+        int packetRate { get; set; }
+
         public void setPorts(List<Port> lp) {
             this.ports = lp;
         }

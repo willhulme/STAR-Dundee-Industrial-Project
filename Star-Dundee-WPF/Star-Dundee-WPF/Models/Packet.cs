@@ -83,10 +83,6 @@ namespace Star_Dundee_WPF.Models
                     this.errors = ErrorType.babblingIdiot;
                     break;
 
-                case "length":
-                    this.errors = ErrorType.length;
-                    break;
-
                 case "headercrc":
                     this.errors = ErrorType.crcHeader;
                     break;
@@ -111,7 +107,6 @@ namespace Star_Dundee_WPF.Models
         parity,
         crcHeader,
         crcData,
-        length,
         eep,
         timeout,
         babblingIdiot,

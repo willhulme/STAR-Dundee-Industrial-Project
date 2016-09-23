@@ -125,7 +125,7 @@ namespace SpaceWireUnitTests
 
         }
 		
-        [TestMethod]
+        /*[TestMethod]
         public void TestDataSplit2()
         {
             CRC8 crc = new CRC8();
@@ -154,7 +154,8 @@ namespace SpaceWireUnitTests
             Assert.AreEqual("00 00 13 61 7b", checkm8.testData);
             Assert.AreEqual(0, crc.Check(checkm8.testHeader));
             Assert.AreEqual(0, crc.Check(checkm8.testData));
-        }
+        }*/
+
 
         private static void initiateCheckmate(out List<Packet> list, out Checkmate checkm8, string cargo)
         {
@@ -172,7 +173,7 @@ namespace SpaceWireUnitTests
         public void TestCRC()
         {
             CRC8 crcTest = new CRC8();
-            Assert.AreEqual(0, crcTest.Check("fe 01 0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d"));
+            Assert.AreEqual(0, crcTest.Check("4c 01 7c 20 4a 00 20 00 00 01 00 00 00 00 04 db 00 00 11 cf 94"));
         }
     }
 }

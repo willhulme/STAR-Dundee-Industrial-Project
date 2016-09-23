@@ -63,10 +63,6 @@ namespace Star_Dundee_WPF.Models
             for (int i = 0; i < pBuffer.Length; i++)
             {
                 crc = RMAP_CRCTable[(byte)(crc ^ pBuffer[i])];
-                if (crc == 0 && i != pBuffer.Length)
-                {
-                    return -2;
-                }
             }
             return crc;
         }

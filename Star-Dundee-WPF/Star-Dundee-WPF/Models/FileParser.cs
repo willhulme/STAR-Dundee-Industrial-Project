@@ -103,10 +103,10 @@ namespace Star_Dundee_WPF
 
             for (int i = 0; i < theRecord.ports.Count; i++)
             {
-               
+
                 currentPacketTime = theRecord.ports[i].packets[theRecord.ports[i].packets.Count - 1].timestamp;
-                timeOfLastPacket.Add(currentPacketTime);            
-                
+                timeOfLastPacket.Add(currentPacketTime);
+
             }
 
             //sort list in descending order
@@ -152,11 +152,13 @@ namespace Star_Dundee_WPF
                 {
                     Packet packetToCheck = portToCheck.packets[packetCounter];
 
+                    int correctIndex = 0;
                     bool found = false;
 
                     while (found == false && timeStampCounter < overviewList.Count)
                     {
                         found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
+                        correctIndex = timeStampCounter;
                         timeStampCounter++;
                     }
 
@@ -174,6 +176,7 @@ namespace Star_Dundee_WPF
                         while (found == false && timeStampCounter < overviewList.Count)
                         {
                             found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
+                            correctIndex = timeStampCounter;
                             timeStampCounter++;
                         }
 
@@ -190,35 +193,35 @@ namespace Star_Dundee_WPF
                     switch (currentPort)
                     {
                         case 1:
-                            overviewList[timeStampCounter].Port1 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port1 = packetToCheck.errors.ToString();
                             break;
 
                         case 2:
-                            overviewList[timeStampCounter].Port2 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port2 = packetToCheck.errors.ToString();
                             break;
 
                         case 3:
-                            overviewList[timeStampCounter].Port3 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port3 = packetToCheck.errors.ToString();
                             break;
 
                         case 4:
-                            overviewList[timeStampCounter].Port4 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port4 = packetToCheck.errors.ToString();
                             break;
 
                         case 5:
-                            overviewList[timeStampCounter].Port5 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port5 = packetToCheck.errors.ToString();
                             break;
 
                         case 6:
-                            overviewList[timeStampCounter].Port6 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port6 = packetToCheck.errors.ToString();
                             break;
 
                         case 7:
-                            overviewList[timeStampCounter].Port7 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port7 = packetToCheck.errors.ToString();
                             break;
 
                         case 8:
-                            overviewList[timeStampCounter].Port8 = packetToCheck.errors.ToString();
+                            overviewList[correctIndex].Port8 = packetToCheck.errors.ToString();
                             break;
                     }
                 }
@@ -473,11 +476,7 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-
-
-            //This breaks things
-            //packets = crc_check.Check(packets);
-
+            packets = crc_check.Check(packets);
             return packets;
         }
 
@@ -492,7 +491,8 @@ namespace Star_Dundee_WPF
             {
                 isRmap = true;
             }
-            else {
+            else
+            {
                 isRmap = false;
             }
 

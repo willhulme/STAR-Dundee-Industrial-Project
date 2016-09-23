@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\OverviewTest.cs" />
+    <Compile Include="Models\Diagram.cs" />
     <Compile Include="Views\SpaceHome.xaml.cs">
       <DependentUpon>SpaceHome.xaml</DependentUpon>
     </Compile>

@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Star_Dundee_WPF.Models;
+using System.Collections.Generic;
+
 
 namespace SpaceWireUnitTests
 {
@@ -121,6 +123,56 @@ namespace SpaceWireUnitTests
             Assert.AreEqual(status, rmap.status);
             Assert.AreEqual(replyCRC, rmap.replyCRC);
 
+        }
+		
+        [TestMethod]
+        public void TestDataSplit2()
+        {
+            CRC8 crc = new CRC8();
+            string cargo = "fe 01 0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d";
+            List<Packet> list;
+            Checkmate checkm8;
+            initiateCheckmate(out list, out checkm8,cargo);
+            checkm8.Check(list);
+            Assert.AreEqual("fe 01 0d 00 fe 00 00 00 00 00 04 0e", checkm8.testHeader);
+            Assert.AreEqual("d9 4b d2 15 1d", checkm8.testData);
+            Assert.AreEqual(0,crc.Check(checkm8.testHeader));
+            Assert.AreEqual(0, crc.Check(checkm8.testData));
+
+        }
+
+        [TestMethod]
+        public void TestDataSplit()
+        {
+            CRC8 crc = new CRC8();
+            string cargo = "4c 01 7c 20 4a 00 01 00 00 01 00 00 00 00 04 30 00 00 13 61 7b";
+            List<Packet> list;
+            Checkmate checkm8;
+            initiateCheckmate(out list, out checkm8, cargo);
+            checkm8.Check(list);
+            Assert.AreEqual("4c 01 7c 20 4a 00 01 00 00 01 00 00 00 00 04 30", checkm8.testHeader);
+            Assert.AreEqual("00 00 13 61 7b", checkm8.testData);
+            Assert.AreEqual(0, crc.Check(checkm8.testHeader));
+            Assert.AreEqual(0, crc.Check(checkm8.testData));
+        }
+
+        private static void initiateCheckmate(out List<Packet> list, out Checkmate checkm8, string cargo)
+        {
+            
+            string[] dataPairs = cargo.Split(' ');
+            DateTime dt = DateTime.ParseExact("08-09-2016 16:59:59.985", "dd-MM-yyyy HH:mm:ss.fff", null);
+            Data data = new Data(dataPairs);
+            Packet packet = new Packet(dt, data);
+            list = new List<Packet>();
+            list.Add(packet);
+            checkm8 = new Checkmate();
+        }
+
+        [TestMethod]
+        public void TestCRC()
+        {
+            CRC8 crcTest = new CRC8();
+            Assert.AreEqual(0, crcTest.Check("fe 01 0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d"));
         }
     }
 }

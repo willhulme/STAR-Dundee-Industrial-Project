@@ -68,7 +68,7 @@ namespace Star_Dundee_WPF.Models
                     return -2;
                 }
             }
-            return 0;
+            return crc;
         }
     }
 }

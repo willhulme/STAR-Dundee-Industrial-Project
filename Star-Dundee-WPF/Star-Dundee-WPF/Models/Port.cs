@@ -15,6 +15,9 @@ namespace Star_Dundee_WPF.Models
         int totalErrors;
         int totalPackets;
         int totalChars;
+
+
+
         int dataRate;
         int errorRate;
         int packetRate;
@@ -31,27 +34,46 @@ namespace Star_Dundee_WPF.Models
             packets = new List<Packet>();
 
         }
+		
+        public int getTotalErrors() { return totalErrors; }
+        public int getTotalPackets(){ return totalPackets; }
+        public int getTotalChars()  { return totalChars; }
+        public DateTime getStart()  { return startTime; }
+        public List<Packet> getPackets() { return this.packets; }
+        public int getPortNumber() { return this.portNumber; }
+        public DateTime getEnd() { return this.stopTime; }
 
-
-        public DateTime getStart() {
-            return this.startTime;
-
+        public void setTotals() {
+            setPacketTotal();
+            setErrorTotal();
+            setTotalCharacters();
         }
 
-        public List<Packet> getPackets() {
-            return this.packets;
-
-        }
-
-
-        public int getPortNumber() {
-            return this.portNumber;
-        }
-
-        public DateTime getEnd()
+        public void setTotalCharacters()
         {
-            return this.stopTime;
+            int total = 0;
+            foreach (Packet p in packets)
+            {
+                total += p.getTotalChars();
+            }
+            totalChars = total;
 
+        }
+
+        public void setErrorTotal() {
+            int errorCount = 0;
+            foreach (Packet p in packets)
+            {
+                if (p.getErrorStatus())
+                {
+                    errorCount++;
+                }
+            }
+            totalErrors = errorCount;
+        }
+
+        public void setPacketTotal() {
+            totalPackets = packets.Count();
         }
 
 

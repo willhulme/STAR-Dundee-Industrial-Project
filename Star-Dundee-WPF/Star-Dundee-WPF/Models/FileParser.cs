@@ -11,18 +11,18 @@ namespace Star_Dundee_WPF
     {
         Recording theRecord;
         List<Port> thePorts;
+
         public List<OverviewTest> overviewList { get; set; }
+
         Port thePort;
         bool fileRead;
         Checkmate crc_check = new Checkmate();
         int currentPort;
 
-
         public void parse(string[] filePaths)
         {
             theRecord = new Recording();
             thePorts = new List<Port>();
-
 
             List<Packet> packets = new List<Packet>();
 
@@ -38,7 +38,6 @@ namespace Star_Dundee_WPF
                     string[] fileData = readFile(file);
                     packetData = parseFile(fileData);
                     packets = splitData(packetData);
-
 
                     //Call to find sequnce index of the data
                     Sequencer s = new Sequencer();
@@ -65,12 +64,22 @@ namespace Star_Dundee_WPF
                         //Error
                         Console.WriteLine("Broke");
                     }
+                    //Set and attach all data to current port object
                     thePort.setPackets(packets);
+                    thePort.setTotals();
                     thePorts.Add(thePort);
                 }
-                //printRecordData(thePorts);
+
+                //Attach all formatted data to the recording object
                 theRecord.setPorts(thePorts);
+                theRecord.calculateTotals();
+
                 buildOverview();
+
+
+                //print data for testing purposes
+               printRecordData(thePorts);
+
             }
             else
             {
@@ -233,10 +242,19 @@ namespace Star_Dundee_WPF
 
         public void printRecordData(List<Port> ports)
         {
-            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
+            string timeFormat= "dd-MM-yyyy HH:mm:ss.fff";
 
             int packetcount = 0;
             int currPort;
+
+            Console.WriteLine("PRINTING DATA\n");
+            Console.WriteLine("Recording Totals");
+            Console.WriteLine("Number of ports used : " + theRecord.getNumberOfPorts());
+            Console.WriteLine("Total Packets : " + theRecord.getTotalPackets());
+            Console.WriteLine("Total Errors : " + theRecord.getTotalErrors());
+            Console.WriteLine("Total Characters : " + theRecord.getTotalCharacters() + " Bytes");
+            Console.WriteLine("\n\n");
+
             foreach (Port thePort in ports)
             {
                 List<Packet> packets = thePort.getPackets();
@@ -244,10 +262,15 @@ namespace Star_Dundee_WPF
                 packetcount = 0;
 
                 Console.WriteLine("PRINTING DATA\n");
+
                 Console.WriteLine("Port Number : " + currPort);
                 Console.WriteLine("Starting Timestamp : " + thePort.getStart().ToString(timeFormat));
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
+
+				Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
+                Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
+                Console.WriteLine("Number of Characters : " + thePort.getTotalChars() + " Bytes");
 
                 Console.WriteLine("\n\n");
 
@@ -266,13 +289,26 @@ namespace Star_Dundee_WPF
                     }
 
                     Console.Write("\n");
-                    Console.WriteLine("Sequence Number : " + p.theData.getSeqNumber());
+
                     Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
+
+                    Console.Write("Sequence Number : ");
+                    string[] sequenceData = p.theData.getSeqNumber();
+
+                    foreach (string s in sequenceData)
+                    {
+                        Console.Write(s + " ");
+                    }
+                    Console.Write("\n");
+                    Console.WriteLine("Protocol ID : " + p.theData.getProtocol());
+
 
                     Console.WriteLine("Packet Address : " + p.theData.getAddress());
 
                     Console.WriteLine("Has Errors? : " + p.getErrorStatus());
                     Console.WriteLine("Error Type : " + p.getErrorType());
+
+                    Console.WriteLine("Characters : " + p.getTotalChars() + " Bytes");
 
                     Console.WriteLine("Packet Count : [Port " + currPort + "] " + packetcount);
 
@@ -377,6 +413,7 @@ namespace Star_Dundee_WPF
                         //newPacket.setError(false, "eep");
                     }
 
+                    newPacket.setTotalChars();
                     //Add to list of packets
                     packets.Add(newPacket);
 
@@ -394,26 +431,70 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-            packets = crc_check.Check(packets);
+
+           // packets = crc_check.Check(packets);
+
             return packets;
         }
 
         public void applySequenceNumbers(List<Packet> packets)
         {
-            foreach (Packet p in packets)
+            string [] prevSeq;
+            Packet p;
+            bool isRmap;
+            string protocolID = packets[0].getData().getProtocol();
+
+            if (protocolID.Equals("01"))
             {
+                isRmap = true;
+            }
+            else {
+                isRmap = false;
+            }
+
+            for(int i = 0;i<packets.Count();i++)
+            {
+                string[] sa;
+                p = packets[i];
                 //For each packet, add the sequence number to the objects, based on its index 
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
 
-                    //TODO - MATT
-                    //make work with sequence numbers on errored packet
-
+                    
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
-                    p.theData.setSeqNumber(seqNum);
+                    string prevByte = p.theData.getTheData()[index-1];
+                    if (isRmap)
+                    {
+                        string[] seqBytes = { prevByte, seqNum };
+                        sa = seqBytes;
+                    }
+                    else
+                    {
+                        string[] seqBytes = { seqNum };
+                        sa = seqBytes;
+                    }
+                        p.theData.setSeqNumber(sa);
                 }
+                else
+                {
+                    string prevByte = p.theData.getTheData()[(p.theData.getSeqIndex()) - 1];
+
+
+                    if (isRmap)
+                    {
+                        string[] seqBytes = { prevByte, "err" };
+                        sa = seqBytes;
+                    }
+                    else
+                    {
+                        string[] seqBytes = { "err" };
+                        sa = seqBytes;
+                    }
+                    p.theData.setSeqNumber(sa);
+                }
+                prevSeq = p.getData().getSeqNumber();
             }
             Console.WriteLine("\"\"");
         }

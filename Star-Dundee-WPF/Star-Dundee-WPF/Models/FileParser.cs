@@ -12,7 +12,7 @@ namespace Star_Dundee_WPF
         Recording theRecord;
         List<Port> thePorts;
 
-        public List<OverviewTest> overviewList { get; set; }
+        public List<GridColumn> overviewList { get; set; }
 
         Port thePort;
         bool fileRead;
@@ -78,7 +78,7 @@ namespace Star_Dundee_WPF
 
 
                 //print data for testing purposes
-                printRecordData(thePorts);
+                //printRecordData(thePorts);
                 buildOverview();
             }
             else
@@ -91,7 +91,7 @@ namespace Star_Dundee_WPF
         {
             //To help with the overview  
             string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
-            OverviewTest currentOverview = new OverviewTest();
+            GridColumn currentOverview = new GridColumn();
             DateTime currentTime = theRecord.ports[0].startTime;
             Console.WriteLine("Port Start Time: " + currentTime.ToString(timeFormat));
             int currentPort;
@@ -118,7 +118,7 @@ namespace Star_Dundee_WPF
             overviewSegments++;
 
             //Start to build the overview
-            overviewList = new List<OverviewTest>();
+            overviewList = new List<GridColumn>();
             currentOverview.Time = currentTime.ToString(timeFormat);
 
             for (int s = 0; s < overviewSegments; s++)
@@ -126,7 +126,7 @@ namespace Star_Dundee_WPF
                 currentOverview.Time = currentTime.ToString(timeFormat);
 
                 //Console.WriteLine("current overview time: " + currentOverview.Time);
-                overviewList.Add(new OverviewTest());
+                overviewList.Add(new GridColumn());
                 overviewList[s].Time = currentTime.ToString(timeFormat);
                 currentTime = currentTime.AddMilliseconds(1);
                 //Console.WriteLine("current time: " + currentTime.ToString(timeFormat));
@@ -139,18 +139,18 @@ namespace Star_Dundee_WPF
             //Reset current time
             currentTime = theRecord.ports[0].startTime;
             //For every packet in every port, update the overview                       
-            for (int j = 0; j < theRecord.ports.Count; j++)
+            for (int portCounter = 0; portCounter < theRecord.ports.Count; portCounter++)
             {
-                Port portToCheck = theRecord.ports[j];
+                Port portToCheck = theRecord.ports[portCounter];
 
-                Console.WriteLine("I'm in port " + (j + 1));
+                Console.WriteLine("I'm in port " + (portCounter + 1));
 
 
                 int timeStampCounter = 0;
 
-                for (int k = 0; k < portToCheck.packets.Count; k++)
+                for (int packetCounter = 0; packetCounter < portToCheck.packets.Count; packetCounter++)
                 {
-                    Packet packetToCheck = portToCheck.packets[k];
+                    Packet packetToCheck = portToCheck.packets[packetCounter];
 
                     bool found = false;
 
@@ -179,11 +179,13 @@ namespace Star_Dundee_WPF
 
                         timeStampCounter--;
 
-                        Console.WriteLine("This fucked up at port " + (j + 1) + ", packet " + k + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.timestamp.ToString(timeFormat));
+                        Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.timestamp.ToString(timeFormat));
                     }
 
                     //Get the port number and the error type and add it to the overview segment
-                    currentPort = theRecord.ports[j].portNumber;
+                    currentPort = theRecord.ports[portCounter].portNumber;
+
+                    overviewList[timeStampCounter].ports[portCounter] = packetToCheck.errors.ToString();
 
                     switch (currentPort)
                     {
@@ -222,8 +224,32 @@ namespace Star_Dundee_WPF
                 }
 
 
-                Console.WriteLine("Overview Segment Time: " + currentTime.ToString(timeFormat));
+                Console.WriteLine("Overview Segment Time: " + currentTime.ToString(timeFormat));              
+            }
 
+            checkColumns(timeFormat);
+        }
+
+        public void checkColumns(String timeFormat)
+        {
+            for(int i = 0; i < overviewList.Count; i++)
+            {
+                bool dataPresent = false;
+
+                for(int j = 0; j < 8; j++)
+                {
+                    if(overviewList[i].ports[j].Length > 0)
+                    {
+                        Console.WriteLine(overviewList[i].Time + "\t" + i + "\t" + j + "\t" + overviewList[i].ports[j] + "\t length: " + overviewList[i].ports[j].Length);
+                        dataPresent = true;
+                    }
+                }
+
+                if (!dataPresent)
+                {
+                    overviewList.Remove(overviewList[i]);
+                    i--;
+                }
             }
         }
 

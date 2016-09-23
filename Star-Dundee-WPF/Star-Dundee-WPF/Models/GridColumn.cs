@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Star_Dundee_WPF.Models
 {
-    class OverviewTest
+    class GridColumn
     {
         public String Time { get; set; }
+        public string[] ports;
         public String Port1 { get; set; }
         public String Port2 { get; set; }
         public String Port3 { get; set; }
@@ -18,9 +19,14 @@ namespace Star_Dundee_WPF.Models
         public String Port7 { get; set; }
         public String Port8 { get; set; }
 
-        public OverviewTest() {
+        public GridColumn() {
 
             Time = "";
+            ports = new string[8];
+            for(int i = 0; i < 8; i++)
+            {
+                ports[i] = "";
+            }
             Port1 = "";
             Port2 = "";
             Port3 = "";
@@ -33,7 +39,7 @@ namespace Star_Dundee_WPF.Models
 
         }
 
-        public OverviewTest(String time, String port1,
+        public GridColumn(String time, String port1,
             String port2, String port3, String port4, String port5,
             String port6, String port7, String port8)
         {
@@ -48,40 +54,40 @@ namespace Star_Dundee_WPF.Models
             this.Port8 = port8;
         }
 
-        public static List<OverviewTest> getSampleOverviewData()
+        public static List<GridColumn> getSampleOverviewData()
         {
-            return new List<OverviewTest>(new OverviewTest[16] {
-            new OverviewTest("14:27:54.245", "", "", "", "",
+            return new List<GridColumn>(new GridColumn[16] {
+            new GridColumn("14:27:54.245", "", "", "", "",
                 "", "", "", ""),                
-            new OverviewTest("14:27:54.250",  "", "No Error", "", "",
+            new GridColumn("14:27:54.250",  "", "No Error", "", "",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.255", "", "", "Disconnect", "",
+            new GridColumn("14:27:54.255", "", "", "Disconnect", "",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.260",  "", "", "", "Parity",
+            new GridColumn("14:27:54.260",  "", "", "", "Parity",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.265",  "", "", "", "",
+            new GridColumn("14:27:54.265",  "", "", "", "",
                 "CRC", "", "", ""),
-            new OverviewTest("14:27:54.270",  "", "", "", "",
+            new GridColumn("14:27:54.270",  "", "", "", "",
                 "", "EEP", "", ""),
-            new OverviewTest("14:27:54.275",  "", "", "", "",
+            new GridColumn("14:27:54.275",  "", "", "", "",
                 "", "", "Timeout", ""),
-            new OverviewTest("14:27:54.280",  "", "", "", "",
+            new GridColumn("14:27:54.280",  "", "", "", "",
                 "", "", "", "Babbling Idiot"),
-             new OverviewTest("14:27:54.285", "", "", "", "",
+             new GridColumn("14:27:54.285", "", "", "", "",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.290",  "", "No Error", "", "",
+            new GridColumn("14:27:54.290",  "", "No Error", "", "",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.295", "", "", "Disconnect", "",
+            new GridColumn("14:27:54.295", "", "", "Disconnect", "",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.300",  "", "", "", "Parity",
+            new GridColumn("14:27:54.300",  "", "", "", "Parity",
                 "", "", "", ""),
-            new OverviewTest("14:27:54.305",  "", "", "", "",
+            new GridColumn("14:27:54.305",  "", "", "", "",
                 "CRC", "", "", ""),
-            new OverviewTest("14:27:54.310",  "", "", "", "",
+            new GridColumn("14:27:54.310",  "", "", "", "",
                 "", "EEP", "", ""),
-            new OverviewTest("14:27:54.315",  "", "", "", "",
+            new GridColumn("14:27:54.315",  "", "", "", "",
                 "", "", "Timeout", ""),
-            new OverviewTest("14:27:54.320",  "", "", "", "",
+            new GridColumn("14:27:54.320",  "", "", "", "",
                 "", "", "", "Babbling Idiot")
 
 

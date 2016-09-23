@@ -103,10 +103,10 @@ namespace Star_Dundee_WPF
 
             for (int i = 0; i < theRecord.ports.Count; i++)
             {
-               
+
                 currentPacketTime = theRecord.ports[i].packets[theRecord.ports[i].packets.Count - 1].timestamp;
-                timeOfLastPacket.Add(currentPacketTime);            
-                
+                timeOfLastPacket.Add(currentPacketTime);
+
             }
 
             //sort list in descending order
@@ -447,7 +447,7 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-           packets = crc_check.Check(packets);
+            packets = crc_check.Check(packets);
             return packets;
         }
 
@@ -462,7 +462,8 @@ namespace Star_Dundee_WPF
             {
                 isRmap = true;
             }
-            else {
+            else
+            {
                 isRmap = false;
             }
 

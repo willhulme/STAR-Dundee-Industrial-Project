@@ -18,20 +18,29 @@ namespace Star_Dundee_WPF.Models
             {
                 string[] cargo = item.theData.getTheData();
                 string[] SplitCargo = RMAP.GetHeader(cargo);
-                if (!item.getErrorStatus())
+                if (SplitCargo.Length > 1)
                 {
-                    if (SplitCargo.Length > 1)
+                    string CargoHead = SplitCargo[0]; //HEADER
+                    string CargoData = SplitCargo[1]; //DATA
+                    int HeadResult = CRC.Check(CargoHead);
+                    int DataResult = CRC.Check(CargoData);
+                    if (HeadResult != 0)
                     {
-                        string CargoHead = SplitCargo[0]; //HEADER
-                        string CargoData = SplitCargo[1]; //DATA
-                        int HeadResult = CRC.Check(CargoHead);
-                        int DataResult = CRC.Check(CargoData);
+                        item.setError(true, "headercrc");
+                    }
+                    if (DataResult != 0)
+                    {
+                        item.setError(true, "datacrc");
                     }
                 }
                 else
                 {
                     string CargoHead = SplitCargo[0]; //HEADER
                     int HeadResult = CRC.Check(CargoHead);
+                    if (HeadResult != 0)
+                    {
+                        item.setError(true, "headercrc");
+                    }
                 }
             }
             return Packet;

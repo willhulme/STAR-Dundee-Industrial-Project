@@ -14,6 +14,7 @@ namespace Star_Dundee_WPF.Models.possible_new
         public int dataLength { get; set; }
         public char packetType { get; set; }
         public string packetMarkerType { get; set; }
+        public string protocol { get; set; }
 
         public Packet2()
         {

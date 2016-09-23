@@ -18,7 +18,7 @@ namespace Star_Dundee_WPF.Models
         public void parseFile(string[] filepaths)
         {
             CRC8 crc_check = new CRC8();
-            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test4/link2.rec"); //set up reader
+            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test6/link8.rec"); //set up reader
             //packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
             recordingTime = DateTime.ParseExact(r.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
             port = int.Parse(r.ReadLine()); //get port number
@@ -58,10 +58,14 @@ namespace Star_Dundee_WPF.Models
                 else
                 {
                     cargo = trimPathAddress(cargo);
-                    int i = crc_check.Check(cargo);
-                    if(i != 0)
+                    packet.protocol = GetProtocol(cargo);
+                    if (packet.protocol.Equals("RMAP"))
                     {
-                        packet.errorType = "CRC";
+                        int i = crc_check.Check(cargo);
+                        if (i != 0)
+                        {
+                            packet.errorType = "CRC";
+                        }
                     }
 
                 }
@@ -82,6 +86,33 @@ namespace Star_Dundee_WPF.Models
                 index++;
             }
             return String.Join(" ", charBytes.ToArray());
+        }
+
+        private static string GetProtocol(string cargo)
+        {
+            trimPathAddress(cargo);
+            string protocol;
+            int protocolNumber;
+            string[] characters = cargo.Split(' ');
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            protocolNumber = characterBytes[1];
+
+            switch(protocolNumber)
+            {
+                case 1:
+                    protocol = "RMAP";
+                    break;
+
+                case 250:
+                    protocol = "CUSTOM";
+                    break;
+
+                default:
+                    protocol = "UNACCOUNTED";
+                    break;
+            }
+
+            return protocol;
         }
     }
 }

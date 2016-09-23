@@ -450,11 +450,7 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-
-
-            //This breaks things
-            //packets = crc_check.Check(packets);
-
+           packets = crc_check.Check(packets);
             return packets;
         }
 

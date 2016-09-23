@@ -73,8 +73,8 @@ namespace Star_Dundee_WPF.Models
                 //Return
                 return -1;
             }
-
         }
+
         public void parseForAddress(List<int[]> theData, List<Packet> p)
         {
             for (int i = 0;i<theData.Count();i++)

@@ -74,12 +74,12 @@ namespace Star_Dundee_WPF
                 theRecord.setPorts(thePorts);
                 theRecord.calculateTotals();
 
-                buildOverview();
+
 
 
                 //print data for testing purposes
-               printRecordData(thePorts);
-
+                printRecordData(thePorts);
+                buildOverview();
             }
             else
             {
@@ -96,9 +96,25 @@ namespace Star_Dundee_WPF
             Console.WriteLine("Port Start Time: " + currentTime.ToString(timeFormat));
             int currentPort;
 
+            //Find the time of the last packet in each port
+            List<DateTime> timeOfLastPacket = new List<DateTime>();
+
+            DateTime currentPacketTime;
+
+            for (int i = 0; i < theRecord.ports.Count; i++)
+            {
+               
+                currentPacketTime = theRecord.ports[i].packets[theRecord.ports[i].packets.Count - 1].timestamp;
+                timeOfLastPacket.Add(currentPacketTime);            
+                
+            }
+
+            //sort list in descending order
+            timeOfLastPacket.Sort((a, b) => b.CompareTo(a));
+            timeOfLastPacket[0] = timeOfLastPacket[0].AddMilliseconds(5);
 
             //Get how many overview segments we need           
-            double overviewSegments = (theRecord.ports[0].stopTime - theRecord.ports[0].startTime).TotalMilliseconds;
+            double overviewSegments = (timeOfLastPacket[0] - theRecord.ports[0].startTime).TotalMilliseconds;
             overviewSegments++;
 
             //Start to build the overview
@@ -242,7 +258,7 @@ namespace Star_Dundee_WPF
 
         public void printRecordData(List<Port> ports)
         {
-            string timeFormat= "dd-MM-yyyy HH:mm:ss.fff";
+            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
 
             int packetcount = 0;
             int currPort;
@@ -268,7 +284,7 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
 
-				Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
+                Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
                 Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
                 Console.WriteLine("Number of Characters : " + thePort.getTotalChars() + " Bytes");
 
@@ -431,15 +447,13 @@ namespace Star_Dundee_WPF
                     }
                 }
             }
-
            packets = crc_check.Check(packets);
-
             return packets;
         }
 
         public void applySequenceNumbers(List<Packet> packets)
         {
-            string [] prevSeq;
+            string[] prevSeq = null; ;
             Packet p;
             bool isRmap;
             string protocolID = packets[0].getData().getProtocol();
@@ -452,7 +466,7 @@ namespace Star_Dundee_WPF
                 isRmap = false;
             }
 
-            for(int i = 0;i<packets.Count();i++)
+            for (int i = 0; i < packets.Count(); i++)
             {
                 string[] sa;
                 p = packets[i];
@@ -460,11 +474,9 @@ namespace Star_Dundee_WPF
                 //If packet has no error or sequence error
                 if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
                 {
-
-                    
                     int index = p.theData.getSeqIndex();
                     string seqNum = p.theData.getTheData()[index];
-                    string prevByte = p.theData.getTheData()[index-1];
+                    string prevByte = p.theData.getTheData()[index - 1];
                     if (isRmap)
                     {
                         string[] seqBytes = { prevByte, seqNum };
@@ -475,12 +487,11 @@ namespace Star_Dundee_WPF
                         string[] seqBytes = { seqNum };
                         sa = seqBytes;
                     }
-                        p.theData.setSeqNumber(sa);
+                    p.theData.setSeqNumber(sa);
                 }
                 else
                 {
                     string prevByte = p.theData.getTheData()[(p.theData.getSeqIndex()) - 1];
-
 
                     if (isRmap)
                     {
@@ -498,5 +509,6 @@ namespace Star_Dundee_WPF
             }
             Console.WriteLine("\"\"");
         }
+
     }
 }

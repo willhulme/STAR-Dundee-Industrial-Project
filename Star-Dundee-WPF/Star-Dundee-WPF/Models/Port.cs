@@ -12,11 +12,9 @@ namespace Star_Dundee_WPF.Models
         public DateTime startTime { get; set; }
         public DateTime stopTime { get; set; }
         public List<Packet> packets { get; set; }
-        int totalErrors;
-        int totalPackets;
-        int totalChars;
-
-
+        int totalErrors { get; set; }
+        int totalPackets { get; set; }
+        int totalChars { get; set; }
 
         int dataRate;
         int errorRate;
@@ -87,10 +85,5 @@ namespace Star_Dundee_WPF.Models
             packets.Add(p);
 
         }
-
-
     }
-
-
-
 }

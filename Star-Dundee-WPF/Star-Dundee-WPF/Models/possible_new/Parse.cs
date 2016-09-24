@@ -63,7 +63,7 @@ namespace Star_Dundee_WPF.Models
                 }
                 else //if the packet seems to be fine. lets do a crc check on it
                 {
-                    cargo = trimPathAddress(cargo); //trim the path address off it at the start
+                    //cargo = trimPathAddress(cargo); //trim the path address off it at the start
                     packet.protocol = GetProtocol(cargo); //get the protocol of the packet
                     if (packet.protocol.Equals("RMAP")) //if it is rmap
                     {

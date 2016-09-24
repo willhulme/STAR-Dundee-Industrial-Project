@@ -186,13 +186,23 @@ namespace SpaceWireUnitTests
         }
 
         [TestMethod]
-        public void TestRate()
+        public void TestDataRate()
         {
             Parse parser = new Parse();
             string[] array = new string[1];
             List<Packet2> packets = parser.parseFile(array);
             RateCalculator RateCalculator = new RateCalculator();
             RateCalculator.CalculateDataRate(packets);
+        }
+
+        [TestMethod]
+        public void TestPacketRate()
+        {
+            Parse parser = new Parse();
+            string[] array = new string[1];
+            List<Packet2> packets = parser.parseFile(array);
+            RateCalculator RateCalculator = new RateCalculator();
+            RateCalculator.CalculatePacketRate(packets);
         }
     }
 }

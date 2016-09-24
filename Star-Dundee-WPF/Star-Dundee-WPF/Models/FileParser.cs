@@ -9,259 +9,32 @@ namespace Star_Dundee_WPF
 {
     class FileParser
     {
-        Recording theRecord;
-        List<Port> thePorts;
 
-        public List<GridColumn> overviewList { get; set; }
+        private Port currentPort;
 
-        Port thePort;
-        bool fileRead;
-        Checkmate crc_check = new Checkmate();
-        int currentPort;
-
-        public void parse(string[] filePaths)
+        public void startParsing(string[] filePaths)
         {
-            theRecord = new Recording();
-            thePorts = new List<Port>();
-
-            List<Packet> packets = new List<Packet>();
-
-            //Check timestamps match and files actually exist
-            if (checkTimeStamps(filePaths))
+            if (filesExistAndMatch(filePaths))
             {
-                //For every file selected
-                foreach (string file in filePaths)
+                foreach(string currentFile in filePaths)
                 {
-                    List<string> packetData;
+                    Console.WriteLine("Reading File............");
+                    string[] fileInformation = System.IO.File.ReadAllLines(currentFile);
+                    Console.WriteLine("File Reading Complete");
 
-                    //Read file into string array, parse & split
-                    string[] fileData = readFile(file);
-                    packetData = parseFile(fileData);
-                    packets = splitData(packetData);
-
-                    //Call to find sequnce index of the data
-                    Sequencer s = new Sequencer();
-                    int seqIndex = s.findSequence(packets);
-
-                    //If a non-error value is returned
-                    if (seqIndex >= 0)
-                    {
-                        // For each packet
-                        foreach (Packet p in packets)
-                        {
-                            //Set the index to the actual data objects
-                            p.theData.setSeqIndex(seqIndex);
-                        }
-                        applySequenceNumbers(packets);
-                    }
-                    else if (seqIndex == -1 || seqIndex == -2)
-                    {
-                        //No sequence number Identifiable
-                        Console.WriteLine("NO SEQUENCE NUMBER IDENTIFIABLE");
-                    }
-                    else
-                    {
-                        //Error
-                        Console.WriteLine("Broke");
-                    }
-                    //Set and attach all data to current port object
-                    thePort.setPackets(packets);
-                    thePort.setTotals();
-                    thePorts.Add(thePort);
-                }
-
-                //Attach all formatted data to the recording object
-                theRecord.setPorts(thePorts);
-                theRecord.calculateTotals();
-
-
-
-
-                //print data for testing purposes
-                //printRecordData(thePorts);
-                buildOverview();
-            }
-            else
-            {
-                Console.WriteLine("Error reading file(s) - please try again");
-            }
-        }
-
-        private void buildOverview()
-        {
-            //To help with the overview  
-            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
-            GridColumn currentOverview = new GridColumn();
-            DateTime currentTime = theRecord.ports[0].startTime;
-            Console.WriteLine("Port Start Time: " + currentTime.ToString(timeFormat));
-            int currentPort;
-
-            //Find the time of the last packet in each port
-            List<DateTime> timeOfLastPacket = new List<DateTime>();
-
-            DateTime currentPacketTime;
-
-            for (int i = 0; i < theRecord.ports.Count; i++)
-            {
-
-                currentPacketTime = theRecord.ports[i].packets[theRecord.ports[i].packets.Count - 1].timestamp;
-                timeOfLastPacket.Add(currentPacketTime);
-
-            }
-
-            //sort list in descending order
-            timeOfLastPacket.Sort((a, b) => b.CompareTo(a));
-            timeOfLastPacket[0] = timeOfLastPacket[0].AddMilliseconds(5);
-
-            //Get how many overview segments we need           
-            double overviewSegments = (timeOfLastPacket[0] - theRecord.ports[0].startTime).TotalMilliseconds;
-            overviewSegments++;
-
-            //Start to build the overview
-            overviewList = new List<GridColumn>();
-            currentOverview.Time = currentTime.ToString(timeFormat);
-
-            for (int s = 0; s < overviewSegments; s++)
-            {
-                currentOverview.Time = currentTime.ToString(timeFormat);
-
-                //Console.WriteLine("current overview time: " + currentOverview.Time);
-                overviewList.Add(new GridColumn());
-                overviewList[s].Time = currentTime.ToString(timeFormat);
-                currentTime = currentTime.AddMilliseconds(1);
-                //Console.WriteLine("current time: " + currentTime.ToString(timeFormat));
-            }
-
-            Console.WriteLine("Overview Segments: " + overviewSegments);
-            Console.WriteLine("Stoptime: " + theRecord.ports[0].stopTime.ToString(timeFormat));
-            Console.WriteLine("start time: " + theRecord.ports[0].startTime.ToString(timeFormat));
-
-            //Reset current time
-            currentTime = theRecord.ports[0].startTime;
-            //For every packet in every port, update the overview                       
-            for (int portCounter = 0; portCounter < theRecord.ports.Count; portCounter++)
-            {
-                Port portToCheck = theRecord.ports[portCounter];
-
-                Console.WriteLine("I'm in port " + (portCounter + 1));
-
-
-                int timeStampCounter = 0;
-
-                for (int packetCounter = 0; packetCounter < portToCheck.packets.Count; packetCounter++)
-                {
-                    Packet packetToCheck = portToCheck.packets[packetCounter];
-
-                    int correctIndex = 0;
-                    bool found = false;
-
-                    while (found == false && timeStampCounter < overviewList.Count)
-                    {
-                        found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
-                        correctIndex = timeStampCounter;
-                        timeStampCounter++;
-                    }
-
-                    //int value1 = overviewList.FindIndex(
-                    //    delegate (OverviewTest ovTest)
-                    //    {
-                    //        return ovTest.Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal);
-                    //    }
-                    //    );
-
-                    if (!found)
-                    {
-                        timeStampCounter = 0;
-
-                        while (found == false && timeStampCounter < overviewList.Count)
-                        {
-                            found = (overviewList[timeStampCounter].Time.Equals(packetToCheck.timestamp.ToString(timeFormat), StringComparison.Ordinal));
-                            correctIndex = timeStampCounter;
-                            timeStampCounter++;
-                        }
-
-                        timeStampCounter--;
-
-                        Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.timestamp.ToString(timeFormat));
-                    }
-
-                    //Get the port number and the error type and add it to the overview segment
-                    currentPort = theRecord.ports[portCounter].portNumber;
-
-                    overviewList[timeStampCounter].ports[portCounter] = packetToCheck.errors.ToString();
-
-                    switch (currentPort)
-                    {
-                        case 1:
-                            overviewList[correctIndex].Port1 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 2:
-                            overviewList[correctIndex].Port2 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 3:
-                            overviewList[correctIndex].Port3 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 4:
-                            overviewList[correctIndex].Port4 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 5:
-                            overviewList[correctIndex].Port5 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 6:
-                            overviewList[correctIndex].Port6 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 7:
-                            overviewList[correctIndex].Port7 = packetToCheck.errors.ToString();
-                            break;
-
-                        case 8:
-                            overviewList[correctIndex].Port8 = packetToCheck.errors.ToString();
-                            break;
-                    }
-                }
-
-
-                Console.WriteLine("Overview Segment Time: " + currentTime.ToString(timeFormat));              
-            }
-
-            checkColumns(timeFormat);
-        }
-
-        public void checkColumns(String timeFormat)
-        {
-            for(int i = 0; i < overviewList.Count; i++)
-            {
-                bool dataPresent = false;
-
-                for(int j = 0; j < 8; j++)
-                {
-                    if(overviewList[i].ports[j].Length > 0)
-                    {
-                        Console.WriteLine(overviewList[i].Time + "\t" + i + "\t" + j + "\t" + overviewList[i].ports[j] + "\t length: " + overviewList[i].ports[j].Length);
-                        dataPresent = true;
-                    }
-                }
-
-                if (!dataPresent)
-                {
-                    overviewList.Remove(overviewList[i]);
-                    i--;
+                    string[] packetsData = splitFileIntoPackets(fileInformation);
                 }
             }
         }
 
-        public bool checkTimeStamps(string[] filePaths)
+        public bool filesExistAndMatch(string[] filePaths)
         {
             string[] startTimes = new string[filePaths.Length];
 
-            for (int i = 0; i < filePaths.Length; i++)
+            for(int i = 0; i < filePaths.Length; i++)
             {
+                Console.WriteLine("Checking file " + (i + 1));
+
                 if (System.IO.File.Exists(filePaths[i]))
                 {
                     System.IO.StreamReader currentFile = new System.IO.StreamReader(filePaths[i]);
@@ -273,10 +46,15 @@ namespace Star_Dundee_WPF
                 }
             }
 
+            return timeStampsMatch(startTimes);
+        }
+
+        public bool timeStampsMatch(string[] startTimes)
+        {
             bool matchingStamps = true;
             int counter = 0;
 
-            while (matchingStamps && counter < startTimes.Length - 1)
+            while(matchingStamps && counter < startTimes.Length)
             {
                 matchingStamps = startTimes[counter].Equals(startTimes[counter + 1]);
                 counter++;
@@ -285,259 +63,25 @@ namespace Star_Dundee_WPF
             return matchingStamps;
         }
 
-        public void printRecordData(List<Port> ports)
+        public string[] splitFileIntoPackets(string[] linesInFile)
         {
-            string timeFormat = "dd-MM-yyyy HH:mm:ss.fff";
+            DateTime startTimeStamp = new DateTime();
+            DateTime endTimeStamp = new DateTime();
 
-            int packetcount = 0;
-            int currPort;
+            startTimeStamp = DateTime.Parse(linesInFile[0]);
+            int portNumber = Convert.ToInt32(linesInFile[1]);
+            endTimeStamp = DateTime.Parse(linesInFile[linesInFile.Length - 1]);
 
-            Console.WriteLine("PRINTING DATA\n");
-            Console.WriteLine("Recording Totals");
-            Console.WriteLine("Number of ports used : " + theRecord.getNumberOfPorts());
-            Console.WriteLine("Total Packets : " + theRecord.getTotalPackets());
-            Console.WriteLine("Total Errors : " + theRecord.getTotalErrors());
-            Console.WriteLine("Total Characters : " + theRecord.getTotalCharacters() + " Bytes");
-            Console.WriteLine("\n\n");
+            currentPort = new Port(portNumber, startTimeStamp, endTimeStamp);
 
-            foreach (Port thePort in ports)
-            {
-                List<Packet> packets = thePort.getPackets();
-                currPort = thePort.getPortNumber();
-                packetcount = 0;
-
-                Console.WriteLine("PRINTING DATA\n");
-
-                Console.WriteLine("Port Number : " + currPort);
-                Console.WriteLine("Starting Timestamp : " + thePort.getStart().ToString(timeFormat));
-
-                Console.WriteLine("Ending Timestamp : " + thePort.getEnd().ToString(timeFormat));
-
-                Console.WriteLine("Number of Packets : " + thePort.getTotalPackets());
-                Console.WriteLine("Number of Errors : " + thePort.getTotalErrors());
-                Console.WriteLine("Number of Characters : " + thePort.getTotalChars() + " Bytes");
-
-                Console.WriteLine("\n\n");
-
-                foreach (Packet p in packets)
-                {
-                    packetcount++;
-
-                    Console.WriteLine("TimeStamp : " + p.getTimestamp().ToString(timeFormat));
-
-                    string[] stringData = p.theData.getTheData();
-                    Console.Write("DataString : ");
-
-                    foreach (string s in stringData)
-                    {
-                        Console.Write(s + " ");
-                    }
-
-                    Console.Write("\n");
-
-                    Console.WriteLine("Sequence Index : " + p.theData.getSeqIndex());
-
-                    Console.Write("Sequence Number : ");
-                    string[] sequenceData = p.theData.getSeqNumber();
-
-                    foreach (string s in sequenceData)
-                    {
-                        Console.Write(s + " ");
-                    }
-                    Console.Write("\n");
-                    Console.WriteLine("Protocol ID : " + p.theData.getProtocol());
-
-
-                    Console.WriteLine("Packet Address : " + p.theData.getAddress());
-
-                    Console.WriteLine("Has Errors? : " + p.getErrorStatus());
-                    Console.WriteLine("Error Type : " + p.getErrorType());
-
-                    Console.WriteLine("Characters : " + p.getTotalChars() + " Bytes");
-
-                    Console.WriteLine("Packet Count : [Port " + currPort + "] " + packetcount);
-
-                    Console.WriteLine(" ");
-                }
-
-                Console.WriteLine(" ");
-
-            }
-        }
-
-        public string[] readFile(string dir)
-        {
-
-            Console.WriteLine("Reading......");
-
-            //read file into string array
-            string[] lineInFile = System.IO.File.ReadAllLines(dir);
-
-            Console.WriteLine("Reading Complete");
-
-            return lineInFile;
-
-        }
-
-        public List<string> parseFile(string[] lineInFile)
-        {
-            //Isolate start and end timestamps for recording as well as port number
-            string startTimeStamp = lineInFile[0];
-            string endTimeStamp = lineInFile[lineInFile.Length - 1];
-            int portNumber = Convert.ToInt32(lineInFile[1]);
-            currentPort = portNumber;
-
-            //Store isolated data in necessary data types
-            DateTime start = new DateTime();
-            start = DateTime.Parse(startTimeStamp);
-            DateTime end = new DateTime();
-            end = DateTime.Parse(endTimeStamp);
-            thePort = new Port(portNumber, start, end);
-
-            List<string> currentPackets = new List<string>();
+            List<string> packetsInFile = new List<string>();
             string currentPacket = "";
 
-            //Loop through remainder of the file data
-            for (int i = 2; i < lineInFile.Length - 1; i++)
+            for(int i = 2; i < linesInFile.Length -1; i++)
             {
-                //Check for an empty line
-                if (lineInFile[i].Equals(""))
-                {
-                    //Check if concatenated string is not empty
-                    if (!currentPacket.Equals(""))
-                    {
-                        //Add data to list of packet data strings and blank placeholder string
-                        currentPackets.Add(currentPacket);
-                        currentPacket = "";
-                    }
-                }
-                else
-                {
-                    //Add line to placeholder followed by a delimiter
-                    currentPacket += lineInFile[i] + "*";
-                }
-            }
-            return currentPackets;
-        }
-
-        public List<Packet> splitData(List<string> currentPackets)
-        {
-            List<Packet> packets = new List<Packet>();
-            int packetCount = 0;
-
-            //Loop through all packet data stored in strings 
-            foreach (string packetString in currentPackets)
-            {
-                //Split the string at the * delimiter character
-                string[] packetData = packetString.Split('*');
-
-                //If the data is a packet
-                if (packetData[1].Equals("P"))
-                {
-                    //Store timestamp
-                    DateTime packetTimeStamp = DateTime.Parse(packetData[0]);
-
-                    //Split data string into an array of strings, each string representing a 1 byte hex value
-                    string[] dataPairs = packetData[2].Split(' ');
-
-                    //Create new data objects for the extracted data
-                    Data newData = new Data(dataPairs);
-                    Packet newPacket = new Packet(packetTimeStamp, newData);
-
-                    if (packetData[3].Equals("EOP"))
-                    {
-                        newPacket.setError(false, "noError");
-                    }
-                    else if (packetData[3].Equals("EEP"))
-                    {
-                        newPacket.setError(true, "eep");
-                    }
-                    else if (packetData[3].Equals("None"))
-                    {
-                        Console.Write("");
-                        //newPacket.setError(false, "eep");
-                    }
-
-                    newPacket.setTotalChars();
-                    //Add to list of packets
-                    packets.Add(newPacket);
-
-                    //increment packet count
-                    packetCount++;
-                }
-                else if (packetData[1].Equals("E"))
-                {
-                    //Disconnect or parity
-                    string errorType = packetData[2].ToLower();
-
-                    if (packets[packetCount - 1].getErrorType() == ErrorType.noError)
-                    {
-                        packets[packetCount - 1].setError(true, errorType);
-                    }
-                }
-            }
-            packets = crc_check.Check(packets);
-            return packets;
-        }
-
-        public void applySequenceNumbers(List<Packet> packets)
-        {
-            string[] prevSeq = null; ;
-            Packet p;
-            bool isRmap;
-            string protocolID = packets[0].getData().getProtocol();
-
-            if (protocolID.Equals("01"))
-            {
-                isRmap = true;
-            }
-            else
-            {
-                isRmap = false;
+                if(linesInFile[[i].equals)
             }
 
-            for (int i = 0; i < packets.Count(); i++)
-            {
-                string[] sa;
-                p = packets[i];
-                //For each packet, add the sequence number to the objects, based on its index 
-                //If packet has no error or sequence error
-                if (!p.getErrorStatus() || (p.getErrorStatus() && (p.getErrorType() == ErrorType.sequence || p.getErrorType() == ErrorType.babblingIdiot)))
-                {
-                    int index = p.theData.getSeqIndex();
-                    string seqNum = p.theData.getTheData()[index];
-                    string prevByte = p.theData.getTheData()[index - 1];
-                    if (isRmap)
-                    {
-                        string[] seqBytes = { prevByte, seqNum };
-                        sa = seqBytes;
-                    }
-                    else
-                    {
-                        string[] seqBytes = { seqNum };
-                        sa = seqBytes;
-                    }
-                    p.theData.setSeqNumber(sa);
-                }
-                else
-                {
-                    string prevByte = p.theData.getTheData()[(p.theData.getSeqIndex()) - 1];
-
-                    if (isRmap)
-                    {
-                        string[] seqBytes = { prevByte, "err" };
-                        sa = seqBytes;
-                    }
-                    else
-                    {
-                        string[] seqBytes = { "err" };
-                        sa = seqBytes;
-                    }
-                    p.theData.setSeqNumber(sa);
-                }
-                prevSeq = p.getData().getSeqNumber();
-            }
-            Console.WriteLine("\"\"");
         }
 
     }

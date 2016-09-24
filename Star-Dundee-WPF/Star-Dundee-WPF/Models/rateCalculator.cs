@@ -22,9 +22,9 @@ namespace Star_Dundee_WPF.Models
             this.packets = packets;
         }
 
-        public Tuple<DateTime,float> CalculateDataRate(List<Packet2> packets)
+        /*public Tuple<DateTime,float> CalculateDataRate(List<Packet2> packets)
         {
 
-        }
+        }*/
     }
 }

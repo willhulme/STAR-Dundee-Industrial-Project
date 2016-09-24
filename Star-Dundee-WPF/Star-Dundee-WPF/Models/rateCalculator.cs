@@ -11,7 +11,7 @@ namespace Star_Dundee_WPF.Models
     {
         int port;
         List<Packet2> packets;
-        List<Tuple<DateTime, decimal>> rate;
+        //List<Tuple<DateTime, decimal>> rate;
         public RateCalculator ()
         {
 
@@ -22,10 +22,9 @@ namespace Star_Dundee_WPF.Models
             this.packets = packets;
         }
 
-        //public Tuple<DateTime,float> CalculateDataRate(List<Packet2> packets)
-        public void CalculateDataRate(List<Packet2> packets)
+        public List<Tuple<DateTime,decimal>> CalculateDataRate(List<Packet2> packets)
         {
-            rate = new List<Tuple<DateTime, decimal>>();
+            List<Tuple<DateTime, decimal>> rate = new List<Tuple<DateTime, decimal>>();
             if(packets.Count < 100)
             {
                 for(int i = 0; i < packets.Count-1; i++)
@@ -49,7 +48,7 @@ namespace Star_Dundee_WPF.Models
                         totalLength += packets[j].dataLength;
                         packetsAhead = j-i;
                     }
-                    Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
+                    Tuple<DateTime, decimal> timeAndRate; 
                     TimeSpan difference = (packets[i + packetsAhead].timeStamp - packets[i].timeStamp);
                     decimal kiloBytesPerSecond = (decimal)(((double)totalLength/ difference.TotalSeconds) / 1000);
                     timeAndRate = new Tuple<DateTime, decimal>(packets[i].timeStamp, kiloBytesPerSecond);
@@ -68,7 +67,7 @@ namespace Star_Dundee_WPF.Models
                         totalLength += packets[j].dataLength;
                         packetsAhead = j - i;
                     }
-                    Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
+                    Tuple<DateTime, decimal> timeAndRate; 
                     TimeSpan difference = (packets[i + packetsAhead].timeStamp - packets[i].timeStamp);
                     decimal kiloBytesPerSecond = (decimal)(((double)totalLength / difference.TotalSeconds) / 1000);
                     timeAndRate = new Tuple<DateTime, decimal>(packets[i].timeStamp, kiloBytesPerSecond);
@@ -87,13 +86,14 @@ namespace Star_Dundee_WPF.Models
                         totalLength += packets[j].dataLength;
                         packetsAhead = j - i;
                     }
-                    Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
+                    Tuple<DateTime, decimal> timeAndRate; 
                     TimeSpan difference = (packets[i + packetsAhead].timeStamp - packets[i].timeStamp);
                     decimal kiloBytesPerSecond = (decimal)(((double)totalLength / difference.TotalSeconds) / 1000);
                     timeAndRate = new Tuple<DateTime, decimal>(packets[i].timeStamp, kiloBytesPerSecond);
                     rate.Add(timeAndRate);
                 }
             }
+            return rate;
         }
     }
 }

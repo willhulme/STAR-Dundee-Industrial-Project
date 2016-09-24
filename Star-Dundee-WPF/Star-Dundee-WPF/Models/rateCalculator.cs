@@ -95,5 +95,12 @@ namespace Star_Dundee_WPF.Models
             }
             return rate;
         }
+
+        public decimal CalculatePacketRate(List<Packet2> packets)
+        {
+                TimeSpan difference = (packets[packets.Count-1].timeStamp - packets[0].timeStamp);
+                decimal packetsPerSecond = (decimal)(((double)packets.Count / difference.TotalSeconds));
+                return packetsPerSecond;
+        }
     }
 }

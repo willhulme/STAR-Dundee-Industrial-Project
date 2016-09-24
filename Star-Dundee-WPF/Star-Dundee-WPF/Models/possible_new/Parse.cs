@@ -18,7 +18,7 @@ namespace Star_Dundee_WPF.Models
         public void parseFile(string[] filepaths)
         {
             CRC8 crc_check = new CRC8();
-            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test6/link8.rec"); //set up reader
+            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test6/link5.rec"); //set up reader
             //packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
             recordingTime = DateTime.ParseExact(r.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
             port = int.Parse(r.ReadLine()); //get port number
@@ -26,7 +26,7 @@ namespace Star_Dundee_WPF.Models
 
             while ((line = r.ReadLine()) != null) //start of packets
             {
-                Packet2 packet = new Packet2();
+                Packet2 packet = new Packet2(); //  
                 packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
                 Console.WriteLine(packet.timeStamp);
                 line = r.ReadLine();
@@ -82,7 +82,7 @@ namespace Star_Dundee_WPF.Models
             int index = 0;
             while(characterBytes[index] < 32)
             {
-                charBytes.RemoveAt(index);
+                charBytes.RemoveAt(0);
                 index++;
             }
             return String.Join(" ", charBytes.ToArray());
@@ -90,7 +90,7 @@ namespace Star_Dundee_WPF.Models
 
         private static string GetProtocol(string cargo)
         {
-            trimPathAddress(cargo);
+            cargo = trimPathAddress(cargo);
             string protocol;
             int protocolNumber;
             string[] characters = cargo.Split(' ');

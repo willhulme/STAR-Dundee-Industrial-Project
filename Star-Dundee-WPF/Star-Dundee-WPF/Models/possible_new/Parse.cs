@@ -18,7 +18,9 @@ namespace Star_Dundee_WPF.Models
         public List<Packet2> parseFile(string[] filepaths)
         {
             CRC8 crc_check = new CRC8();
+
             StreamReader streamReader = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test1/link1.rec"); //set up reader
+==
             //packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
             recordingTime = DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
             port = int.Parse(streamReader.ReadLine()); //get port number

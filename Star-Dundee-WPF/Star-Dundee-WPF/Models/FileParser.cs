@@ -83,6 +83,7 @@ namespace Star_Dundee_WPF
                     Packet currentPacket = new Packet();
 
                     string timeStamp = streamReader.ReadLine();
+                    Console.WriteLine("time: " + timeStamp);
                     
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
 
@@ -94,9 +95,15 @@ namespace Star_Dundee_WPF
                     }
                     string cargo = streamReader.ReadLine();
                     currentPacket.setDataArray(cargo.Split(' '));
-                    currentPacket.setPacketMarkerType(streamReader.ReadLine());
 
-                    if (currentPacket.getPacketType().Equals("E"))
+                    string packetMarkerType = streamReader.ReadLine();
+
+                    if(packetMarkerType != "")
+                    {
+                        currentPacket.setPacketMarkerType(packetMarkerType);
+                    }
+
+                    if (currentPacket.getPacketType().Equals('E'))
                     {
                         currentPacket.setErrorType(currentPacket.getDataArray()[0]);
                     }

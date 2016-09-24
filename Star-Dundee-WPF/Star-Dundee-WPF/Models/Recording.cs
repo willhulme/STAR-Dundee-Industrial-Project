@@ -9,8 +9,7 @@ namespace Star_Dundee_WPF.Models
     class Recording
     {
         public List<Port> ports { get; set; }
-
-        public int numberOfPorts { get; set; }
+        
         int totalErrors { get; set; }
         int totalPackets { get; set; }
         int totalCharacters { get; set; }
@@ -26,7 +25,7 @@ namespace Star_Dundee_WPF.Models
         public int getTotalErrors() { return totalErrors; }
         public int getTotalPackets() { return totalPackets; }
         public int getTotalCharacters() { return totalCharacters; }
-        public int getNumberOfPorts() { return numberOfPorts; }
+        public int getNumberOfPorts() { return ports.Count; }
 
         public int getdataRate() { return dataRate; }
         public int getErrorRate() { return errorRate; }
@@ -35,11 +34,10 @@ namespace Star_Dundee_WPF.Models
 
         public void calculateTotals()
         {
-            numberOfPorts = ports.Count();
-
             int errTot =0;
             int packTot =0;
             int charTot =0;
+
             foreach (Port p in ports)
             {
                 errTot += p.getTotalErrors();
@@ -50,6 +48,21 @@ namespace Star_Dundee_WPF.Models
             totalCharacters = charTot;
             totalErrors = errTot;
             totalPackets = packTot;
+        }
+
+        public void addPort(Port newPort)
+        {
+            ports.Add(newPort);
+        }
+
+        public Port getPort(int index)
+        {
+            return ports[index];
+        }
+
+        public List<Port> getPorts()
+        {
+            return ports;
         }
     }
 }

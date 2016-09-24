@@ -1,6 +1,7 @@
 ﻿using Star_Dundee_WPF.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,20 +11,21 @@ namespace Star_Dundee_WPF
     class FileParser
     {
 
-        private Port currentPort;
+        private Recording mainRecording;
+        private List<GridColumn> listOfColumns;
 
         public void startParsing(string[] filePaths)
         {
             if (filesExistAndMatch(filePaths))
             {
-                foreach(string currentFile in filePaths)
-                {
-                    Console.WriteLine("Reading File............");
-                    string[] fileInformation = System.IO.File.ReadAllLines(currentFile);
-                    Console.WriteLine("File Reading Complete");
+                mainRecording = new Recording();
 
-                    string[] packetsData = splitFileIntoPackets(fileInformation);
-                }
+                readFile(filePaths);
+
+                fillDataGrid();
+            }else
+            {
+                Console.WriteLine("Error reading file(s) - please try again");
             }
         }
 
@@ -54,7 +56,7 @@ namespace Star_Dundee_WPF
             bool matchingStamps = true;
             int counter = 0;
 
-            while(matchingStamps && counter < startTimes.Length)
+            while(matchingStamps && counter < (startTimes.Length - 1))
             {
                 matchingStamps = startTimes[counter].Equals(startTimes[counter + 1]);
                 counter++;
@@ -63,26 +65,181 @@ namespace Star_Dundee_WPF
             return matchingStamps;
         }
 
-        public string[] splitFileIntoPackets(string[] linesInFile)
+        public void readFile(string[] filePaths)
         {
-            DateTime startTimeStamp = new DateTime();
-            DateTime endTimeStamp = new DateTime();
-
-            startTimeStamp = DateTime.Parse(linesInFile[0]);
-            int portNumber = Convert.ToInt32(linesInFile[1]);
-            endTimeStamp = DateTime.Parse(linesInFile[linesInFile.Length - 1]);
-
-            currentPort = new Port(portNumber, startTimeStamp, endTimeStamp);
-
-            List<string> packetsInFile = new List<string>();
-            string currentPacket = "";
-
-            for(int i = 2; i < linesInFile.Length -1; i++)
+            foreach (string fileName in filePaths)
             {
-                if(linesInFile[[i].equals)
-            }
+                Port currentPort = new Port();
 
+                StreamReader streamReader = new StreamReader(fileName);
+
+                currentPort.setStartTime(DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null));
+                currentPort.setPortNumber(int.Parse(streamReader.ReadLine()));
+
+                //streamReader.ReadLine();
+
+                while (streamReader.ReadLine() != null)
+                {
+                    Packet currentPacket = new Packet();
+
+                    string timeStamp = streamReader.ReadLine();
+                    
+                    currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
+
+                    string packetType = streamReader.ReadLine();
+                    currentPacket.setPacketType(char.Parse(packetType));
+                    if (streamReader.Peek() == -1)
+                    {
+                        break;
+                    }
+                    string cargo = streamReader.ReadLine();
+                    currentPacket.setDataArray(cargo.Split(' '));
+                    currentPacket.setPacketMarkerType(streamReader.ReadLine());
+
+                    if (currentPacket.getPacketType().Equals("E"))
+                    {
+                        currentPacket.setErrorType(currentPacket.getDataArray()[0]);
+                    }
+                    else if (currentPacket.getPacketMarkerType().Equals("None"))
+                    {
+                        currentPacket.setErrorType("None");
+                    }
+                    else if (currentPacket.getPacketMarkerType().Equals("EEP"))
+                    {
+                        currentPacket.setErrorType("EEP");
+                    }
+                    else
+                    {
+                        cargo = trimPathAddress(cargo);
+                        currentPacket.setProtocol(getProtocol(cargo));
+                        if (currentPacket.getProtocol().Equals("RMAP"))
+                        {
+                            if (new CRC8().Check(cargo) == 0)
+                            {
+                                currentPacket.setErrorType("CRC");
+                            }
+                        }
+                    }
+
+                    currentPort.addPacketToList(currentPacket);
+                }
+                streamReader.Close();
+
+                currentPort.setTotals();
+
+                mainRecording.addPort(currentPort);
+            }
         }
 
+        //I don't understand this method at all so couldn't rewrite with the same naming conventions
+        public static string trimPathAddress(string cargo)
+        {
+            string[] characters = cargo.Split(' ');
+            Console.WriteLine(cargo);
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            List<string> charBytes = new List<string>(characters);
+            int index = 0;
+            while (characterBytes[index] < 32)
+            {
+                charBytes.RemoveAt(0);
+                index++;
+            }
+            return String.Join(" ", charBytes.ToArray());
+        }
+
+        private static string getProtocol(string cargo)
+        {
+            cargo = trimPathAddress(cargo);
+            string[] characters = cargo.Split(' ');
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            int protocolNumber = characterBytes[1];
+
+            switch (protocolNumber)
+            {
+                case 1:
+                    return "RMAP";
+
+                case 250:
+                    return "CUSTOM";
+
+                default:
+                    return "UNACCOUNTED";
+            }
+        }
+
+        public void fillDataGrid()
+        {
+            string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
+            DateTime earliestEndTime = mainRecording.getPort(0).getStartTime();
+
+            foreach(Port currentPort in mainRecording.getPorts())
+            {
+                DateTime currentDateTime = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
+
+                if(DateTime.Compare(currentDateTime, earliestEndTime) < 0)
+                {
+                    earliestEndTime = currentDateTime;
+                }
+            }
+
+            double numberOfColumns = (earliestEndTime - mainRecording.getPort(0).getStartTime()).TotalMilliseconds;
+
+            listOfColumns = new List<GridColumn>();
+            DateTime currentTime = earliestEndTime;
+
+            for(int i = 0; i < numberOfColumns; i++)
+            {
+                String currentTimeStamp = currentTime.ToString(dateTimeFormat);
+
+                GridColumn currentGridColumn = new GridColumn();
+
+                currentGridColumn.setTime(currentTimeStamp);
+
+                listOfColumns.Add(currentGridColumn);
+                currentTime = currentTime.AddMilliseconds(1);
+            }
+
+            Console.WriteLine("Number of Columns: " + numberOfColumns);
+            Console.WriteLine("StartTime: " + mainRecording.getPort(0).getStartTime());
+            Console.WriteLine("End Time: " + earliestEndTime);
+
+            for(int portCounter = 0; portCounter < mainRecording.getPorts().Count; portCounter++)
+            {
+                Port portToCheck = mainRecording.getPort(portCounter);
+
+                Console.WriteLine("I'm in port " + (portCounter + 1));
+
+                int timeStampCounter = 0;
+
+                for(int packetCounter = 0; packetCounter < portToCheck.getPackets().Count; packetCounter++)
+                {
+                    Packet packetToCheck = portToCheck.getPacket(packetCounter);
+
+                    int indexInGrid = 0;
+                    bool found = false;
+
+                    while(found == false && timeStampCounter <= listOfColumns.Count)
+                    {
+                        if (timeStampCounter == listOfColumns.Count)
+                        {
+                            timeStampCounter = 0;
+
+                            Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
+                        }
+
+                        found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
+                        indexInGrid = timeStampCounter;
+                        timeStampCounter++;
+                    }
+
+                    listOfColumns[timeStampCounter].ports[portCounter] = packetToCheck.getErrorType();
+                }
+            }
+        }
+
+        public List<GridColumn> getListOfColumns()
+        {
+            return listOfColumns;
+        }
     }
 }

@@ -8,12 +8,21 @@ namespace Star_Dundee_WPF.Models
 {
     class Packet
     {
-        public DateTime timestamp { get; set; }
-        public ErrorType errors { get; set; }
-        public Data theData;
-        int totalChars;
-        bool hasError;
-        public Packet() { }
+        private  DateTime timestamp { get; set; }
+        private char packetType;
+        private string[] dataArray;
+        private string packetMarkerType;
+        private string errorType;
+        private string protocol;
+
+        private ErrorType error { get; set; }
+        private Data theData;
+        private int totalChars;
+        private bool hasError;
+
+        public Packet()
+        {
+        }
 
         public Packet(DateTime timeStamp, Data theData)
         {
@@ -24,7 +33,6 @@ namespace Star_Dundee_WPF.Models
         public Data getData()
         {
             return this.theData;
-
         }
 
         public DateTime getTimestamp() {
@@ -46,10 +54,10 @@ namespace Star_Dundee_WPF.Models
             return hasError;
         }
 
-        public ErrorType getErrorType() {
-
-            return errors;
+        public string getErrorType() {
+            return errorType;
         }
+
         public void setError(bool err, string type)
         {
             hasError = err;
@@ -58,37 +66,37 @@ namespace Star_Dundee_WPF.Models
             switch (type)
             {
                 case "sequence":
-                    this.errors = ErrorType.sequence;
+                    this.error = ErrorType.sequence;
                     break;
 
                 case "disconnect":
-                    this.errors = ErrorType.disconnect;
+                    this.error = ErrorType.disconnect;
                     break;
 
                 case "parity":
 
-                    this.errors = ErrorType.parity;
+                    this.error = ErrorType.parity;
                     break;
 
                 case "noError":
 
-                    this.errors = ErrorType.noError;
+                    this.error = ErrorType.noError;
                     break;
                 case "eep":
 
-                    this.errors = ErrorType.eep;
+                    this.error = ErrorType.eep;
                     break;
 
                 case "babbling":
-                    this.errors = ErrorType.babblingIdiot;
+                    this.error = ErrorType.babblingIdiot;
                     break;
 
                 case "headercrc":
-                    this.errors = ErrorType.crcHeader;
+                    this.error = ErrorType.crcHeader;
                     break;
 
                 case "datacrc":
-                    this.errors = ErrorType.crcData;
+                    this.error = ErrorType.crcData;
                     break;
 
                 case "":
@@ -96,6 +104,56 @@ namespace Star_Dundee_WPF.Models
                     break;
 
             }
+        }
+
+        public void setTimeStamp(DateTime timeStamp)
+        {
+            this.timestamp = timestamp;
+        }
+
+        public void setPacketType(char packetType)
+        {
+            this.packetType = packetType;
+        }
+
+        public void setDataArray(string[] dataArray)
+        {
+            this.dataArray = dataArray;
+        }
+
+        public void setPacketMarkerType(string packetMarkerType)
+        {
+            this.packetMarkerType = packetMarkerType;
+        }
+
+        public char getPacketType()
+        {
+            return packetType;
+        }
+
+        public string getPacketMarkerType()
+        {
+            return packetMarkerType;
+        }
+
+        public void setErrorType(string errorType)
+        {
+            this.errorType = errorType;
+        }
+
+        public string[] getDataArray()
+        {
+            return dataArray;
+        }
+
+        public void setProtocol(string protocol)
+        {
+            this.protocol = protocol;
+        }
+
+        public string getProtocol()
+        {
+            return protocol;
         }
     }
 

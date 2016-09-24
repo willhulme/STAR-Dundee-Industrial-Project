@@ -8,50 +8,40 @@ namespace Star_Dundee_WPF.Models
 {
     class GridColumn
     {
-        public String Time { get; set; }
+        public string time;
         public string[] ports;
-        public String Port1 { get; set; }
-        public String Port2 { get; set; }
-        public String Port3 { get; set; }
-        public String Port4 { get; set; }
-        public String Port5 { get; set; }
-        public String Port6 { get; set; }
-        public String Port7 { get; set; }
-        public String Port8 { get; set; }
 
         public GridColumn() {
 
-            Time = "";
+            time = "";
             ports = new string[8];
             for(int i = 0; i < 8; i++)
             {
                 ports[i] = "";
             }
-            Port1 = "";
-            Port2 = "";
-            Port3 = "";
-            Port4 = "";
-            Port5 = "";
-            Port6 = "";
-            Port7 = "";
-            Port8 = "";
-           
-
         }
 
-        public GridColumn(String time, String port1,
-            String port2, String port3, String port4, String port5,
-            String port6, String port7, String port8)
+        public GridColumn(string time, string port1, string port2, string port3, string port4, string port5, string port6, string port7, string port8)
         {
-            this.Time = time;
-            this.Port1 = port1;
-            this.Port2 = port2;
-            this.Port3 = port3;
-            this.Port4 = port4;
-            this.Port5 = port5;
-            this.Port6 = port6;
-            this.Port7 = port7;
-            this.Port8 = port8;
+            this.time = time;
+            ports[0] = port1;
+            ports[1] = port2;
+            ports[2] = port3;
+            ports[3] = port4;
+            ports[4] = port5;
+            ports[5] = port6;
+            ports[6] = port7;
+            ports[7] = port8;
+        }
+
+        public void setTime(string time)
+        {
+            this.time = time;
+        }
+
+        public string getTime()
+        {
+            return time;
         }
 
         public static List<GridColumn> getSampleOverviewData()

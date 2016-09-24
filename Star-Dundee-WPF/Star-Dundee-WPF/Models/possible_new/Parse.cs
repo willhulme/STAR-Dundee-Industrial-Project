@@ -18,33 +18,33 @@ namespace Star_Dundee_WPF.Models
         public List<Packet2> parseFile(string[] filepaths)
         {
             CRC8 crc_check = new CRC8();
-            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test1/link1.rec"); //set up reader
+            StreamReader streamReader = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test1/link1.rec"); //set up reader
             //packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
-            recordingTime = DateTime.ParseExact(r.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
-            port = int.Parse(r.ReadLine()); //get port number
-            r.ReadLine(); //blank line
+            recordingTime = DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
+            port = int.Parse(streamReader.ReadLine()); //get port number
+            streamReader.ReadLine(); //blank line
 
-            while ((line = r.ReadLine()) != null) //start of packets
+            while ((line = streamReader.ReadLine()) != null) //start of packets
             {
                 Packet2 packet = new Packet2(); //create a packet   
                 packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null); //parse packet timestamp
                 Console.WriteLine(packet.timeStamp);
-                line = r.ReadLine(); //next line
-                if (r.Peek() == -1) //if this is -1 then it means it has reached the end of the file
+                line = streamReader.ReadLine(); //next line
+                if (streamReader.Peek() == -1) //if this is -1 then it means it has reached the end of the file
                 {
                     break; //if reached the end of the file discard the timestamp we got previsouly 
                 }
                 packet.packetType = char.Parse(line); //this should be either 'P' OR 'E'
 
-                line = r.ReadLine(); //next line should be the data or if it says disconnect or parity etc
+                line = streamReader.ReadLine(); //next line should be the data or if it says disconnect or parity etc
                 string cargo = line;
                 packet.data = line.Split(' '); //split it into an array
                 packet.dataLength = packet.data.Length; //get length
-                line = r.ReadLine(); //next line should be packet marker
+                line = streamReader.ReadLine(); //next line should be packet marker
                 if(line != "") //if it is blank this means that the packet marker was 'E' so skip it
                 { 
                     packet.packetMarkerType = line; //should be eop eep none etc
-                    line = r.ReadLine();
+                    line = streamReader.ReadLine();
                 }
                 //MAYBE HERE DO DETECTION OF ERROR
                 if(packet.packetType.Equals('E'))
@@ -75,7 +75,7 @@ namespace Star_Dundee_WPF.Models
                 }
                 packetList.Add(packet); //add to packet list
             }
-            r.Close();
+            streamReader.Close();
             return packetList;
         } 
 

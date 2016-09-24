@@ -8,38 +8,30 @@ namespace Star_Dundee_WPF.Models
 {
     class Port
     {
-        public int portNumber { get; set; }
-        public DateTime startTime { get; set; }
-        public DateTime stopTime { get; set; }
-        public List<Packet> packets { get; set; }
-        int totalErrors { get; set; }
-        int totalPackets { get; set; }
-        int totalChars { get; set; }
+        private int portNumber;
+        private DateTime startTime;
+        private DateTime stopTime;
+        private List<Packet> packets;
+        private int totalErrors;
+        private int totalPackets;
+        private int totalCharacters;
 
-        int dataRate;
-        int errorRate;
-        int packetRate;
-
-
+        private int dataRate;
+        private int errorRate;
+        private int packetRate;
 
         public Port(int prt, DateTime start, DateTime end) {
-
             this.portNumber = prt;
             this.startTime = start;
             this.stopTime = end;
-
-
+            
             packets = new List<Packet>();
-
         }
-		
-        public int getTotalErrors() { return totalErrors; }
-        public int getTotalPackets(){ return totalPackets; }
-        public int getTotalChars()  { return totalChars; }
-        public DateTime getStart()  { return startTime; }
-        public List<Packet> getPackets() { return this.packets; }
-        public int getPortNumber() { return this.portNumber; }
-        public DateTime getEnd() { return this.stopTime; }
+
+        public Port()
+        {
+            packets = new List<Packet>();
+        }
 
         public void setTotals() {
             setPacketTotal();
@@ -49,41 +41,73 @@ namespace Star_Dundee_WPF.Models
 
         public void setTotalCharacters()
         {
-            int total = 0;
             foreach (Packet p in packets)
             {
-                total += p.getTotalChars();
+                totalCharacters += p.getTotalChars();
             }
-            totalChars = total;
-
         }
 
         public void setErrorTotal() {
-            int errorCount = 0;
             foreach (Packet p in packets)
             {
                 if (p.getErrorStatus())
                 {
-                    errorCount++;
+                    totalErrors++;
                 }
             }
-            totalErrors = errorCount;
         }
 
         public void setPacketTotal() {
             totalPackets = packets.Count();
         }
 
-
         public void setPackets(List<Packet> p) {
             this.packets = p;
-
         }
 
         public void addPacketToList(Packet p)
         {
             packets.Add(p);
+        }
 
+        public void setStartTime(DateTime startTime)
+        {
+            this.startTime = startTime;
+        }
+
+        public void setPortNumber(int portNumber)
+        {
+            this.portNumber = portNumber;
+        }
+
+        public DateTime getStartTime()
+        {
+            return startTime;
+        }
+
+        public List<Packet> getPackets()
+        {
+            return packets;
+        }
+
+        public Packet getPacket(int index)
+        {
+            return packets[index];
+        }
+
+        public int getTotalErrors()
+        {
+            return totalErrors;
+        }
+
+        public int getTotalPackets()
+        {
+            return totalPackets;
+        }
+
+        public int getTotalChars()
+        {
+            return totalCharacters;
         }
     }
 }

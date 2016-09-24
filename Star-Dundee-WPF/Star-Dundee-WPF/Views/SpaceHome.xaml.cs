@@ -45,9 +45,9 @@ namespace Star_Dundee_WPF
             {
                 string[] files = openFileDialog.FileNames;
                 FileParser myFileParser = new FileParser();
-                myFileParser.parse(files);
+                myFileParser.startParsing(files);
                 // Set the ItemsSource to autogenerate the columns.
-                dataGrid1.ItemsSource = myFileParser.overviewList;
+                dataGrid1.ItemsSource = myFileParser.getListOfColumns();
             }
         }
     }

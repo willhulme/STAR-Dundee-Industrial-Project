@@ -14,7 +14,7 @@ namespace Star_Dundee_WPF.Models
         RMAP RMAP = new RMAP();
         public List<Packet> Check(List<Packet> Packet)
         {
-            foreach (Packet item in Packet)
+            /*(foreach (Packet item in Packet)
             {
                 string[] cargo = item.theData.getTheData();
                 string[] SplitCargo = RMAP.GetHeader(cargo);
@@ -42,7 +42,7 @@ namespace Star_Dundee_WPF.Models
                         item.setError(true, "headercrc");
                     }
                 }
-            }
+            }*/
             return Packet;
         }
     }

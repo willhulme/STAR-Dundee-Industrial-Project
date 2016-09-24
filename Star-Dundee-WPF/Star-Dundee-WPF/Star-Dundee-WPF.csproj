@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="Models\GridColumn.cs" />
     <Compile Include="Models\Diagram.cs" />
+    <Compile Include="Models\possible_new\Packet2.cs" />
+    <Compile Include="Models\possible_new\Parse.cs" />
+    <Compile Include="Models\rateCalculator.cs" />
     <Compile Include="Views\SpaceHome.xaml.cs">
       <DependentUpon>SpaceHome.xaml</DependentUpon>
     </Compile>

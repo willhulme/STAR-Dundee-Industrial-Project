@@ -15,10 +15,10 @@ namespace Star_Dundee_WPF.Models
         private int port;
         private DateTime recordingTime;
 
-        public void parseFile(string[] filepaths)
+        public List<Packet2> parseFile(string[] filepaths)
         {
             CRC8 crc_check = new CRC8();
-            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test6/link8.rec"); //set up reader
+            StreamReader r = new StreamReader("C:/Users/ryanrobinson/Downloads/team_project_example_files_19-09-16/test1/link1.rec"); //set up reader
             //packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
             recordingTime = DateTime.ParseExact(r.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null); //get initial recording date
             port = int.Parse(r.ReadLine()); //get port number
@@ -26,53 +26,58 @@ namespace Star_Dundee_WPF.Models
 
             while ((line = r.ReadLine()) != null) //start of packets
             {
-                Packet2 packet = new Packet2();
-                packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null);
+                Packet2 packet = new Packet2(); //create a packet   
+                packet.timeStamp = DateTime.ParseExact(line, "dd-MM-yyyy HH:mm:ss.fff", null); //parse packet timestamp
                 Console.WriteLine(packet.timeStamp);
-                line = r.ReadLine();
-                if (r.Peek() == -1)
+                line = r.ReadLine(); //next line
+                if (r.Peek() == -1) //if this is -1 then it means it has reached the end of the file
                 {
-                    //Console.WriteLine("hello");
-                    break;
+                    break; //if reached the end of the file discard the timestamp we got previsouly 
                 }
-                packet.packetType = char.Parse(line);
+                packet.packetType = char.Parse(line); //this should be either 'P' OR 'E'
 
-                line = r.ReadLine();
+                line = r.ReadLine(); //next line should be the data or if it says disconnect or parity etc
                 string cargo = line;
-                packet.data = line.Split(' ');
-                line = r.ReadLine();
-                if(line != "")
+                packet.data = line.Split(' '); //split it into an array
+                packet.dataLength = packet.data.Length; //get length
+                line = r.ReadLine(); //next line should be packet marker
+                if(line != "") //if it is blank this means that the packet marker was 'E' so skip it
                 { 
-                    packet.packetMarkerType = line;
+                    packet.packetMarkerType = line; //should be eop eep none etc
                     line = r.ReadLine();
                 }
                 //MAYBE HERE DO DETECTION OF ERROR
                 if(packet.packetType.Equals('E'))
                 {
-                    packet.errorType = packet.data[0];
+                    packet.errorType = packet.data[0]; //if E then set the error type to be what is in data ie. disconnect or parity so on so on
                 }
-                else if(packet.packetMarkerType.Equals("None"))
+                else if(packet.packetMarkerType.Equals("None")) //self explanitary
                 {
                     packet.errorType = "None";
                 }
-                else
+                else if (packet.packetMarkerType.Equals("EEP"))
                 {
-                    cargo = trimPathAddress(cargo);
-                    packet.protocol = GetProtocol(cargo);
-                    if (packet.protocol.Equals("RMAP"))
+                    packet.errorType = "EEP";
+                }
+                else //if the packet seems to be fine. lets do a crc check on it
+                {
+                    cargo = trimPathAddress(cargo); //trim the path address off it at the start
+                    packet.protocol = GetProtocol(cargo); //get the protocol of the packet
+                    if (packet.protocol.Equals("RMAP")) //if it is rmap
                     {
-                        int i = crc_check.Check(cargo);
-                        if (i != 0)
+                        int i = crc_check.Check(cargo); //then crc (i should really make this static)
+                        if (i != 0) //if the crc doesnt match the calculated crc then it is an error
                         {
-                            packet.errorType = "CRC";
+                            packet.errorType = "CRC"; 
                         }
                     }
 
                 }
-                packetList.Add(packet);
+                packetList.Add(packet); //add to packet list
             }
-
-        }
+            r.Close();
+            return packetList;
+        } 
 
         private static string trimPathAddress(string cargo)
         {
@@ -82,7 +87,7 @@ namespace Star_Dundee_WPF.Models
             int index = 0;
             while(characterBytes[index] < 32)
             {
-                charBytes.RemoveAt(index);
+                charBytes.RemoveAt(0);
                 index++;
             }
             return String.Join(" ", charBytes.ToArray());
@@ -90,7 +95,7 @@ namespace Star_Dundee_WPF.Models
 
         private static string GetProtocol(string cargo)
         {
-            trimPathAddress(cargo);
+            cargo = trimPathAddress(cargo);
             string protocol;
             int protocolNumber;
             string[] characters = cargo.Split(' ');

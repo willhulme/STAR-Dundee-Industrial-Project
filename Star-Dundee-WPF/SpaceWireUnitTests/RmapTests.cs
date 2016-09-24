@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Star_Dundee_WPF.Models;
 using System.Collections.Generic;
+using Star_Dundee_WPF.Models.possible_new;
 
 
 namespace SpaceWireUnitTests
@@ -182,6 +183,16 @@ namespace SpaceWireUnitTests
             Parse parser = new Parse();
             string[] array = new string[1];
             parser.parseFile(array);
+        }
+
+        [TestMethod]
+        public void TestRate()
+        {
+            Parse parser = new Parse();
+            string[] array = new string[1];
+            List<Packet2> packets = parser.parseFile(array);
+            RateCalculator RateCalculator = new RateCalculator();
+            RateCalculator.CalculateDataRate(packets);
         }
     }
 }

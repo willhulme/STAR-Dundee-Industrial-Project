@@ -38,6 +38,11 @@
             <TabItem Header="Overview" >
 
                 <DataGrid x:Name="dataGrid1" AutoGenerateColumns="True" SelectionUnit="Cell" CanUserAddRows="false">
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="PreviewMouseLeftButtonUp"  Handler="dataDrid1_PreviewMouseLeftButtonUp"/>
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
                     <DataGrid.Resources>
                         <local:ErrorHighlighter x:Key="bgcolourconverter"/>
                     </DataGrid.Resources>
@@ -146,7 +151,7 @@
                     <StackPanel Background="LightBlue" >
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Number Of Packets:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[0]}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold" >Number Of Errors:</Label>

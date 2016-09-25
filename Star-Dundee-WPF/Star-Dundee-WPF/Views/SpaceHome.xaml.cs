@@ -25,11 +25,13 @@ namespace Star_Dundee_WPF
     /// </summary>
     public partial class SpaceHome : Page
     {
+        FileParser myFileParser;
+        public string[] portSummary  { get; set; }
         public SpaceHome()
         {
             InitializeComponent();
-                
-            
+
+
         }
 
 
@@ -43,7 +45,7 @@ namespace Star_Dundee_WPF
             if (openFileDialog.ShowDialog() == true)
             {
                 string[] files = openFileDialog.FileNames;
-                FileParser myFileParser = new FileParser();
+                myFileParser = new FileParser();
                 myFileParser.startParsing(files);
 
                 // Set the ItemsSource to autogenerate the columns.
@@ -51,25 +53,80 @@ namespace Star_Dundee_WPF
                 printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
 
-                //Set the recoding to the datacontext
+                //Set the recording to the datacontext
                 this.DataContext = myFileParser.mainRecording;
             }
         }
 
         private void printListOfColumns(List<GridColumn> listToDisplay)
         {
-            foreach(GridColumn item in listToDisplay)
+            foreach (GridColumn item in listToDisplay)
             {
                 Console.WriteLine();
                 Console.Write(item.getTime() + "\t");
 
-                for(int i = 1; i < 9; i++)
+                for (int i = 1; i < 9; i++)
                 {
                     Console.Write(item.getPort(i) + " ");
                 }
             }
         }
+
+        private void dataDrid1_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // make sure only 1 cell is clicked
+            if (dataGrid1.SelectedCells.Count != 1)
+                return;
+
+            // Get column header
+            string portHeader = (string)dataGrid1.SelectedCells[0].Column.Header;
+            int portIndex = dataGrid1.SelectedCells[0].Column.DisplayIndex;
+            Console.WriteLine("port Index: " + portIndex);
+            Console.WriteLine("Port Clicked: " + portHeader);
+
+            updatePortSummury(portIndex);
+        }
+
+        private void updatePortSummury(int port)
+        {
+
+            portSummary = new string[6] {"", "", "", "", "", "" };
+            //check if port exists
+            bool exists = false;
+            
+            for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
+            {
+                if (myFileParser.mainRecording.ports[i].portNumber == port)
+                    exists = true;
+            }
+            port -= 1;
+            if (exists)
+            {
+                portSummary = getPortSummary(port);
+                DataContext = portSummary;
+            }
+            else
+            {
+                DataContext = portSummary;
+            }
+            
+        }
+
+        public string[] getPortSummary(int port)
+        {
+            string[] portSummary = new string[6] { "", "", "", "", "", ""};
+
+            portSummary[0] = myFileParser.mainRecording.ports[port].totalPackets.ToString();
+            portSummary[1] = myFileParser.mainRecording.ports[port].totalErrors.ToString();
+            portSummary[2] = myFileParser.mainRecording.ports[port].totalCharacters.ToString();
+            portSummary[3] = myFileParser.mainRecording.ports[port].dataRate.ToString();
+            portSummary[4] = myFileParser.mainRecording.ports[port].packetRate.ToString();
+            portSummary[5] = myFileParser.mainRecording.ports[port].errorRate.ToString();
+
+            return portSummary;
+        }
     }
+
 
     public class ErrorHighlighter : IValueConverter
     {
@@ -100,5 +157,7 @@ namespace Star_Dundee_WPF
         }
     }
 }
+
+   
 
    

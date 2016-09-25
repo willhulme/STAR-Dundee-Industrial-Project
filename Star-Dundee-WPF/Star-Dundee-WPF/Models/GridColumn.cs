@@ -8,30 +8,31 @@ namespace Star_Dundee_WPF.Models
 {
     class GridColumn
     {
-        public string time;
-        public string[] ports;
+        private string time;
+        private string port1;
+        private string port2;
+        private string port3;
+        private string port4;
+        private string port5;
+        private string port6;
+        private string port7;
+        private string port8;
 
         public GridColumn() {
-
             time = "";
-            ports = new string[8];
-            for(int i = 0; i < 8; i++)
-            {
-                ports[i] = "";
-            }
         }
 
         public GridColumn(string time, string port1, string port2, string port3, string port4, string port5, string port6, string port7, string port8)
         {
             this.time = time;
-            ports[0] = port1;
-            ports[1] = port2;
-            ports[2] = port3;
-            ports[3] = port4;
-            ports[4] = port5;
-            ports[5] = port6;
-            ports[6] = port7;
-            ports[7] = port8;
+            this.port1 = port1;
+            this.port2 = port2;
+            this.port3 = port3;
+            this.port4 = port4;
+            this.port5 = port5;
+            this.port6 = port6;
+            this.port7 = port7;
+            this.port8 = port8;
         }
 
         public void setTime(string time)
@@ -42,6 +43,46 @@ namespace Star_Dundee_WPF.Models
         public string getTime()
         {
             return time;
+        }
+
+        public void setPort1(string port)
+        {
+            port1 = port;
+        }
+
+        public void setPort2(string port)
+        {
+            port2 = port;
+        }
+
+        public void setPort3(string port)
+        {
+            port3 = port;
+        }
+
+        public void setPort4(string port)
+        {
+            port4 = port;
+        }
+
+        public void setPort5(string port)
+        {
+            port5 = port;
+        }
+
+        public void setPort6(string port)
+        {
+            port6 = port;
+        }
+
+        public void setPort7(string port)
+        {
+            port7 = port;
+        }
+
+        public void setPort8(string port)
+        {
+            port8 = port;
         }
 
         public static List<GridColumn> getSampleOverviewData()

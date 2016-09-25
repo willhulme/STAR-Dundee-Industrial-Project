@@ -253,7 +253,41 @@ namespace Star_Dundee_WPF
                         timeStampCounter++;
                     }
 
-                    listOfColumns[timeStampCounter].ports[portCounter] = packetToCheck.getErrorType();
+
+                    switch (portCounter)
+                    {
+                        case 1:
+                            listOfColumns[timeStampCounter].setPort1(packetToCheck.getErrorType());
+                            break;
+
+                        case 2:
+                            listOfColumns[timeStampCounter].setPort2(packetToCheck.getErrorType());
+                            break;
+
+                        case 3:
+                            listOfColumns[timeStampCounter].setPort3(packetToCheck.getErrorType());
+                            break;
+
+                        case 4:
+                            listOfColumns[timeStampCounter].setPort4(packetToCheck.getErrorType());
+                            break;
+
+                        case 5:
+                            listOfColumns[timeStampCounter].setPort5(packetToCheck.getErrorType());
+                            break;
+
+                        case 6:
+                            listOfColumns[timeStampCounter].setPort6(packetToCheck.getErrorType());
+                            break;
+
+                        case 7:
+                            listOfColumns[timeStampCounter].setPort7(packetToCheck.getErrorType());
+                            break;
+
+                        case 8:
+                            listOfColumns[timeStampCounter].setPort8(packetToCheck.getErrorType());
+                            break;
+                    }
                 }
             }
         }

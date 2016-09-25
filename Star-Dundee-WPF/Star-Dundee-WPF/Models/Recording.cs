@@ -26,16 +26,6 @@ namespace Star_Dundee_WPF.Models
             this.ports = lp;
         }
 
-        public int getTotalErrors() { return totalErrors; }
-        public int getTotalPackets() { return totalPackets; }
-        public int getTotalCharacters() { return totalCharacters; }
-        public int getNumberOfPorts() { return ports.Count; }
-
-        public int getdataRate() { return dataRate; }
-        public int getErrorRate() { return errorRate; }
-        public int getPacketRate() { return packetRate; }
-
-
         public void calculateTotals()
         {
             int errTot =0;

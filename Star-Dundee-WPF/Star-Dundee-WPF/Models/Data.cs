@@ -32,10 +32,10 @@ namespace Star_Dundee_WPF.Models
             return data.Count();
         }
 
-        public void setSeqIndex(int index)
-        {
-            this.sequenceIndex = index;
-        }
+        //public void setSeqIndex(int index)
+        //{
+        //    this.sequenceIndex = index;
+        //}
 
         public void setAddress(string add)
         {

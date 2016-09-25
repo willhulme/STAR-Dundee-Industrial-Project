@@ -8,6 +8,7 @@ namespace Star_Dundee_WPF.Models
 {
     class Sequencer
     {
+        /*
         public int findSequence(List<Packet> p)
         {
             List<string[]> dataSets = new List<string[]>();
@@ -278,7 +279,7 @@ namespace Star_Dundee_WPF.Models
             //Return the list of decimal values
             return converted;
         }
+    
+    */
     }
-
-
 }

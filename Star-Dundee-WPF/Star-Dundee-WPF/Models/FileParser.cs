@@ -89,6 +89,10 @@ namespace Star_Dundee_WPF
                     Console.WriteLine("\t" + currentPacket.getTimestamp());
 
                     string packetType = streamReader.ReadLine();
+                    if (packetType == null)
+                    {
+                        break;
+                    }
                     Console.WriteLine(packetType);
                     currentPacket.setPacketType(char.Parse(packetType));
                     if (streamReader.Peek() == -1 || currentPacket.getPacketType().Equals("E"))

@@ -261,39 +261,50 @@ namespace Star_Dundee_WPF
 
                     Console.WriteLine("******* \t" + listOfColumns[timeStampCounter].getTime() + packetToCheck.getErrorType() + portCounter);
 
+                    string toDisplay = "";
+
+                    if (packetToCheck.getErrorType() == null)
+                    {
+                        toDisplay = "Packet";
+                    }
+                    else
+                    {
+                        toDisplay = packetToCheck.getErrorType();
+                    }
+
 
                     switch (portCounter)
                     {
                         case 0:
-                            listOfColumns[timeStampCounter].setPort1(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort1(toDisplay);
                             break;
 
                         case 1:
-                            listOfColumns[timeStampCounter].setPort2(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort2(toDisplay);
                             break;
 
                         case 2:
-                            listOfColumns[timeStampCounter].setPort3(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort3(toDisplay);
                             break;
 
                         case 3:
-                            listOfColumns[timeStampCounter].setPort4(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort4(toDisplay);
                             break;
 
                         case 4:
-                            listOfColumns[timeStampCounter].setPort5(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort5(toDisplay);
                             break;
 
                         case 5:
-                            listOfColumns[timeStampCounter].setPort6(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort6(toDisplay);
                             break;
 
                         case 6:
-                            listOfColumns[timeStampCounter].setPort7(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort7(toDisplay);
                             break;
 
                         case 7:
-                            listOfColumns[timeStampCounter].setPort8(packetToCheck.getErrorType());
+                            listOfColumns[timeStampCounter].setPort8(toDisplay);
                             break;
                     }
                 }

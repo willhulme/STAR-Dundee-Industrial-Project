@@ -76,16 +76,17 @@ namespace Star_Dundee_WPF
                 currentPort.setStartTime(DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null));
                 currentPort.setPortNumber(int.Parse(streamReader.ReadLine()));
 
-                //streamReader.ReadLine();
+                streamReader.ReadLine();
 
-                while (streamReader.ReadLine() != null)
+                while (streamReader.Peek() != -1)
                 {
                     Packet currentPacket = new Packet();
 
                     string timeStamp = streamReader.ReadLine();
-                    Console.WriteLine("time:" + timeStamp);
+                    Console.WriteLine("time: " + timeStamp);
                     
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
+                    Console.WriteLine("\t" + currentPacket.getTimestamp());
 
                     string packetType = streamReader.ReadLine();
                     Console.WriteLine(packetType);
@@ -131,6 +132,8 @@ namespace Star_Dundee_WPF
                     }
 
                     currentPort.addPacketToList(currentPacket);
+
+                    streamReader.ReadLine();
                 }
                 streamReader.Close();
 
@@ -179,26 +182,31 @@ namespace Star_Dundee_WPF
         public void fillDataGrid()
         {
             string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
-            DateTime earliestEndTime = mainRecording.getPort(0).getStartTime();
+            DateTime startTime = mainRecording.getPort(0).getStartTime();
+            DateTime timeOfLastPacket = mainRecording.getPort(0).getPacket(mainRecording.getPort(0).getTotalPackets() - 1).getTimestamp();
 
             foreach(Port currentPort in mainRecording.getPorts())
             {
-                DateTime currentDateTime = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
+                DateTime currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
 
-                if(DateTime.Compare(currentDateTime, earliestEndTime) < 0)
+                Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
+
+                if(DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
                 {
-                    earliestEndTime = currentDateTime;
+                    timeOfLastPacket = currentLastPacket;
                 }
             }
 
-            double numberOfColumns = (earliestEndTime - mainRecording.getPort(0).getStartTime()).TotalMilliseconds;
+            double numberOfColumns = (startTime - timeOfLastPacket).TotalMilliseconds;
 
             listOfColumns = new List<GridColumn>();
-            DateTime currentTime = earliestEndTime;
+            DateTime currentTime = timeOfLastPacket;
 
-            for(int i = 0; i < numberOfColumns; i++)
+            Console.WriteLine("Number of Columns: " + numberOfColumns);
+
+            for (int i = 0; i < numberOfColumns; i++)
             {
-                String currentTimeStamp = currentTime.ToString(dateTimeFormat);
+                string currentTimeStamp = currentTime.ToString(dateTimeFormat);
 
                 GridColumn currentGridColumn = new GridColumn();
 
@@ -210,7 +218,7 @@ namespace Star_Dundee_WPF
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);
             Console.WriteLine("StartTime: " + mainRecording.getPort(0).getStartTime());
-            Console.WriteLine("End Time: " + earliestEndTime);
+            Console.WriteLine("End Time: " + timeOfLastPacket);
 
             for(int portCounter = 0; portCounter < mainRecording.getPorts().Count; portCounter++)
             {
@@ -231,10 +239,13 @@ namespace Star_Dundee_WPF
                     {
                         if (timeStampCounter == listOfColumns.Count)
                         {
+                            Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
+
                             timeStampCounter = 0;
 
-                            Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
                         }
+
+                        Console.WriteLine("I'm at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
 
                         found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;

@@ -8,15 +8,19 @@ namespace Star_Dundee_WPF.Models
 {
     class Recording
     {
-        public List<Port> ports { get; set; }
-        
-        int totalErrors { get; set; }
-        int totalPackets { get; set; }
-        int totalCharacters { get; set; }
+        private List<Port> ports;
+        private int totalErrors;
+        private int totalPackets;
+        private int totalCharacters;
+        private int dataRate;
+        private int errorRate;
+        private int packetRate;
 
-        int dataRate { get; set; }
-        int errorRate { get; set; }
-        int packetRate { get; set; }
+        public Recording()
+        {
+            ports = new List<Port>();
+        }
+
 
         public void setPorts(List<Port> lp) {
             this.ports = lp;

@@ -238,53 +238,61 @@ namespace Star_Dundee_WPF
 
                     while(found == false && timeStampCounter <= listOfColumns.Count)
                     {
-                        if (timeStampCounter == listOfColumns.Count)
-                        {
-                            Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
-
-                            timeStampCounter = 0;
-
-                        }
-
-                        Console.WriteLine("I'm at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat) + " timestampToCheck " + listOfColumns[timeStampCounter].getTime());
-
                         found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;
                         timeStampCounter++;
                     }
 
+                    if (!found)
+                    {
+                        timeStampCounter = 0;
+
+                        while (found == false && timeStampCounter < listOfColumns.Count)
+                        {
+                            found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
+                            indexInGrid = timeStampCounter;
+                            timeStampCounter++;
+                        }
+
+                        timeStampCounter--;
+
+                        Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
+                    }
+
+                    Console.WriteLine("******* \t" + listOfColumns[timeStampCounter].getTime() + packetToCheck.getErrorType() + portCounter);
+
 
                     switch (portCounter)
                     {
-                        case 1:
+                        case 0:
                             listOfColumns[timeStampCounter].setPort1(packetToCheck.getErrorType());
                             break;
 
-                        case 2:
+                        case 1:
                             listOfColumns[timeStampCounter].setPort2(packetToCheck.getErrorType());
                             break;
 
-                        case 3:
+                        case 2:
                             listOfColumns[timeStampCounter].setPort3(packetToCheck.getErrorType());
                             break;
 
-                        case 4:
+                        case 3:
                             listOfColumns[timeStampCounter].setPort4(packetToCheck.getErrorType());
                             break;
 
-                        case 5:
+                        case 4:
                             listOfColumns[timeStampCounter].setPort5(packetToCheck.getErrorType());
                             break;
 
-                        case 6:
+                        case 5:
                             listOfColumns[timeStampCounter].setPort6(packetToCheck.getErrorType());
                             break;
 
-                        case 7:
+                        case 6:
                             listOfColumns[timeStampCounter].setPort7(packetToCheck.getErrorType());
                             break;
 
-                        case 8:
+                        case 7:
                             listOfColumns[timeStampCounter].setPort8(packetToCheck.getErrorType());
                             break;
                     }

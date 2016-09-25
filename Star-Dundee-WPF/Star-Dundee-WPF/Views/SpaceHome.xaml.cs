@@ -47,7 +47,23 @@ namespace Star_Dundee_WPF
                 FileParser myFileParser = new FileParser();
                 myFileParser.startParsing(files);
                 // Set the ItemsSource to autogenerate the columns.
-                dataGrid1.ItemsSource = myFileParser.getListOfColumns();
+                List<GridColumn> listToDisplay = myFileParser.getListOfColumns();
+                printListOfColumns(listToDisplay);
+                dataGrid1.ItemsSource = listToDisplay;
+            }
+        }
+
+        private void printListOfColumns(List<GridColumn> listToDisplay)
+        {
+            foreach(GridColumn item in listToDisplay)
+            {
+                Console.WriteLine();
+                Console.Write(item.getTime() + "\t");
+
+                for(int i = 1; i < 9; i++)
+                {
+                    Console.Write(item.getPort(i) + " ");
+                }
             }
         }
     }

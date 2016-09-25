@@ -85,6 +85,39 @@ namespace Star_Dundee_WPF.Models
             port8 = port;
         }
 
+        public string getPort(int index)
+        {
+            switch (index)
+            {
+                case 1:
+                    return port1;
+
+                case 2:
+                    return port2;
+
+                case 3:
+                    return port3;
+
+                case 4:
+                    return port4;
+
+                case 5:
+                    return port5;
+
+                case 6:
+                    return port6;
+
+                case 7:
+                    return port7;
+
+                case 8:
+                    return port8;
+
+                default:
+                    return "port not found";
+            }
+        }
+
         public static List<GridColumn> getSampleOverviewData()
         {
             return new List<GridColumn>(new GridColumn[16] {

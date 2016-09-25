@@ -33,21 +33,22 @@ namespace Star_Dundee_WPF.Models
             packets = new List<Packet>();
         }
 
-        public void setTotals() {
-            setPacketTotal();
-            setErrorTotal();
-            setTotalCharacters();
+        public void calcTotalValues() {
+            calcPacketTotal();
+            calcErrorTotal();
+            calcTotalCharacters();
         }
 
-        public void setTotalCharacters()
+        public void calcTotalCharacters()
         {
             foreach (Packet p in packets)
             {
+                p.calcTotalChars();
                 totalCharacters += p.getTotalChars();
             }
         }
 
-        public void setErrorTotal() {
+        public void calcErrorTotal() {
             foreach (Packet p in packets)
             {
                 if (p.getErrorStatus())
@@ -57,7 +58,7 @@ namespace Star_Dundee_WPF.Models
             }
         }
 
-        public void setPacketTotal() {
+        public void calcPacketTotal() {
             totalPackets = packets.Count();
         }
 

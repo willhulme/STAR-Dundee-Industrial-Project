@@ -30,23 +30,23 @@ namespace Star_Dundee_WPF.Models
             this.theData = theData;
         }
 
-        public Data getData()
-        {
-            return this.theData;
-        }
+        //public Data getData()
+       // {
+       //     return this.theData;
+       // }
 
         public DateTime getTimestamp() {
             return this.timestamp;
         }
 
 
-        public void setTotalChars() {
-            totalChars = theData.getChars();
+        public void calcTotalChars() {
+            totalChars = dataArray.Count();
         }
 
         public int getTotalChars()
         {
-            return this.totalChars;
+            return totalChars;
         }
 
         public bool getErrorStatus()

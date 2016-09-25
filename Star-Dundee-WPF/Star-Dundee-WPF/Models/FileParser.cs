@@ -137,10 +137,11 @@ namespace Star_Dundee_WPF
                 }
                 streamReader.Close();
 
-                currentPort.setTotals();
+                currentPort.calcTotalValues();
 
                 mainRecording.addPort(currentPort);
             }
+            mainRecording.calculateTotals();
         }
 
         //I don't understand this method at all so couldn't rewrite with the same naming conventions

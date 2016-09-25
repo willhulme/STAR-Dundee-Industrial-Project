@@ -272,6 +272,7 @@ namespace Star_Dundee_WPF
                         toDisplay = packetToCheck.getErrorType();
                     }
 
+                    timeStampCounter = indexInGrid;
 
                     switch (portCounter)
                     {

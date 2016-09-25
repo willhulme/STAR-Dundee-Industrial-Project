@@ -237,6 +237,8 @@ namespace Star_Dundee_WPF
             {
                 Port portToCheck = mainRecording.getPort(portCounter);
 
+                int currentPortNumber = portToCheck.portNumber;
+
                 Console.WriteLine("I'm in port " + (portCounter + 1));
 
                 int timeStampCounter = 0;
@@ -286,37 +288,37 @@ namespace Star_Dundee_WPF
 
                     timeStampCounter = indexInGrid;
 
-                    switch (portCounter)
+                    switch (currentPortNumber )
                     {
-                        case 0:
+                        case 1:
                             listOfColumns[timeStampCounter].setPort1(toDisplay);
                             break;
 
-                        case 1:
+                        case 2:
                             listOfColumns[timeStampCounter].setPort2(toDisplay);
                             break;
 
-                        case 2:
+                        case 3:
                             listOfColumns[timeStampCounter].setPort3(toDisplay);
                             break;
 
-                        case 3:
+                        case 4:
                             listOfColumns[timeStampCounter].setPort4(toDisplay);
                             break;
 
-                        case 4:
+                        case 5:
                             listOfColumns[timeStampCounter].setPort5(toDisplay);
                             break;
 
-                        case 5:
+                        case 6:
                             listOfColumns[timeStampCounter].setPort6(toDisplay);
                             break;
 
-                        case 6:
+                        case 7:
                             listOfColumns[timeStampCounter].setPort7(toDisplay);
                             break;
 
-                        case 7:
+                        case 8:
                             listOfColumns[timeStampCounter].setPort8(toDisplay);
                             break;
                     }

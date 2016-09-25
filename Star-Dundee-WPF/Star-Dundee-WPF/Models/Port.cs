@@ -8,17 +8,17 @@ namespace Star_Dundee_WPF.Models
 {
     class Port
     {
-        private int portNumber;
-        private DateTime startTime;
-        private DateTime stopTime;
-        private List<Packet> packets;
-        private int totalErrors;
-        private int totalPackets;
-        private int totalCharacters;
+        public int portNumber { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime stopTime { get; set; }
+        public List<Packet> packets { get; set; }
+        public int totalErrors { get; set; }
+        public int totalPackets { get; set; }
+        public int totalCharacters { get; set; }
 
-        private int dataRate;
-        private int errorRate;
-        private int packetRate;
+        public int dataRate { get; set; }
+        public int errorRate { get; set; }
+        public int packetRate { get; set; }
 
         public Port(int prt, DateTime start, DateTime end) {
             this.portNumber = prt;

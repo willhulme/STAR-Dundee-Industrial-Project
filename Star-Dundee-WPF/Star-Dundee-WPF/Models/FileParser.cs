@@ -184,16 +184,22 @@ namespace Star_Dundee_WPF
             string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
             DateTime startTime = mainRecording.getPort(0).getStartTime();
             DateTime timeOfLastPacket = mainRecording.getPort(0).getPacket(mainRecording.getPort(0).getTotalPackets() - 1).getTimestamp();
+           
 
-            foreach(Port currentPort in mainRecording.getPorts())
+            foreach (Port currentPort in mainRecording.getPorts())
             {
                 DateTime currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
+                DateTime currentFirstPacket = currentPort.packets[0].timestamp;
 
                 Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
 
                 if(DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
                 {
                     timeOfLastPacket = currentLastPacket;
+                }
+                if(DateTime.Compare(currentFirstPacket, startTime) > 0)
+                {
+                    startTime = currentFirstPacket;
                 }
             }
 
@@ -202,6 +208,7 @@ namespace Star_Dundee_WPF
 
             listOfColumns = new List<GridColumn>();
             DateTime currentTime = startTime;
+           
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);
 
@@ -218,7 +225,7 @@ namespace Star_Dundee_WPF
             }
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);
-            Console.WriteLine("StartTime: " + mainRecording.getPort(0).getStartTime());
+            Console.WriteLine("StartTime: " + startTime);
             Console.WriteLine("End Time: " + timeOfLastPacket);
 
             for(int portCounter = 0; portCounter < mainRecording.getPorts().Count; portCounter++)
@@ -236,7 +243,7 @@ namespace Star_Dundee_WPF
                     int indexInGrid = 0;
                     bool found = false;
 
-                    while(found == false && timeStampCounter <= listOfColumns.Count)
+                    while(found == false && timeStampCounter < listOfColumns.Count)
                     {
                         found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;

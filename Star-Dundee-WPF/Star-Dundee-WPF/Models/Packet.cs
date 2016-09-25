@@ -8,17 +8,17 @@ namespace Star_Dundee_WPF.Models
 {
     class Packet
     {
-        private  DateTime timestamp { get; set; }
-        private char packetType;
-        private string[] dataArray;
-        private string packetMarkerType;
-        private string errorType;
-        private string protocol;
+        public  DateTime timestamp { get; set; }
+        public char packetType { get; set; }
+        public string[] dataArray { get; set; }
+        public string packetMarkerType { get; set; }
+        public string errorType { get; set; }
+        public string protocol { get; set; }
 
-        private ErrorType error { get; set; }
-        private Data theData;
-        private int totalChars;
-        private bool hasError;
+        public ErrorType error { get; set; }
+        public Data theData { get; set; }
+        public int totalChars { get; set; }
+        public bool hasError { get; set; }
 
         public Packet()
         {

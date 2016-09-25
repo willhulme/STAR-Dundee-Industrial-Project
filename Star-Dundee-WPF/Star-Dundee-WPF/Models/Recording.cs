@@ -8,13 +8,13 @@ namespace Star_Dundee_WPF.Models
 {
     class Recording
     {
-        private List<Port> ports;
-        private int totalErrors;
-        private int totalPackets;
-        private int totalCharacters;
-        private int dataRate;
-        private int errorRate;
-        private int packetRate;
+        public List<Port> ports { get; set; }
+        public int totalErrors { get; set; }
+        public int totalPackets { get; set; }
+        public int totalCharacters { get; set; }
+        public int dataRate { get; set; }
+        public int errorRate { get; set; }
+        public int packetRate { get; set; }
 
         public Recording()
         {

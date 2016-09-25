@@ -36,7 +36,7 @@
         <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3">
             <TabItem Header="Overview" >
 
-                <DataGrid x:Name="dataGrid1" AutoGenerateColumns="True" SelectionUnit="Cell">
+                <DataGrid x:Name="dataGrid1" AutoGenerateColumns="True" SelectionUnit="Cell" CanUserAddRows="false">
                     <DataGrid.Resources>
                         <local:ErrorHighlighter x:Key="bgcolourconverter"/>
                     </DataGrid.Resources>

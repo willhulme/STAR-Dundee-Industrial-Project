@@ -84,7 +84,7 @@ namespace Star_Dundee_WPF
 
                     string timeStamp = streamReader.ReadLine();
                     Console.WriteLine("time: " + timeStamp);
-                    
+
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
                     Console.WriteLine("\t" + currentPacket.getTimestamp());
 

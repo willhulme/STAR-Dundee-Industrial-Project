@@ -108,7 +108,7 @@ namespace Star_Dundee_WPF.Models
 
         public void setTimeStamp(DateTime timeStamp)
         {
-            this.timestamp = timestamp;
+            this.timestamp = timeStamp;
             Console.WriteLine(this.timestamp + "\t" + timestamp);
         }
 

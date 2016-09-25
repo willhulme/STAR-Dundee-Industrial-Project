@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Star_Dundee_WPF.Models;
 using System.Collections.Generic;
 using Star_Dundee_WPF.Models.possible_new;
-
+using Star_Dundee_WPF;
 
 namespace SpaceWireUnitTests
 {
@@ -183,6 +183,15 @@ namespace SpaceWireUnitTests
             Parse parser = new Parse();
             string[] array = new string[1];
             parser.parseFile(array);
+        }
+
+        [TestMethod]
+        public void testMeadhbhsParser()
+        {
+            FileParser fileParser = new FileParser();
+            string[] array = new string[1];
+            array[0] = "C:/Users/user/Documents/STAR-Dundee-Industrial-Project2/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test1/link1.rec";
+            fileParser.startParsing(array);
         }
 
         [TestMethod]

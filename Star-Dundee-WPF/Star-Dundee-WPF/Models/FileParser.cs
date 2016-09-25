@@ -83,14 +83,16 @@ namespace Star_Dundee_WPF
                     Packet currentPacket = new Packet();
 
                     string timeStamp = streamReader.ReadLine();
-                    Console.WriteLine("time: " + timeStamp);
+                    Console.WriteLine("time:" + timeStamp);
                     
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
 
                     string packetType = streamReader.ReadLine();
+                    Console.WriteLine(packetType);
                     currentPacket.setPacketType(char.Parse(packetType));
-                    if (streamReader.Peek() == -1)
+                    if (streamReader.Peek() == -1 || currentPacket.getPacketType().Equals("E"))
                     {
+                        Console.WriteLine("peek " + streamReader.Peek());
                         break;
                     }
                     string cargo = streamReader.ReadLine();

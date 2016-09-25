@@ -197,10 +197,10 @@ namespace Star_Dundee_WPF
                 }
             }
 
-            double numberOfColumns = (startTime - timeOfLastPacket).TotalMilliseconds;
+            double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
 
             listOfColumns = new List<GridColumn>();
-            DateTime currentTime = timeOfLastPacket;
+            DateTime currentTime = startTime;
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);
 
@@ -245,7 +245,7 @@ namespace Star_Dundee_WPF
 
                         }
 
-                        Console.WriteLine("I'm at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
+                        Console.WriteLine("I'm at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat) + " timestampToCheck " + listOfColumns[timeStampCounter].getTime());
 
                         found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;

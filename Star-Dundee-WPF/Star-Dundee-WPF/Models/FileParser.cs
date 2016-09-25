@@ -12,7 +12,7 @@ namespace Star_Dundee_WPF
     {
 
         private Recording mainRecording;
-        private List<GridColumn> listOfColumns;
+        public List<GridColumn> listOfColumns { get; set; }
 
         public void startParsing(string[] filePaths)
         {

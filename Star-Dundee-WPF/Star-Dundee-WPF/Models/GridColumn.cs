@@ -8,15 +8,15 @@ namespace Star_Dundee_WPF.Models
 {
     class GridColumn
     {
-        private string time;
-        private string port1;
-        private string port2;
-        private string port3;
-        private string port4;
-        private string port5;
-        private string port6;
-        private string port7;
-        private string port8;
+        public string time { get; set; }
+        public string port1 { get; set; }
+        public string port2 { get; set; }
+        public string port3 { get; set; }
+        public string port4 { get; set; }
+        public string port5 { get; set; }
+        public string port6 { get; set; }
+        public string port7 { get; set; }
+        public string port8 { get; set; }
 
         public GridColumn() {
             time = "";

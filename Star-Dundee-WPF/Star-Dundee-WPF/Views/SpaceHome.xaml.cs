@@ -28,8 +28,7 @@ namespace Star_Dundee_WPF
         public SpaceHome()
         {
             InitializeComponent();
-
-           
+                
             
         }
 
@@ -46,10 +45,14 @@ namespace Star_Dundee_WPF
                 string[] files = openFileDialog.FileNames;
                 FileParser myFileParser = new FileParser();
                 myFileParser.startParsing(files);
+
                 // Set the ItemsSource to autogenerate the columns.
                 List<GridColumn> listToDisplay = myFileParser.getListOfColumns();
                 printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
+
+                //Set the recoding to the datacontext
+                this.DataContext = myFileParser.mainRecording;
             }
         }
 

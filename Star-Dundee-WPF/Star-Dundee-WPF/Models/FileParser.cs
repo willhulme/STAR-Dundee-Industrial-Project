@@ -11,7 +11,7 @@ namespace Star_Dundee_WPF
     class FileParser
     {
 
-        private Recording mainRecording;
+        public Recording mainRecording {get; set;}
         public List<GridColumn> listOfColumns { get; set; }
 
         public void startParsing(string[] filePaths)

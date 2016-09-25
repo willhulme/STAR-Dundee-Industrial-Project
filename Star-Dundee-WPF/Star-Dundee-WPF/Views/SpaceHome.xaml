@@ -1,4 +1,5 @@
 ﻿<Page x:Class="Star_Dundee_WPF.SpaceHome"
+      x:Name="spaceWindow"
       xmlns:local="clr-namespace:Star_Dundee_WPF"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -111,61 +112,64 @@
 
         <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >
             <TabItem Header="Recording Summary">
-                <StackPanel Background="LightBlue" >
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Number Of Packets:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Background="LightBlue" >
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Number Of Packets:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalPackets}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold" >Number Of Errors:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalErrors}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalCharacters}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Data Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding dataRate}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Packet Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetRate}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Error Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding errorRate}"/>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold" >Number Of Errors:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Data Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Packet Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Error Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                </StackPanel>
-
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Port Summary" >
-                <StackPanel Background="LightBlue" >
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Number Of Packets:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Background="LightBlue" >
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Number Of Packets:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold" >Number Of Errors:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Data Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Packet Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontWeight="DemiBold">Error Rate:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold" >Number Of Errors:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Data Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Packet Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label FontWeight="DemiBold">Error Rate:</Label>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                    </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Packet Details" >
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

@@ -198,6 +198,7 @@ namespace Star_Dundee_WPF
             }
 
             double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
+            numberOfColumns += 2;
 
             listOfColumns = new List<GridColumn>();
             DateTime currentTime = startTime;

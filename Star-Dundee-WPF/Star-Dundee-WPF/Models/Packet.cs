@@ -69,6 +69,10 @@ namespace Star_Dundee_WPF.Models
                     this.error = ErrorType.sequence;
                     break;
 
+                case "None":
+                    this.error = ErrorType.None;
+                    break;
+
                 case "disconnect":
                     this.error = ErrorType.disconnect;
                     break;
@@ -139,6 +143,7 @@ namespace Star_Dundee_WPF.Models
         public void setErrorType(string errorType)
         {
             this.errorType = errorType;
+            hasError = true;
         }
 
         public string[] getDataArray()
@@ -160,6 +165,7 @@ namespace Star_Dundee_WPF.Models
 
     enum ErrorType
     {
+        None,
         noError,
         disconnect,
         parity,

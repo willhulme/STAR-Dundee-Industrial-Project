@@ -49,7 +49,7 @@ namespace Star_Dundee_WPF
 
                 // Set the ItemsSource to autogenerate the columns.
                 List<GridColumn> listToDisplay = myFileParser.getListOfColumns();
-                printListOfColumns(listToDisplay);
+                //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
 
                 //Set the recording to the datacontext

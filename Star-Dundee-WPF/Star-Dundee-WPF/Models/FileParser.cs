@@ -139,11 +139,37 @@ namespace Star_Dundee_WPF
                             {
                                 currentPacket.setErrorType("CRC");
                             }
+                            else if (previousPacket != null && currentPacket.transactionID < previousPacket.transactionID)
+                            {
+                                if (currentPacket.transactionID == 0 && previousPacket.transactionID == 65535)
+                                {
+                                    //wombo combo
+                                }
+                                else
+                                {
+                                    currentPacket.setErrorType("sequence");
+                                }
+
+                            }
                         }
-                        else if(previousPacket != null && currentPacket.transactionID < previousPacket.transactionID)
+                        else if (currentPacket.protocol.Equals("CUSTOM"))
                         {
-                            currentPacket.setErrorType("OutOfSequence");
+                            byte newData = getCustomProtocolTransactionID(cargo);
+                            currentPacket.transactionID = newData;
+                            if (previousPacket != null && currentPacket.transactionID < previousPacket.transactionID)
+                            {
+                                if (currentPacket.transactionID == 0 && previousPacket.transactionID == 65535)
+                                {
+                                    //wombo combo
+                                }
+                                else
+                                {
+                                    currentPort.packets[(currentPort.packets.Count - 1)].errorType = "sequence";
+                                    currentPacket.setErrorType("sequence");
+                                }
+                            }
                         }
+
                     }
                     previousPacket = currentPacket;
                     currentPort.addPacketToList(currentPacket);
@@ -164,6 +190,14 @@ namespace Star_Dundee_WPF
                 mainRecording.addPort(currentPort);
             }
             mainRecording.calculateTotals();
+        }
+
+        private byte getCustomProtocolTransactionID(string cargo)
+        {
+            cargo = trimPathAddress(cargo);
+            string[] characters = cargo.Split(' ');
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            return characterBytes[2];
         }
 
         //I don't understand this method at all so couldn't rewrite with the same naming conventions

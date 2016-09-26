@@ -11,7 +11,7 @@ namespace Star_Dundee_WPF
     class FileParser
     {
 
-        public Recording mainRecording {get; set;}
+        public Recording mainRecording { get; set; }
         public List<GridColumn> listOfColumns { get; set; }
 
         public void startParsing(string[] filePaths)
@@ -23,7 +23,8 @@ namespace Star_Dundee_WPF
                 readFile(filePaths);
 
                 fillDataGrid();
-            }else
+            }
+            else
             {
                 Console.WriteLine("Error reading file(s) - please try again");
             }
@@ -33,7 +34,7 @@ namespace Star_Dundee_WPF
         {
             string[] startTimes = new string[filePaths.Length];
 
-            for(int i = 0; i < filePaths.Length; i++)
+            for (int i = 0; i < filePaths.Length; i++)
             {
                 Console.WriteLine("Checking file " + (i + 1));
 
@@ -56,7 +57,7 @@ namespace Star_Dundee_WPF
             bool matchingStamps = true;
             int counter = 0;
 
-            while(matchingStamps && counter < (startTimes.Length - 1))
+            while (matchingStamps && counter < (startTimes.Length - 1))
             {
                 matchingStamps = startTimes[counter].Equals(startTimes[counter + 1]);
                 counter++;
@@ -105,7 +106,7 @@ namespace Star_Dundee_WPF
 
                     string packetMarkerType = streamReader.ReadLine();
 
-                    if(packetMarkerType != "")
+                    if (packetMarkerType != "")
                     {
                         currentPacket.setPacketMarkerType(packetMarkerType);
                     }
@@ -128,7 +129,7 @@ namespace Star_Dundee_WPF
                         currentPacket.setProtocol(getProtocol(cargo));
                         if (currentPacket.getProtocol().Equals("RMAP"))
                         {
-                            if (new CRC8().Check(cargo) == 0)
+                            if (new CRC8().Check(cargo) != 0)
                             {
                                 currentPacket.setErrorType("CRC");
                             }
@@ -137,7 +138,14 @@ namespace Star_Dundee_WPF
 
                     currentPort.addPacketToList(currentPacket);
 
-                    streamReader.ReadLine();
+                    //quick fix for exceptions encountered on test 6 link 5, caused by a line read where the error "packets" have 1 less line
+                    if (cargo.Equals("Parity") || cargo.Equals("Disconnect"))
+                    {
+                    }
+                    else
+                    {
+                        streamReader.ReadLine();
+                    }
                 }
                 streamReader.Close();
 
@@ -189,7 +197,7 @@ namespace Star_Dundee_WPF
             string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
             DateTime startTime = mainRecording.getPort(0).getStartTime();
             DateTime timeOfLastPacket = mainRecording.getPort(0).getPacket(mainRecording.getPort(0).getTotalPackets() - 1).getTimestamp();
-           
+
 
             foreach (Port currentPort in mainRecording.getPorts())
             {
@@ -198,11 +206,11 @@ namespace Star_Dundee_WPF
 
                 Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
 
-                if(DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
+                if (DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
                 {
                     timeOfLastPacket = currentLastPacket;
                 }
-                if(DateTime.Compare(currentFirstPacket, startTime) > 0)
+                if (DateTime.Compare(currentFirstPacket, startTime) > 0)
                 {
                     startTime = currentFirstPacket;
                 }
@@ -213,7 +221,7 @@ namespace Star_Dundee_WPF
 
             listOfColumns = new List<GridColumn>();
             DateTime currentTime = startTime;
-           
+
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);
 
@@ -233,7 +241,7 @@ namespace Star_Dundee_WPF
             Console.WriteLine("StartTime: " + startTime);
             Console.WriteLine("End Time: " + timeOfLastPacket);
 
-            for(int portCounter = 0; portCounter < mainRecording.getPorts().Count; portCounter++)
+            for (int portCounter = 0; portCounter < mainRecording.getPorts().Count; portCounter++)
             {
                 Port portToCheck = mainRecording.getPort(portCounter);
 
@@ -243,14 +251,14 @@ namespace Star_Dundee_WPF
 
                 int timeStampCounter = 0;
 
-                for(int packetCounter = 0; packetCounter < portToCheck.getPackets().Count; packetCounter++)
+                for (int packetCounter = 0; packetCounter < portToCheck.getPackets().Count; packetCounter++)
                 {
                     Packet packetToCheck = portToCheck.getPacket(packetCounter);
 
                     int indexInGrid = 0;
                     bool found = false;
 
-                    while(found == false && timeStampCounter < listOfColumns.Count)
+                    while (found == false && timeStampCounter < listOfColumns.Count)
                     {
                         found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;
@@ -288,7 +296,7 @@ namespace Star_Dundee_WPF
 
                     timeStampCounter = indexInGrid;
 
-                    switch (currentPortNumber )
+                    switch (currentPortNumber)
                     {
                         case 1:
                             listOfColumns[timeStampCounter].setPort1(toDisplay);

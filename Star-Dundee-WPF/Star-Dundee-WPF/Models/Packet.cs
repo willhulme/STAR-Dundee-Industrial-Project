@@ -19,6 +19,7 @@ namespace Star_Dundee_WPF.Models
         public Data theData { get; set; }
         public int totalChars { get; set; }
         public bool hasError { get; set; }
+        public uint transactionID { get; set; }
 
         public Packet()
         {

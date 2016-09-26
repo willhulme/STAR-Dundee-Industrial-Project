@@ -13,7 +13,7 @@ namespace Star_Dundee_WPF
 
         public Recording mainRecording {get; set;}
         public List<GridColumn> listOfColumns { get; set; }
-
+        private Packet previousPacket = null;
         public void startParsing(string[] filePaths)
         {
             if (filesExistAndMatch(filePaths))
@@ -122,19 +122,29 @@ namespace Star_Dundee_WPF
                     {
                         currentPacket.setErrorType("EEP");
                     }
+                    else if (previousPacket != null && Enumerable.SequenceEqual(currentPacket.dataArray, previousPacket.dataArray))
+                    {
+                        currentPacket.setErrorType("babbling");
+                    }
                     else
                     {
                         cargo = trimPathAddress(cargo);
                         currentPacket.setProtocol(getProtocol(cargo));
                         if (currentPacket.getProtocol().Equals("RMAP"))
                         {
+                            RMAP rmap = new RMAP();
+                            currentPacket.transactionID = rmap.getTransactionID(cargo);
                             if (new CRC8().Check(cargo) == 0)
                             {
                                 currentPacket.setErrorType("CRC");
                             }
                         }
+                        else if(previousPacket != null && currentPacket.transactionID < previousPacket.transactionID)
+                        {
+                            currentPacket.setErrorType("OutOfSequence");
+                        }
                     }
-
+                    previousPacket = currentPacket;
                     currentPort.addPacketToList(currentPacket);
 
                     streamReader.ReadLine();

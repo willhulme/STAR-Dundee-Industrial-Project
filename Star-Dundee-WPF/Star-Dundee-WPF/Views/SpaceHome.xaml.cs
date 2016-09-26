@@ -16,7 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
-
+using System.Data;
+using System.ComponentModel;
 
 namespace Star_Dundee_WPF
 {
@@ -25,16 +26,15 @@ namespace Star_Dundee_WPF
     /// </summary>
     public partial class SpaceHome : Page
     {
-        FileParser myFileParser;
+        FileParser myFileParser;     
+
         public SpaceHome()
         {
 
             
             InitializeComponent();
         }
-
-
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -48,7 +48,7 @@ namespace Star_Dundee_WPF
                 myFileParser.startParsing(files);
 
                 // Set the ItemsSource to autogenerate the columns.
-                List<GridColumn> listToDisplay = myFileParser.getListOfColumns();
+                List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                 //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
 
@@ -84,6 +84,18 @@ namespace Star_Dundee_WPF
             Console.WriteLine("Port Clicked: " + portHeader);
 
             updatePortSummury(portIndex);
+            //get row index
+            GridColumn row = (GridColumn)dataGrid1.CurrentItem;
+            
+            Console.WriteLine("Cell Time: " + row.time.ToString());
+            //string row1 = (string)dataGrid1.SelectedCells[0]
+            //int rowIndex = dataGrid1.SelectedCells.
+            //int index = dataGrid1.Items.IndexOf(cell.Item))
+
+            //get timestamp 
+
+
+
         }
 
         private void updatePortSummury(int port)
@@ -108,11 +120,17 @@ namespace Star_Dundee_WPF
             if (exists)
             {
                 myFileParser.mainRecording.portSummary = getPortSummary(portIndex);
-                
+                portPanel.Visibility = System.Windows.Visibility.Visible;
             }
             
                 
             DataContext = myFileParser.mainRecording;
+
+            //if empty hide lables
+            if (!exists)
+            {
+                portPanel.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
 
         public string[] getPortSummary(int port)

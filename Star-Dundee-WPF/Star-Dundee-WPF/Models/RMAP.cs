@@ -313,6 +313,31 @@ namespace Star_Dundee_WPF.Models
             return calcsourceAdd(sourceAddressBits);
         }
 
+        public uint getTransactionID(string cargo)
+        {
+            string[] characters = cargo.Split(' ');
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            byte packetCommand = characterBytes[2];
+            string command = getCommandType(packetCommand);
+            byte[] transaction = new byte[2];
+            uint transactionInt; 
+            if (command.Contains("REPLY"))
+            {
+                transaction[0] = characterBytes[5];
+                transaction[1] = characterBytes[6];
+            }
+            else
+            {
+                int i = sourceAddLen * 4;
+                transaction[0] = characterBytes[5 + i];
+                transaction[1] = characterBytes[6 + i];
+            }
+            Array.Reverse(transaction);
+            transactionInt = arrayToInt(transaction);
+            return transactionInt;
+
+        }
+
     }
 
     

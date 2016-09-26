@@ -190,7 +190,7 @@ namespace SpaceWireUnitTests
         {
             FileParser fileParser = new FileParser();
             string[] array = new string[1];
-            array[0] = "C:/Users/user/Documents/STAR-Dundee-Industrial-Project2/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test1/link1.rec";
+            array[0] = "C:/Users/wjh/Documents/STAR-Dundee-Industrial-Project/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test5/link1.rec";
             fileParser.startParsing(array);
         }
 

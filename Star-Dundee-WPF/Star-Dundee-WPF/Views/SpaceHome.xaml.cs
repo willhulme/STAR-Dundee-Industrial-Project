@@ -26,12 +26,11 @@ namespace Star_Dundee_WPF
     public partial class SpaceHome : Page
     {
         FileParser myFileParser;
-        public string[] portSummary  { get; set; }
         public SpaceHome()
         {
+
+            
             InitializeComponent();
-
-
         }
 
 
@@ -90,26 +89,30 @@ namespace Star_Dundee_WPF
         private void updatePortSummury(int port)
         {
 
-            portSummary = new string[6] {"", "", "", "", "", "" };
+            string[]portSummary = new string[6] { "", "", "", "", "", "" };
+            myFileParser.mainRecording.portSummary = portSummary;
             //check if port exists
             bool exists = false;
+            int portIndex = port;
             
             for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
             {
                 if (myFileParser.mainRecording.ports[i].portNumber == port)
+                {
                     exists = true;
+                    portIndex = i;
+                }
+                    
             }
             port -= 1;
             if (exists)
             {
-                portSummary = getPortSummary(port);
-                DataContext = portSummary;
-            }
-            else
-            {
-                DataContext = portSummary;
+                myFileParser.mainRecording.portSummary = getPortSummary(portIndex);
+                
             }
             
+                
+            DataContext = myFileParser.mainRecording;
         }
 
         public string[] getPortSummary(int port)

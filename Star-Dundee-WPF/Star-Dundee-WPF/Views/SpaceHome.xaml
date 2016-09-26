@@ -5,7 +5,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      
+     
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="SpaceWire Analyser - Home">
@@ -155,23 +155,23 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold" >Number Of Errors:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[1]}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[2]}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Data Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[3]}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Packet Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[4]}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Error Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[5]}"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

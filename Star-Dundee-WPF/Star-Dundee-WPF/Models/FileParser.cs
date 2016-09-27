@@ -242,11 +242,14 @@ namespace Star_Dundee_WPF
             DateTime startTime = mainRecording.getPort(0).getStartTime();
             DateTime timeOfLastPacket = mainRecording.getPort(0).getPacket(mainRecording.getPort(0).getTotalPackets() - 1).getTimestamp();
 
+            DateTime currentLastPacket;
+            DateTime currentFirstPacket;
+            DateTime earliestPacket = mainRecording.getPorts()[0].packets[0].timestamp;
 
             foreach (Port currentPort in mainRecording.getPorts())
             {
-                DateTime currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
-                DateTime currentFirstPacket = currentPort.packets[0].timestamp;
+                currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
+                currentFirstPacket = currentPort.packets[0].timestamp;
 
                 //Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
 
@@ -254,11 +257,13 @@ namespace Star_Dundee_WPF
                 {
                     timeOfLastPacket = currentLastPacket;
                 }
-                if (DateTime.Compare(currentFirstPacket, startTime) > 0)
+                if (DateTime.Compare(currentFirstPacket, earliestPacket) < 0)
                 {
-                    startTime = currentFirstPacket;
+                    earliestPacket = currentFirstPacket;
                 }
             }
+
+            startTime = earliestPacket;
 
             double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
             numberOfColumns += 2;

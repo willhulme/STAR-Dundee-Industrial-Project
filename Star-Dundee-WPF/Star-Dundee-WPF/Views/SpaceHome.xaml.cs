@@ -89,11 +89,14 @@ namespace Star_Dundee_WPF
             GridColumn row = (GridColumn)dataGrid1.CurrentItem;
             
             Console.WriteLine("Cell Time: " + row.time.ToString());
+            Console.WriteLine("Index: " + row.index.ToString());
             //get timestamp 
             string cellTime = row.time.ToString();
+            string cellIndex = row.index.ToString();
+
 
             //look for the matching packet with the timestamps in the port
-           
+
 
             Packet myPacket = new Packet();
 

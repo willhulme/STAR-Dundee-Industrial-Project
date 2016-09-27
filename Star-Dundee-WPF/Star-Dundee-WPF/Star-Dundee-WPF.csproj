@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="De.TorstenMandelkow.MetroChart">
+      <HintPath>..\..\..\..\..\Documents\Dundee_UNI\4th_Year\Team Project\SourceAndTestApplications\MetroChart\TestApplicationWPF\bin\Debug\De.TorstenMandelkow.MetroChart.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

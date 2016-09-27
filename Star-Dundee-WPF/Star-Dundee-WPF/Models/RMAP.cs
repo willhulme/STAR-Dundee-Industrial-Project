@@ -37,6 +37,7 @@ namespace Star_Dundee_WPF.Models
 
         public void buildPacket(string packet)
         {
+            packet = trimPathAddress(packet);
             string[] characters = packet.Split(' ');
             byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
             ptCmdSp = characterBytes[0];
@@ -52,6 +53,12 @@ namespace Star_Dundee_WPF.Models
             }
             printPacketDetails(this);
 
+        }
+
+        public void buildPacket(string[] packet)
+        {
+            string cargo = string.Join(" ", packet);
+            buildPacket(cargo);
         }
 
         private void GetCommandPacket(byte[] characterBytes)
@@ -336,6 +343,22 @@ namespace Star_Dundee_WPF.Models
             transactionInt = arrayToInt(transaction);
             return transactionInt;
 
+        }
+
+        private string trimPathAddress(string cargo)
+        {
+            string[] characters = cargo.Split(' ');
+            byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
+            List<string> charBytes = new List<string>(characters);
+            int index = 0;
+            while (characterBytes[index] < 32)
+            {
+                charBytes.RemoveAt(0);
+                index++;
+            }
+            charBytes.RemoveAt(0);
+            charBytes.RemoveAt(0);
+            return String.Join(" ", charBytes.ToArray());
         }
 
     }

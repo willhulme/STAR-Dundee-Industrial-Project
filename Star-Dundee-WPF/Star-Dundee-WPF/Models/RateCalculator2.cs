@@ -18,7 +18,7 @@ namespace Star_Dundee_WPF.Models
 
         public RateCalculator2(List<Packet> packets)
         {
-           // this.packets = packets;
+            // this.packets = packets;
         }
 
         public List<Tuple<DateTime, decimal>> CalculateDataRate(List<Packet> packets)
@@ -30,9 +30,12 @@ namespace Star_Dundee_WPF.Models
                 {
                     Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
                     TimeSpan difference = (packets[i + 1].timestamp - packets[i].timestamp);
-                    decimal kiloBytesPerSecond = (decimal)(((double)packets[1].dataLength / difference.TotalSeconds) / 1000);
-                    timeAndRate = new Tuple<DateTime, decimal>(packets[i].timestamp, kiloBytesPerSecond);
-                    rate.Add(timeAndRate);
+                    if (difference.TotalSeconds != 0)
+                    {
+                        decimal kiloBytesPerSecond = (decimal)(((double)packets[1].dataLength / difference.TotalSeconds) / 1000);
+                        timeAndRate = new Tuple<DateTime, decimal>(packets[i].timestamp, kiloBytesPerSecond);
+                        rate.Add(timeAndRate);
+                    }
                 }
             }
             else if (packets.Count < 1000)
@@ -108,11 +111,11 @@ namespace Star_Dundee_WPF.Models
             decimal errorRate;
             int totalErrors = thePort.totalErrors;
             int totalPackets = thePort.totalPackets;
-            errorRate = (decimal) totalErrors / totalPackets;
+            errorRate = (decimal)totalErrors / totalPackets;
             return errorRate;
         }
 
 
 
-        }
+    }
 }

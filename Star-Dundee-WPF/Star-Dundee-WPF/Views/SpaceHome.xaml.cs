@@ -154,6 +154,13 @@ namespace Star_Dundee_WPF
 
             return portSummary;
         }
+
+        public string[] getPacketSummary(int port)
+        {
+            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
+
+            return packetSummary;
+        }
     }
 
 

@@ -116,7 +116,7 @@
         </TabControl>
 
         <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >
-            <TabItem Header="Recording Summary">
+            <TabItem Header="Recording Summary" Background="LightBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Background="LightBlue" >
                         <StackPanel Orientation="Horizontal">
@@ -148,30 +148,32 @@
             </TabItem>
             <TabItem Header="Port Summary" Background="LightBlue" >
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Name="portPanel" Visibility="Visible" Background="LightBlue" >
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold">Number Of Packets:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[0]}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold" >Number Of Errors:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[1]}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[2]}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold">Data Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[3]}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold">Packet Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[4]}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold">Error Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[5]}"/>
+                    <StackPanel Background="LightBlue" >
+                        <StackPanel Name="portPanel" Visibility="Visible" Background="LightBlue" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold">Number Of Packets:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[0]}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold" >Number Of Errors:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[1]}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[2]}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold">Data Rate:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[3]}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold">Packet Rate:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[4]}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold">Error Rate:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[5]}"/>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

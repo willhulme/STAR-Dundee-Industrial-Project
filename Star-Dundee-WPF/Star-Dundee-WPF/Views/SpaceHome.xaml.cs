@@ -51,7 +51,7 @@ namespace Star_Dundee_WPF
                 List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                 //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
-
+                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                 //Set the recording to the datacontext
                 this.DataContext = myFileParser.mainRecording;
             }
@@ -80,6 +80,7 @@ namespace Star_Dundee_WPF
             // Get column header
             string portHeader = (string)dataGrid1.SelectedCells[0].Column.Header;
             int portIndex = dataGrid1.SelectedCells[0].Column.DisplayIndex;
+            portIndex -= 1;
             Console.WriteLine("port Index: " + portIndex);
             Console.WriteLine("Port Clicked: " + portHeader);
 
@@ -88,11 +89,14 @@ namespace Star_Dundee_WPF
             GridColumn row = (GridColumn)dataGrid1.CurrentItem;
             
             Console.WriteLine("Cell Time: " + row.time.ToString());
+            Console.WriteLine("Index: " + row.index.ToString());
             //get timestamp 
             string cellTime = row.time.ToString();
+            string cellIndex = row.index.ToString();
+
 
             //look for the matching packet with the timestamps in the port
-            int index = portIndex - 1;
+
 
             Packet myPacket = new Packet();
 
@@ -154,6 +158,13 @@ namespace Star_Dundee_WPF
 
             return portSummary;
         }
+
+        public string[] getPacketSummary(int port)
+        {
+            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
+
+            return packetSummary;
+        }
     }
 
 
@@ -164,16 +175,18 @@ namespace Star_Dundee_WPF
             var errorString = value as string;
             if (errorString == null) return null;
 
-            if (errorString == "noError") return Brushes.Green;
-            else if (errorString == "disconnect") return Brushes.Crimson;
-            else if (errorString == "parity") return Brushes.DarkRed;
-            else if (errorString == "crcHeader") return Brushes.DarkSalmon;
-            else if (errorString == "crcData") return Brushes.DarkSalmon;
-            else if (errorString == "eep") return Brushes.Red;
-            else if (errorString == "timeout") return Brushes.IndianRed;
-            else if (errorString == "babblingIdiot") return Brushes.Plum;
-            else if (errorString == "length") return Brushes.Bisque;
-            else if (errorString == "sequence") return Brushes.BurlyWood;
+            if (errorString == "Packet") return Brushes.Green;
+            else if (errorString == "Disconnect") return Brushes.Crimson;
+            else if (errorString == "Parity") return Brushes.DarkRed;
+            else if (errorString == "CRCHeader") return Brushes.DarkSalmon;
+            else if (errorString == "CRCData") return Brushes.DarkSalmon;
+            else if (errorString == "CRC") return Brushes.DarkSalmon;
+            else if (errorString == "EEP") return Brushes.Red;
+            else if (errorString == "Timeout") return Brushes.IndianRed;
+            else if (errorString == "BabblingIdiot") return Brushes.Plum;
+            else if (errorString == "Length") return Brushes.Bisque;
+            else if (errorString == "Sequence") return Brushes.BurlyWood;
+            else if (errorString == "None") return Brushes.Tomato;
             else if (errorString == "") return Brushes.LightBlue;
             else return Brushes.LightSteelBlue;
 

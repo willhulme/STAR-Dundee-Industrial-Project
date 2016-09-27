@@ -126,7 +126,7 @@ namespace Star_Dundee_WPF
                     }
                     else if (previousPacket != null && Enumerable.SequenceEqual(currentPacket.dataArray, previousPacket.dataArray))
                     {
-                        currentPacket.setErrorType("babbling");
+                        currentPacket.setErrorType("BabblingIdiot");
                     }
                     else
                     {
@@ -148,7 +148,7 @@ namespace Star_Dundee_WPF
                                 }
                                 else
                                 {
-                                    currentPacket.setErrorType("sequence");
+                                    currentPacket.setErrorType("Sequence");
                                 }
 
                             }
@@ -165,8 +165,8 @@ namespace Star_Dundee_WPF
                                 }
                                 else
                                 {
-                                    currentPort.packets[(currentPort.packets.Count - 1)].errorType = "sequence";
-                                    currentPacket.setErrorType("sequence");
+                                    currentPort.packets[(currentPort.packets.Count - 1)].errorType = "Sequence";
+                                    currentPacket.setErrorType("Sequence");
                                 }
                             }
                         }
@@ -284,7 +284,7 @@ namespace Star_Dundee_WPF
                 GridColumn currentGridColumn = new GridColumn();
 
                 currentGridColumn.setTime(currentTimeStamp);
-
+                currentGridColumn.index = i.ToString();
                 listOfColumns.Add(currentGridColumn);
                 currentTime = currentTime.AddMilliseconds(1);
             }
@@ -316,7 +316,7 @@ namespace Star_Dundee_WPF
                         //if the current packet time is at the current list index
                         if (packetToCheck.timestamp.ToString(dateTimeFormat) == listOfColumns[timeStampCounter].time)
                         {
-                            indexInGrid++;
+                            //indexInGrid++;
                             //check if a packet is already at this time and if so add a new column to the grid at the correct bit
                             switch (currentPortNumber)
                             {
@@ -438,6 +438,7 @@ namespace Star_Dundee_WPF
                         }
 
                         timeStampCounter = indexInGrid;
+                       
 
                         switch (currentPortNumber)
                         {
@@ -473,6 +474,7 @@ namespace Star_Dundee_WPF
                                 listOfColumns[timeStampCounter].setPort8(toDisplay);
                                 break;
                         }
+                        
                     }
                 }
             }

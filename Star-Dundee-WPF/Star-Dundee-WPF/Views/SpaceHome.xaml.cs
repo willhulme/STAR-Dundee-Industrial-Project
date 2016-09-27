@@ -88,14 +88,22 @@ namespace Star_Dundee_WPF
             GridColumn row = (GridColumn)dataGrid1.CurrentItem;
             
             Console.WriteLine("Cell Time: " + row.time.ToString());
-            //string row1 = (string)dataGrid1.SelectedCells[0]
-            //int rowIndex = dataGrid1.SelectedCells.
-            //int index = dataGrid1.Items.IndexOf(cell.Item))
-
             //get timestamp 
+            string cellTime = row.time.ToString();
 
+            //look for the matching packet with the timestamps in the port
+            int index = portIndex - 1;
 
+            Packet myPacket = new Packet();
 
+            //for(int i = 0; i < myFileParser.mainRecording.ports[index].packets.Count; i++)
+            //{
+            //    if (cellTime == myFileParser.mainRecording.ports[index].packets[i].timestamp.ToString())
+            //    {
+            //        myPacket = myFileParser.mainRecording.ports[index].packets[i];
+            //        break;
+            //    }
+            //}
         }
 
         private void updatePortSummury(int port)

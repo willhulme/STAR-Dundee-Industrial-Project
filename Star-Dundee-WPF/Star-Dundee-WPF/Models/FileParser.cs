@@ -84,21 +84,21 @@ namespace Star_Dundee_WPF
                     Packet currentPacket = new Packet();
 
                     string timeStamp = streamReader.ReadLine();
-                    Console.WriteLine("time: " + timeStamp);
+                    //Console.WriteLine("time: " + timeStamp);
 
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
-                    Console.WriteLine("\t" + currentPacket.getTimestamp());
+                    //Console.WriteLine("\t" + currentPacket.getTimestamp());
 
                     string packetType = streamReader.ReadLine();
                     if (packetType == null)
                     {
                         break;
                     }
-                    Console.WriteLine(packetType);
+                    //Console.WriteLine(packetType);
                     currentPacket.setPacketType(char.Parse(packetType));
                     if (streamReader.Peek() == -1 || currentPacket.getPacketType().Equals("E"))
                     {
-                        Console.WriteLine("peek " + streamReader.Peek());
+                        //Console.WriteLine("peek " + streamReader.Peek());
                         break;
                     }
                     string cargo = streamReader.ReadLine();
@@ -204,7 +204,7 @@ namespace Star_Dundee_WPF
         public static string trimPathAddress(string cargo)
         {
             string[] characters = cargo.Split(' ');
-            Console.WriteLine(cargo);
+            //Console.WriteLine(cargo);
             byte[] characterBytes = characters.Select(s => Convert.ToByte(s, 16)).ToArray();
             List<string> charBytes = new List<string>(characters);
             int index = 0;
@@ -248,7 +248,7 @@ namespace Star_Dundee_WPF
                 DateTime currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
                 DateTime currentFirstPacket = currentPort.packets[0].timestamp;
 
-                Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
+                //Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
 
                 if (DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
                 {
@@ -267,7 +267,7 @@ namespace Star_Dundee_WPF
             DateTime currentTime = startTime;
 
 
-            Console.WriteLine("Number of Columns: " + numberOfColumns);
+            //Console.WriteLine("Number of Columns: " + numberOfColumns);
 
             for (int i = 0; i < numberOfColumns; i++)
             {
@@ -291,7 +291,7 @@ namespace Star_Dundee_WPF
 
                 int currentPortNumber = portToCheck.portNumber;
 
-                Console.WriteLine("I'm in port " + (portCounter + 1));
+                //Console.WriteLine("I'm in port " + (portCounter + 1));
 
                 int timeStampCounter = 0;
 
@@ -304,75 +304,166 @@ namespace Star_Dundee_WPF
 
                     while (found == false && timeStampCounter < listOfColumns.Count)
                     {
-                        found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
+                        //if the current packet time is at the current list index
+                        if (packetToCheck.timestamp.ToString(dateTimeFormat) == listOfColumns[timeStampCounter].time)
+                        {
+                            indexInGrid++;
+                            //check if a packet is already at this time and if so add a new column to the grid at the correct bit
+                            switch (currentPortNumber)
+                            {
+                                case 1:
+                                    if (listOfColumns[timeStampCounter].port1 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 2:
+                                    if (listOfColumns[timeStampCounter].port2 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+
+                                    break;
+                                case 3:
+                                    if (listOfColumns[timeStampCounter].port3 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 4:
+                                    if (listOfColumns[timeStampCounter].port4 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 5:
+                                    if (listOfColumns[timeStampCounter].port5 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 6:
+                                    if (listOfColumns[timeStampCounter].port6 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 7:
+                                    if (listOfColumns[timeStampCounter].port7 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+                                    }
+                                    break;
+
+                                case 8:
+                                    if (listOfColumns[timeStampCounter].port8 != null)
+                                    {
+                                        GridColumn newColumn = new GridColumn();
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        timeStampCounter++;
+                                        listOfColumns.Insert((timeStampCounter), newColumn);
+
+                                    }
+                                    break;
+
+                            }
+
+                            found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;
                         timeStampCounter++;
                     }
 
                     if (!found)
                     {
-                        timeStampCounter = 0;
+                           timeStampCounter = 0;
 
-                        while (found == false && timeStampCounter < listOfColumns.Count)
-                        {
-                            found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
-                            indexInGrid = timeStampCounter;
-                            timeStampCounter++;
+                            while (found == false && timeStampCounter < listOfColumns.Count)
+                            {
+                                found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
+                                indexInGrid = timeStampCounter;
+                                timeStampCounter++;
+                            }
+
+                            timeStampCounter--;
+
+                            //Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
                         }
 
-                        timeStampCounter--;
+                        //Console.WriteLine("******* \t" + listOfColumns[timeStampCounter].getTime() + packetToCheck.getErrorType() + portCounter);
 
-                        Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
-                    }
+                        string toDisplay = "";
 
-                    Console.WriteLine("******* \t" + listOfColumns[timeStampCounter].getTime() + packetToCheck.getErrorType() + portCounter);
+                        if (packetToCheck.getErrorType() == null)
+                        {
+                            toDisplay = "Packet";
+                        }
+                        else
+                        {
+                            toDisplay = packetToCheck.getErrorType();
+                        }
 
-                    string toDisplay = "";
+                        timeStampCounter = indexInGrid;
 
-                    if (packetToCheck.getErrorType() == null)
-                    {
-                        toDisplay = "Packet";
-                    }
-                    else
-                    {
-                        toDisplay = packetToCheck.getErrorType();
-                    }
+                        switch (currentPortNumber)
+                        {
+                            case 1:
+                                listOfColumns[timeStampCounter].setPort1(toDisplay);
+                                break;
 
-                    timeStampCounter = indexInGrid;
+                            case 2:
+                                listOfColumns[timeStampCounter].setPort2(toDisplay);
+                                break;
 
-                    switch (currentPortNumber)
-                    {
-                        case 1:
-                            listOfColumns[timeStampCounter].setPort1(toDisplay);
-                            break;
+                            case 3:
+                                listOfColumns[timeStampCounter].setPort3(toDisplay);
+                                break;
 
-                        case 2:
-                            listOfColumns[timeStampCounter].setPort2(toDisplay);
-                            break;
+                            case 4:
+                                listOfColumns[timeStampCounter].setPort4(toDisplay);
+                                break;
 
-                        case 3:
-                            listOfColumns[timeStampCounter].setPort3(toDisplay);
-                            break;
+                            case 5:
+                                listOfColumns[timeStampCounter].setPort5(toDisplay);
+                                break;
 
-                        case 4:
-                            listOfColumns[timeStampCounter].setPort4(toDisplay);
-                            break;
+                            case 6:
+                                listOfColumns[timeStampCounter].setPort6(toDisplay);
+                                break;
 
-                        case 5:
-                            listOfColumns[timeStampCounter].setPort5(toDisplay);
-                            break;
+                            case 7:
+                                listOfColumns[timeStampCounter].setPort7(toDisplay);
+                                break;
 
-                        case 6:
-                            listOfColumns[timeStampCounter].setPort6(toDisplay);
-                            break;
-
-                        case 7:
-                            listOfColumns[timeStampCounter].setPort7(toDisplay);
-                            break;
-
-                        case 8:
-                            listOfColumns[timeStampCounter].setPort8(toDisplay);
-                            break;
+                            case 8:
+                                listOfColumns[timeStampCounter].setPort8(toDisplay);
+                                break;
+                        }
                     }
                 }
             }

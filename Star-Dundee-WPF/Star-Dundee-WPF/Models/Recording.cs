@@ -23,8 +23,19 @@ namespace Star_Dundee_WPF.Models
                 OnPropertyChanged("portSummary");
             }
         }
+        private string[] packetSum;
+        public string[] packetSummary
+        {
+            get { return portSum; }
+            set
+            {
+                portSum = value;
 
-        
+                OnPropertyChanged("packetSummary");
+            }
+        }
+
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

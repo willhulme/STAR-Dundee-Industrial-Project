@@ -14,6 +14,7 @@ namespace Star_Dundee_WPF
         public Recording mainRecording { get; set; }
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
+        private List<DateTime> columns { get; set; }
         public void startParsing(string[] filePaths)
         {
             if (filesExistAndMatch(filePaths))
@@ -69,6 +70,7 @@ namespace Star_Dundee_WPF
         public void readFile(string[] filePaths)
         {
             RateCalculator2 RC2 = new RateCalculator2();
+            columns = new List<DateTime>();
             foreach (string fileName in filePaths)
             {
                 Port currentPort = new Port();
@@ -89,7 +91,9 @@ namespace Star_Dundee_WPF
 
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
                     //Console.WriteLine("\t" + currentPacket.getTimestamp());
-
+                   
+                    columns.Add(currentPacket.timestamp);
+                    
                     string packetType = streamReader.ReadLine();
                     if (packetType == null)
                     {
@@ -192,6 +196,7 @@ namespace Star_Dundee_WPF
                 currentPort.errorRate = RC2.CalculateErrorRate(currentPort);
                 mainRecording.addPort(currentPort);
             }
+            columns.Sort((a, b) => a.CompareTo(b));
             mainRecording.calculateTotals();
         }
 
@@ -268,16 +273,17 @@ namespace Star_Dundee_WPF
 
             startTime = earliestPacket;
 
-            double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
-            numberOfColumns += 2;
+            //double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
+            double numberOfColumns = columns.Count;
+            //numberOfColumns += 2;
 
             listOfColumns = new List<GridColumn>();
-            DateTime currentTime = startTime;
-
+            //DateTime currentTime = startTime;
+            DateTime currentTime = columns[0];
 
             //Console.WriteLine("Number of Columns: " + numberOfColumns);
 
-            for (int i = 0; i < numberOfColumns; i++)
+            for (int i = 1; i < numberOfColumns; i++)
             {
                 string currentTimeStamp = currentTime.ToString(dateTimeFormat);
 
@@ -286,7 +292,8 @@ namespace Star_Dundee_WPF
                 currentGridColumn.setTime(currentTimeStamp);
                 currentGridColumn.index = i.ToString();
                 listOfColumns.Add(currentGridColumn);
-                currentTime = currentTime.AddMilliseconds(1);
+                //currentTime = currentTime.AddMilliseconds(1);
+                currentTime = columns[i];
             }
 
             Console.WriteLine("Number of Columns: " + numberOfColumns);

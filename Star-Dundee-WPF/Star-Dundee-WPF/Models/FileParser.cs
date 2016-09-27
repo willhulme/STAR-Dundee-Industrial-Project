@@ -325,8 +325,9 @@ namespace Star_Dundee_WPF
                                     if (listOfColumns[timeStampCounter].port1 != null)
                                     {
                                         GridColumn newColumn = new GridColumn();
-                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
+                                        newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));                                        
                                         timeStampCounter++;
+                                        newColumn.index = timeStampCounter.ToString();
                                         listOfColumns.Insert((timeStampCounter), newColumn);
                                     }
                                     break;
@@ -377,6 +378,7 @@ namespace Star_Dundee_WPF
                                         GridColumn newColumn = new GridColumn();
                                         newColumn.setTime(packetToCheck.timestamp.ToString(dateTimeFormat));
                                         timeStampCounter++;
+                                        newColumn.index = timeStampCounter.ToString();
                                         listOfColumns.Insert((timeStampCounter), newColumn);
                                     }
                                     break;

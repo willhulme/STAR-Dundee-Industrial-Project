@@ -26,6 +26,7 @@ namespace Star_Dundee_WPF.Models
             List<Tuple<DateTime, decimal>> rate = new List<Tuple<DateTime, decimal>>();
             if (packets.Count < 100)
             {
+                //int overflow
                 for (int i = 0; i < packets.Count - 1; i++)
                 {
                     Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes

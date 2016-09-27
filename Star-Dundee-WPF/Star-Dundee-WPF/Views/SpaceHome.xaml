@@ -5,7 +5,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart" 
+     
 
      
       mc:Ignorable="d" 
@@ -107,19 +107,7 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="# Data Characters">
-                <chart:PieChart
-                    Style="{StaticResource MinimalChartStyle}"
-                    ChartTitle="Minimal Pie Chart"
-                    ChartSubTitle="Chart with fixed width and height"
-                    SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" >
-                <chart:PieChart.Series>
-                <chart:ChartSeries
-                SeriesTitle="Errors"
-                DisplayMember="Category"
-                ValueMember="Number"
-                ItemsSource="{Binding Path=Errors}" />
-                    </chart:PieChart.Series>
-                </chart:PieChart>
+                
             </TabItem>
             <TabItem Header="# Of Packets" />
             <TabItem Header="# Of Errors" />

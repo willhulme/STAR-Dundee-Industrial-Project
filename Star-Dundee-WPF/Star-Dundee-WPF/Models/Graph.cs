@@ -30,7 +30,10 @@ namespace Star_Dundee_WPF.Models
 
             };
 
-            var mySeries = new LineSeries { Stroke = Brushes.Red, Fill = Brushes.Blue };
+            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
+            {
+                System.Windows.Media.Colors.Chartreuse
+            };
 
 
 

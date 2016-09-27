@@ -117,7 +117,7 @@
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
-                   
+                    
                 </lvc:CartesianChart>
 
 

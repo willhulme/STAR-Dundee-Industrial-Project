@@ -67,7 +67,7 @@ namespace Star_Dundee_WPF.Models
             switch (type)
             {
                 case "sequence":
-                    this.error = ErrorType.sequence;
+                    this.error = ErrorType.Sequence;
                     break;
 
                 case "None":
@@ -75,33 +75,33 @@ namespace Star_Dundee_WPF.Models
                     break;
 
                 case "disconnect":
-                    this.error = ErrorType.disconnect;
+                    this.error = ErrorType.Disconnect;
                     break;
 
                 case "parity":
 
-                    this.error = ErrorType.parity;
+                    this.error = ErrorType.Parity;
                     break;
 
                 case "noError":
 
-                    this.error = ErrorType.noError;
+                    this.error = ErrorType.NoError;
                     break;
                 case "eep":
 
-                    this.error = ErrorType.eep;
+                    this.error = ErrorType.EEP;
                     break;
 
                 case "babbling":
-                    this.error = ErrorType.babblingIdiot;
+                    this.error = ErrorType.BabblingIdiot;
                     break;
 
                 case "headercrc":
-                    this.error = ErrorType.crcHeader;
+                    this.error = ErrorType.CRCHeader;
                     break;
 
                 case "datacrc":
-                    this.error = ErrorType.crcData;
+                    this.error = ErrorType.CRCData;
                     break;
 
                 case "":
@@ -167,14 +167,14 @@ namespace Star_Dundee_WPF.Models
     enum ErrorType
     {
         None,
-        noError,
-        disconnect,
-        parity,
-        crcHeader,
-        crcData,
-        eep,
-        timeout,
-        babblingIdiot,
-        sequence
+        NoError,
+        Disconnect,
+        Parity,
+        CRCHeader,
+        CRCData,
+        EEP,
+        Timeout,
+        BabblingIdiot,
+        Sequence
     };
 }

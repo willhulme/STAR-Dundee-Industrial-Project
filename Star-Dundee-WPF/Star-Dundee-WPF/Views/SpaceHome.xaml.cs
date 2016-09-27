@@ -164,16 +164,18 @@ namespace Star_Dundee_WPF
             var errorString = value as string;
             if (errorString == null) return null;
 
-            if (errorString == "noError") return Brushes.Green;
-            else if (errorString == "disconnect") return Brushes.Crimson;
-            else if (errorString == "parity") return Brushes.DarkRed;
-            else if (errorString == "crcHeader") return Brushes.DarkSalmon;
-            else if (errorString == "crcData") return Brushes.DarkSalmon;
-            else if (errorString == "eep") return Brushes.Red;
-            else if (errorString == "timeout") return Brushes.IndianRed;
-            else if (errorString == "babblingIdiot") return Brushes.Plum;
-            else if (errorString == "length") return Brushes.Bisque;
-            else if (errorString == "sequence") return Brushes.BurlyWood;
+            if (errorString == "Packet") return Brushes.Green;
+            else if (errorString == "Disconnect") return Brushes.Crimson;
+            else if (errorString == "Parity") return Brushes.DarkRed;
+            else if (errorString == "CRCHeader") return Brushes.DarkSalmon;
+            else if (errorString == "CRCData") return Brushes.DarkSalmon;
+            else if (errorString == "CRC") return Brushes.DarkSalmon;
+            else if (errorString == "EEP") return Brushes.Red;
+            else if (errorString == "Timeout") return Brushes.IndianRed;
+            else if (errorString == "BabblingIdiot") return Brushes.Plum;
+            else if (errorString == "Length") return Brushes.Bisque;
+            else if (errorString == "Sequence") return Brushes.BurlyWood;
+            else if (errorString == "None") return Brushes.Tomato;
             else if (errorString == "") return Brushes.LightBlue;
             else return Brushes.LightSteelBlue;
 

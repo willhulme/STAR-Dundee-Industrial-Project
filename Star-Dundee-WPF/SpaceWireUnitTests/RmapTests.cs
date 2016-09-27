@@ -13,7 +13,7 @@ namespace SpaceWireUnitTests
         [TestMethod]
         public void TestRMAPReadPathAddress()
         {
-            string cargo = "4d 20 00 00 03 02 fe 00 00 00 00 00 01 00 00 00 04 dc";
+            string cargo = "01 01 00 fe 01 4d 20 00 00 03 02 fe 00 00 00 00 00 01 00 00 00 04 dc";
             RMAP rmap = new RMAP();
             rmap.buildPacket(cargo);
 
@@ -36,7 +36,7 @@ namespace SpaceWireUnitTests
         [TestMethod]
         public void TestRMAPWriteLogicAddress()
         {
-            string cargo = "7c 20 4a 00 02 00 00 01 00 00 00 00 04 44 00 00 31 38 78";
+            string cargo = "4c 01 7c 20 4a 00 02 00 00 01 00 00 00 00 04 44 00 00 31 38 78";
             RMAP rmap = new RMAP();
             rmap.buildPacket(cargo);
 
@@ -59,7 +59,7 @@ namespace SpaceWireUnitTests
         [TestMethod]
         public void TestRMAPReadLogicAddress()
         {
-            string cargo = "4c 20 2d ff fa 00 00 02 00 00 00 00 08 12";
+            string cargo = "57 01 4c 20 2d ff fa 00 00 02 00 00 00 00 08 12";
             RMAP rmap = new RMAP();
             rmap.buildPacket(cargo);
 
@@ -84,7 +84,7 @@ namespace SpaceWireUnitTests
         [TestMethod]
         public void TestRMAPReadReplyPathAddress()
         {
-            string cargo = "0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d";
+            string cargo = "03 02 fe 01 0d 00 fe 00 00 00 00 00 04 0e d9 4b d2 15 1d";
             RMAP rmap = new RMAP();
             rmap.buildPacket(cargo);
 
@@ -108,7 +108,7 @@ namespace SpaceWireUnitTests
         [TestMethod]
         public void TestRMAPWriteReplyLogicAddress()
         {
-            string cargo = "3c 00 4c 00 00 2c";
+            string cargo = "4a 01 3c 00 4c 00 00 2c";
             RMAP rmap = new RMAP();
             rmap.buildPacket(cargo);
 

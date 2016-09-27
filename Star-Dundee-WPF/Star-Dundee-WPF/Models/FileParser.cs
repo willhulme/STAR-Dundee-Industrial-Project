@@ -313,10 +313,11 @@ namespace Star_Dundee_WPF
 
                     while (found == false && timeStampCounter < listOfColumns.Count)
                     {
-                        //if the current packet time is at the current list index
+
                         if (packetToCheck.timestamp.ToString(dateTimeFormat) == listOfColumns[timeStampCounter].time)
                         {
                             //indexInGrid++;
+                            #region switchcase
                             //check if a packet is already at this time and if so add a new column to the grid at the correct bit
                             switch (currentPortNumber)
                             {
@@ -402,12 +403,20 @@ namespace Star_Dundee_WPF
                                     break;
 
                             }
+                            #endregion switchcase
 
-                            found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
+
+                        }
+
+
+
+
+                        found = (listOfColumns[timeStampCounter].getTime().Equals(packetToCheck.getTimestamp().ToString(dateTimeFormat), StringComparison.Ordinal));
                         indexInGrid = timeStampCounter;
                         timeStampCounter++;
+                        //if the current packet time is at the current list index
+                        
                     }
-
                     if (!found)
                     {
                            timeStampCounter = 0;
@@ -422,7 +431,7 @@ namespace Star_Dundee_WPF
                             timeStampCounter--;
 
                             //Console.WriteLine("This fucked up at port " + (portCounter + 1) + ", packet " + packetCounter + ", timeStampCounter " + timeStampCounter + ", and timestamp " + packetToCheck.getTimestamp().ToString(dateTimeFormat));
-                        }
+                    }
 
                         //Console.WriteLine("******* \t" + listOfColumns[timeStampCounter].getTime() + packetToCheck.getErrorType() + portCounter);
 
@@ -475,7 +484,7 @@ namespace Star_Dundee_WPF
                                 break;
                         }
                         
-                    }
+                    
                 }
             }
         }

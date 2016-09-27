@@ -51,7 +51,7 @@ namespace Star_Dundee_WPF
                 List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                 //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
-
+                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                 //Set the recording to the datacontext
                 this.DataContext = myFileParser.mainRecording;
             }
@@ -80,6 +80,7 @@ namespace Star_Dundee_WPF
             // Get column header
             string portHeader = (string)dataGrid1.SelectedCells[0].Column.Header;
             int portIndex = dataGrid1.SelectedCells[0].Column.DisplayIndex;
+            portIndex -= 1;
             Console.WriteLine("port Index: " + portIndex);
             Console.WriteLine("Port Clicked: " + portHeader);
 
@@ -92,7 +93,7 @@ namespace Star_Dundee_WPF
             string cellTime = row.time.ToString();
 
             //look for the matching packet with the timestamps in the port
-            int index = portIndex - 1;
+           
 
             Packet myPacket = new Packet();
 

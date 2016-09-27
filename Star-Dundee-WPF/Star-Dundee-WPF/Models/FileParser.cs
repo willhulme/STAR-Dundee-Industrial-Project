@@ -281,7 +281,7 @@ namespace Star_Dundee_WPF
                 GridColumn currentGridColumn = new GridColumn();
 
                 currentGridColumn.setTime(currentTimeStamp);
-
+                currentGridColumn.index = i.ToString();
                 listOfColumns.Add(currentGridColumn);
                 currentTime = currentTime.AddMilliseconds(1);
             }
@@ -434,6 +434,7 @@ namespace Star_Dundee_WPF
                         }
 
                         timeStampCounter = indexInGrid;
+                       
 
                         switch (currentPortNumber)
                         {
@@ -469,6 +470,7 @@ namespace Star_Dundee_WPF
                                 listOfColumns[timeStampCounter].setPort8(toDisplay);
                                 break;
                         }
+                        
                     }
                 }
             }

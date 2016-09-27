@@ -5,12 +5,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-     
-
-     
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"     
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="SpaceWire Analyser - Home">
+	  Title="SpaceWire Analyser - Home">
 
     <Grid>
         <Grid.Background>
@@ -109,7 +107,21 @@
             <TabItem Header="# Data Characters">
                 
             </TabItem>
-            <TabItem Header="# Of Packets" />
+            <TabItem Header="# Of Packets">
+                <lvc:CartesianChart Series="{Binding graphs.SeriesCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                   
+                </lvc:CartesianChart>
+
+
+            </TabItem>
             <TabItem Header="# Of Errors" />
             <TabItem Header="Data Rate" />
             <TabItem Header="Packet Rate" />

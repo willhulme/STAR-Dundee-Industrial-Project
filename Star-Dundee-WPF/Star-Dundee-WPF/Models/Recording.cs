@@ -13,6 +13,13 @@ namespace Star_Dundee_WPF.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         public List<Port> ports { get; set; }
+        public Graph graphs { get; set; }
+        public int totalErrors { get; set; }
+        public int totalPackets { get; set; }
+        public int totalCharacters { get; set; }
+        public int dataRate { get; set; }
+        public int errorRate { get; set; }
+        public int packetRate { get; set; }
         private string[] portSum;
         public string[] portSummary {
             get { return portSum; }
@@ -44,16 +51,11 @@ namespace Star_Dundee_WPF.Models
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
-        public int totalErrors { get; set; }
-        public int totalPackets { get; set; }
-        public int totalCharacters { get; set; }
-        public int dataRate { get; set; }
-        public int errorRate { get; set; }
-        public int packetRate { get; set; }
-
+        
         public Recording()
         {
             ports = new List<Port>();
+            graphs = new Graph();
         }
 
 

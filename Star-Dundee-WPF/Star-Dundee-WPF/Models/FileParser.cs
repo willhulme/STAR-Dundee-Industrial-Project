@@ -12,6 +12,7 @@ namespace Star_Dundee_WPF
     {
 
         public Recording mainRecording { get; set; }
+        
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
         public void startParsing(string[] filePaths)
@@ -23,6 +24,7 @@ namespace Star_Dundee_WPF
                 readFile(filePaths);
 
                 fillDataGrid();
+               
             }
             else
             {

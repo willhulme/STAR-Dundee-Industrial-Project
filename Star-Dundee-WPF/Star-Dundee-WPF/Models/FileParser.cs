@@ -68,6 +68,7 @@ namespace Star_Dundee_WPF
 
         public void readFile(string[] filePaths)
         {
+            RateCalculator2 RC2 = new RateCalculator2();
             foreach (string fileName in filePaths)
             {
                 Port currentPort = new Port();
@@ -186,7 +187,9 @@ namespace Star_Dundee_WPF
                 streamReader.Close();
 
                 currentPort.calcTotalValues();
-
+                RC2.CalculateDataRate(currentPort.packets);
+                currentPort.packetRate = RC2.CalculatePacketRate(currentPort.packets);
+                currentPort.errorRate = RC2.CalculateErrorRate(currentPort);
                 mainRecording.addPort(currentPort);
             }
             mainRecording.calculateTotals();
@@ -303,6 +306,7 @@ namespace Star_Dundee_WPF
                 for (int packetCounter = 0; packetCounter < portToCheck.getPackets().Count; packetCounter++)
                 {
                     Packet packetToCheck = portToCheck.getPacket(packetCounter);
+                    
 
                     int indexInGrid = 0;
                     bool found = false;

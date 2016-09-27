@@ -17,7 +17,7 @@ namespace Star_Dundee_WPF.Models
 
         public ErrorType error { get; set; }
         public Data theData { get; set; }
-        public int totalChars { get; set; }
+        public int dataLength { get; set; }
         public bool hasError { get; set; }
         public uint transactionID { get; set; }
 
@@ -41,13 +41,13 @@ namespace Star_Dundee_WPF.Models
         }
 
 
-        public void calcTotalChars() {
-            totalChars = dataArray.Count();
+        public void calcDataLength() {
+            dataLength = dataArray.Count();
         }
 
         public int getTotalChars()
         {
-            return totalChars;
+            return dataLength;
         }
 
         public bool getErrorStatus()

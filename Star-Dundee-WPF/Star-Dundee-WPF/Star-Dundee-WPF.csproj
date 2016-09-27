@@ -61,6 +61,7 @@
     <Compile Include="Models\possible_new\Packet2.cs" />
     <Compile Include="Models\possible_new\Parse.cs" />
     <Compile Include="Models\rateCalculator.cs" />
+    <Compile Include="Models\RateCalculator2.cs" />
     <Compile Include="Views\SpaceHome.xaml.cs">
       <DependentUpon>SpaceHome.xaml</DependentUpon>
     </Compile>

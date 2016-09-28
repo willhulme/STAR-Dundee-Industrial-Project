@@ -178,7 +178,6 @@ namespace Star_Dundee_WPF
         {
             var errorString = value as string;
             if (errorString == null) return null;
-
             if (errorString == "Packet") return Brushes.Green;
             else if (errorString == "Disconnect") return Brushes.Crimson;
             else if (errorString == "Parity") return Brushes.DarkRed;

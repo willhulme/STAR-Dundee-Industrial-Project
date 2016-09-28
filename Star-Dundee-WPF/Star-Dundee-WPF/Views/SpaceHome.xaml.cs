@@ -55,7 +55,7 @@ namespace Star_Dundee_WPF
                 List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                 //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
-                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                //dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                 //Set the recording to the datacontext
                 this.DataContext = myFileParser.mainRecording;
             }
@@ -81,48 +81,116 @@ namespace Star_Dundee_WPF
             if (dataGrid1.SelectedCells.Count != 1)
                 return;
 
-            // Get column header
+            // Update port summary
             string portHeader = (string)dataGrid1.SelectedCells[0].Column.Header;
             int portIndex = dataGrid1.SelectedCells[0].Column.DisplayIndex;
             portIndex -= 1;
-            Console.WriteLine("port Index: " + portIndex);
-            Console.WriteLine("Port Clicked: " + portHeader);
+            //Console.WriteLine("port Index: " + portIndex);
+            //Console.WriteLine("Port Clicked: " + portHeader);
 
             updatePortSummury(portIndex);
-            //get row index
+
+
+            //Update packet summary
             GridColumn row = (GridColumn)dataGrid1.CurrentItem;
             
             Console.WriteLine("Cell Time: " + row.time.ToString());
-            Console.WriteLine("Index: " + row.index.ToString());
-            //get timestamp 
+            Console.WriteLine("Cell Index: " + row.index.ToString());
+
+            //get timestamp and index
             string cellTime = row.time.ToString();
             string cellIndex = row.index.ToString();
 
-
-            //look for the matching packet with the timestamps in the port
-
-
-            Packet myPacket = new Packet();
-
-            //for(int i = 0; i < myFileParser.mainRecording.ports[index].packets.Count; i++)
-            //{
-            //    if (cellTime == myFileParser.mainRecording.ports[index].packets[i].timestamp.ToString())
-            //    {
-            //        myPacket = myFileParser.mainRecording.ports[index].packets[i];
-            //        break;
-            //    }
-            //}
+            //look for the matching packet with the timestamps in the port if that cell has a packet
+            
+            updatePacketSummary(cellIndex, portIndex);
+            
         }
+
+        private void updatePacketSummary(string cellIndex, int port )
+        {
+            string[] packetSummary = new string[16];
+            Packet myPacket = new Packet();
+            int pIndex = port - 1;
+            Console.WriteLine("pINdex: " + pIndex);
+
+            //check if port exists
+            bool exists = false;
+            int portIndex = port;
+
+            for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
+            {
+                if (myFileParser.mainRecording.ports[i].portNumber == port)
+                {
+                    exists = true;
+                    portIndex = i;
+                }
+
+            }
+            port -= 1;
+
+            //Get the packet
+            if (exists)
+            {
+                for (int i = 0; i < myFileParser.mainRecording.ports[pIndex].packets.Count; i++)
+                {
+                    if (myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex != null)
+                    {
+                        if (cellIndex == myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex.ToString())
+                        {
+                            myPacket = myFileParser.mainRecording.ports[pIndex].packets[i];
+                            break;
+                        }
+                    }
+                    
+
+
+                }
+            }
+
+            if (myPacket == null)
+            {
+                writePanel.Visibility = System.Windows.Visibility.Hidden;
+                writeRepPanel.Visibility = System.Windows.Visibility.Hidden;
+                readPanel.Visibility = System.Windows.Visibility.Hidden;
+                readRepPanel.Visibility = System.Windows.Visibility.Hidden;
+                dataPanel.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                getPacketSummary(myPacket);
+            }
+              
+        }
+
+        private void getPacketSummary(Packet packet)
+        {
+            //Get the rmap details for the packet
+            RMAP myRMAP = new RMAP();
+            myRMAP.buildPacket(packet.dataArray);
+
+            //Get command/packet type
+            string[] packetSummary = new string[16];
+            myFileParser.mainRecording.portSummary[0] = myRMAP.command;
+
+            if (myRMAP.command == "READ")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Visible;
+                writeRepPanel.Visibility = System.Windows.Visibility.Visible;
+                readPanel.Visibility = System.Windows.Visibility.Visible;
+                readRepPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
         //string hexValue = intValue.ToString("X");
         private void updatePortSummury(int port)
         {
-
             string[]portSummary = new string[6] { "", "", "", "", "", "" };
             myFileParser.mainRecording.portSummary = portSummary;
             //check if port exists
             bool exists = false;
             int portIndex = port;
-            
+
             for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
             {
                 if (myFileParser.mainRecording.ports[i].portNumber == port)

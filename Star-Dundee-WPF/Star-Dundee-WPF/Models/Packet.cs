@@ -14,7 +14,8 @@ namespace Star_Dundee_WPF.Models
         public string packetMarkerType { get; set; }
         public string errorType { get; set; }
         public string protocol { get; set; }
-
+        public string packetIndex { get; set; }
+        public int portIndex { get; set; }
         public ErrorType error { get; set; }
         public Data theData { get; set; }
         public int dataLength { get; set; }

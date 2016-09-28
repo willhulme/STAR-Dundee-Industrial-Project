@@ -76,7 +76,7 @@ namespace Star_Dundee_WPF
             foreach (string fileName in filePaths)
             {
                 Port currentPort = new Port();
-
+                previousPacket = null;
                 StreamReader streamReader = new StreamReader(fileName);
 
                 currentPort.setStartTime(DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null));

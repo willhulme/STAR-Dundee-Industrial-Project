@@ -113,7 +113,7 @@ namespace Star_Dundee_WPF
             //    }
             //}
         }
-
+        //string hexValue = intValue.ToString("X");
         private void updatePortSummury(int port)
         {
 

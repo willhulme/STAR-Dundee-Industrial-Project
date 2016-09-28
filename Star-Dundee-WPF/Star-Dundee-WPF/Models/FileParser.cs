@@ -16,7 +16,7 @@ namespace Star_Dundee_WPF
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
         private List<DateTime> columns { get; set; }
-        public void startParsing(string[] filePaths)
+        public bool startParsing(string[] filePaths)
         {
             if (filesExistAndMatch(filePaths))
             {
@@ -24,13 +24,18 @@ namespace Star_Dundee_WPF
 
                 readFile(filePaths);
 
+
                 //fillDataGrid();
                 fillDataGridSimply();
+
+               
+                return true;
 
             }
             else
             {
                 Console.WriteLine("Error reading file(s) - please try again");
+                return false;
             }
         }
 
@@ -74,6 +79,7 @@ namespace Star_Dundee_WPF
         {
             RateCalculator2 RC2 = new RateCalculator2();
             columns = new List<DateTime>();
+            List<Tuple<DateTime,int>> portusedTime = new List<Tuple<DateTime,int>>();
             foreach (string fileName in filePaths)
             {
                 Port currentPort = new Port();
@@ -97,7 +103,7 @@ namespace Star_Dundee_WPF
 
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
                     //Console.WriteLine("\t" + currentPacket.getTimestamp());
-                   
+                    Tuple<DateTime, int> timecheck = new Tuple<DateTime, int>(currentPacket.timestamp, currentPort.portNumber);
                     columns.Add(currentPacket.timestamp);
                     
                     string packetType = streamReader.ReadLine();
@@ -197,9 +203,11 @@ namespace Star_Dundee_WPF
                 streamReader.Close();
 
                 currentPort.calcTotalValues();
-                RC2.CalculateDataRate(currentPort.packets);
-                currentPort.packetRate = RC2.CalculatePacketRate(currentPort.packets);
-                currentPort.errorRate = RC2.CalculateErrorRate(currentPort);
+                currentPort.dataRateTime = RC2.CalculateDataRate(currentPort.packets);
+
+                currentPort.packetRate = Math.Round(RC2.CalculatePacketRate(currentPort.packets), 4);
+                currentPort.errorRate = Math.Round(RC2.CalculateErrorRate(currentPort), 4);
+
                 mainRecording.addPort(currentPort);
             }
             columns.Sort((a, b) => a.CompareTo(b));

@@ -190,18 +190,19 @@ namespace SpaceWireUnitTests
         {
             FileParser fileParser = new FileParser();
             string[] array = new string[1];
-            array[0] = "C:/Users/wjh/Documents/STAR-Dundee-Industrial-Project/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test5/link1.rec";
+            array[0] = "C:/Users/wjh/Documents/STAR-Dundee-Industrial-Project/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test1/link1.rec";
             fileParser.startParsing(array);
         }
 
         [TestMethod]
         public void TestDataRate()
         {
-            Parse parser = new Parse();
+            FileParser parser = new FileParser();
             string[] array = new string[1];
-            List<Packet2> packets = parser.parseFile(array);
-            RateCalculator RateCalculator = new RateCalculator();
-            RateCalculator.CalculateDataRate(packets);
+            array[0] = "C:/Users/ryanrobinson/Source/Repos/STAR-Dundee-Industrial-Project/Star-Dundee-WPF/Star-Dundee-WPF/DataFiles/test1/link1.rec";
+            //List<Packet> packets = parser.startParsing(array);
+            RateCalculator2 RateCalculator = new RateCalculator2();
+            //RateCalculator.CalculateDataRate(parser);
         }
 
         [TestMethod]

@@ -11,6 +11,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using LiveCharts;
+using LiveCharts.Wpf;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -26,12 +28,14 @@ namespace Star_Dundee_WPF
     /// </summary>
     public partial class SpaceHome : Page
     {
-        FileParser myFileParser;     
+        FileParser myFileParser;
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         public SpaceHome()
         {
 
-            
             InitializeComponent();
         }
         
@@ -198,7 +202,10 @@ namespace Star_Dundee_WPF
 
         }
     }
+
+    
 }
+
 
    
 

@@ -38,6 +38,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.7.14.3, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.7.14.3\lib\portable-net40+sl5+win8+wp8+wpa81\LiveCharts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.7.14.3, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.7.14.3\lib\net452\LiveCharts.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -59,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\FileParser2.cs" />
+    <Compile Include="Models\Graph.cs" />
     <Compile Include="Models\GridColumn.cs" />
     <Compile Include="Models\Diagram.cs" />
     <Compile Include="Models\possible_new\Packet2.cs" />
@@ -128,6 +137,7 @@
     <None Include="DataFiles\test6\link6.rec" />
     <None Include="DataFiles\test6\link7.rec" />
     <None Include="DataFiles\test6\link8.rec" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

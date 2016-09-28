@@ -12,6 +12,7 @@ namespace Star_Dundee_WPF
     {
 
         public Recording mainRecording { get; set; }
+        
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
         private List<DateTime> columns { get; set; }
@@ -24,6 +25,7 @@ namespace Star_Dundee_WPF
                 readFile(filePaths);
 
                 fillDataGrid();
+               
             }
             else
             {

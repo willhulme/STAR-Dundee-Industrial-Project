@@ -5,12 +5,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-     
-
-     
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"     
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="SpaceWire Analyser - Home">
+	  Title="SpaceWire Analyser - Home">
 
     <Grid>
         <Grid.Background>
@@ -39,7 +37,7 @@
         <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3">
             <TabItem Header="Overview" >
 
-                <DataGrid x:Name="dataGrid1" AutoGenerateColumns="True" SelectionUnit="cell" CanUserAddRows="false">
+                <DataGrid x:Name="dataGrid1" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false">
                     <DataGrid.ItemContainerStyle>
                         <Style TargetType="DataGridRow">
                             <EventSetter Event="PreviewMouseLeftButtonUp"  Handler="dataDrid1_PreviewMouseLeftButtonUp"/>
@@ -82,7 +80,6 @@
                                 </Setter.Value>
                             </Setter>
                             <Setter Property="Width" Value="150"/>
-                            <Setter Property="Height" Value="53"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -109,7 +106,21 @@
             <TabItem Header="# Data Characters">
                 
             </TabItem>
-            <TabItem Header="# Of Packets" />
+            <TabItem Header="# Of Packets">
+                <lvc:CartesianChart Series="{Binding graphs.SeriesCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    
+                </lvc:CartesianChart>
+
+
+            </TabItem>
             <TabItem Header="# Of Errors" />
             <TabItem Header="Data Rate" />
             <TabItem Header="Packet Rate" />

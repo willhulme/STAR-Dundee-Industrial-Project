@@ -125,7 +125,7 @@ namespace Star_Dundee_WPF
                     }
                     else if (previousPacket != null && Enumerable.SequenceEqual(currentPacket.dataArray, previousPacket.dataArray))
                     {
-                        currentPacket.setErrorType("babbling");
+						currentPacket.setErrorType("BabblingIdiot");
                     }
                     else
                     {

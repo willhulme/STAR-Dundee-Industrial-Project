@@ -139,11 +139,11 @@ namespace Star_Dundee_WPF
             if (errorString == null) return null;
 
             if (errorString == "noError") return Brushes.Green;
-            else if (errorString == "disconnect") return Brushes.Crimson;
-            else if (errorString == "parity") return Brushes.DarkRed;
+            else if (errorString == "Disconnect") return Brushes.Crimson;
+            else if (errorString == "Parity") return Brushes.DarkRed;
             else if (errorString == "crcHeader") return Brushes.DarkSalmon;
             else if (errorString == "crcData") return Brushes.DarkSalmon;
-            else if (errorString == "eep") return Brushes.Red;
+            else if (errorString == "EEP") return Brushes.Red;
             else if (errorString == "timeout") return Brushes.IndianRed;
             else if (errorString == "babblingIdiot") return Brushes.Plum;
             else if (errorString == "length") return Brushes.Bisque;

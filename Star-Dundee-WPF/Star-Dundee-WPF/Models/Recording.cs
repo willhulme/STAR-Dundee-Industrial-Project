@@ -86,7 +86,7 @@ namespace Star_Dundee_WPF.Models
 
         public void calcTotalErrorRate()
         {
-            errorRate = (decimal)totalErrors / totalPackets;
+            errorRate = Math.Round((decimal)totalErrors / totalPackets, 4);
         }
 
         public void addPort(Port newPort)

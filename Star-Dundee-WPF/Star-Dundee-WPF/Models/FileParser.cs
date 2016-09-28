@@ -195,8 +195,10 @@ namespace Star_Dundee_WPF
 
                 currentPort.calcTotalValues();
                 RC2.CalculateDataRate(currentPort.packets);
-                currentPort.packetRate = RC2.CalculatePacketRate(currentPort.packets);
-                currentPort.errorRate = RC2.CalculateErrorRate(currentPort);
+
+                currentPort.packetRate = Math.Round(RC2.CalculatePacketRate(currentPort.packets), 4);
+                currentPort.errorRate = Math.Round(RC2.CalculateErrorRate(currentPort), 4);
+
                 mainRecording.addPort(currentPort);
             }
             columns.Sort((a, b) => a.CompareTo(b));

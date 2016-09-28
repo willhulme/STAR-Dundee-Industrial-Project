@@ -74,6 +74,7 @@ namespace Star_Dundee_WPF
                 else
                 {
                     //message to say there was a file issue
+                    MessageBox.Show("Error reading file(s) - please try again", "File Error");
                 }
             }
         }

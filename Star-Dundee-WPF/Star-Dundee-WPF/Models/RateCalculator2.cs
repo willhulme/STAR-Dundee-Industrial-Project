@@ -112,7 +112,7 @@ namespace Star_Dundee_WPF.Models
             decimal errorRate;
             int totalErrors = thePort.totalErrors;
             int totalPackets = thePort.totalPackets;
-            errorRate = (decimal)totalErrors / totalPackets;
+            errorRate = Math.Round((decimal)totalErrors / totalPackets,4);
             return errorRate;
         }
 

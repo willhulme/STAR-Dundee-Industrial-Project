@@ -49,15 +49,21 @@ namespace Star_Dundee_WPF
             {
                 string[] files = openFileDialog.FileNames;
                 myFileParser = new FileParser();
-                myFileParser.startParsing(files);
-
-                // Set the ItemsSource to autogenerate the columns.
-                List<GridColumn> listToDisplay = myFileParser.listOfColumns;
-                //printListOfColumns(listToDisplay);
-                dataGrid1.ItemsSource = listToDisplay;
-                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
-                //Set the recording to the datacontext
-                this.DataContext = myFileParser.mainRecording;
+                bool filesValid = myFileParser.startParsing(files);
+                if (filesValid)
+                {
+                    // Set the ItemsSource to autogenerate the columns.
+                    List<GridColumn> listToDisplay = myFileParser.listOfColumns;
+                    //printListOfColumns(listToDisplay);
+                    dataGrid1.ItemsSource = listToDisplay;
+                    dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                    //Set the recording to the datacontext
+                    this.DataContext = myFileParser.mainRecording;
+                }
+                else
+                {
+                    //message to say there was a file issue
+                }
             }
         }
 

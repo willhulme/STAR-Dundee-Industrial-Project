@@ -16,7 +16,7 @@ namespace Star_Dundee_WPF
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
         private List<DateTime> columns { get; set; }
-        public void startParsing(string[] filePaths)
+        public bool startParsing(string[] filePaths)
         {
             if (filesExistAndMatch(filePaths))
             {
@@ -25,11 +25,12 @@ namespace Star_Dundee_WPF
                 readFile(filePaths);
 
                 fillDataGrid();
-               
+                return true;
             }
             else
             {
                 Console.WriteLine("Error reading file(s) - please try again");
+                return false;
             }
         }
 

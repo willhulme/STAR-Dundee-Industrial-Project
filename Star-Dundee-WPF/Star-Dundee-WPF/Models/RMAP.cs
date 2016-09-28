@@ -9,6 +9,7 @@ namespace Star_Dundee_WPF.Models
 {
     class RMAP
     {
+        public byte[] address;
         public byte sourcelogicalAddress { get; set; }
         public byte destinationlogicalAddress { get; set; }
         byte ptCmdSp { get; set; }
@@ -358,6 +359,8 @@ namespace Star_Dundee_WPF.Models
             }
             charBytes.RemoveAt(0);
             charBytes.RemoveAt(0);
+            address = new byte[index + 1];
+            Array.Copy(characterBytes, 0, address, 0, index+1);
             return String.Join(" ", charBytes.ToArray());
         }
 

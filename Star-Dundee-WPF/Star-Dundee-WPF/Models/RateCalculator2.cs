@@ -26,17 +26,21 @@ namespace Star_Dundee_WPF.Models
             List<Tuple<DateTime, decimal>> rate = new List<Tuple<DateTime, decimal>>();
             if (packets.Count < 100)
             {
-                //int overflow
+                int overflow = 0;
                 for (int i = 0; i < packets.Count - 1; i++)
                 {
                     Tuple<DateTime, decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
                     TimeSpan difference = (packets[i + 1].timestamp - packets[i].timestamp);
-                    if (difference.TotalSeconds != 0)
+                    if (difference.TotalSeconds == 0)
                     {
-                        decimal kiloBytesPerSecond = (decimal)(((double)packets[1].dataLength / difference.TotalSeconds) / 1000);
-                        timeAndRate = new Tuple<DateTime, decimal>(packets[i].timestamp, kiloBytesPerSecond);
-                        rate.Add(timeAndRate);
+                        overflow = packets[i].dataLength;
+                        break;
                     }
+                    decimal kiloBytesPerSecond = (decimal)(((double)packets[i].dataLength + overflow / difference.TotalSeconds) / 1000);
+                    timeAndRate = new Tuple<DateTime, decimal>(packets[i].timestamp, kiloBytesPerSecond);
+                    rate.Add(timeAndRate);
+                    if (overflow != 0)
+                        overflow = 0;
                 }
             }
             else if (packets.Count < 1000)

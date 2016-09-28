@@ -16,6 +16,7 @@ namespace Star_Dundee_WPF.Models
         public int totalPackets { get; set; }
         public int totalCharacters { get; set; }
 
+        public List<Tuple<DateTime, decimal>> dataRateTime { get; set; }
         public decimal dataRate { get; set; }
         public decimal errorRate { get; set; }
         public decimal packetRate { get; set; }

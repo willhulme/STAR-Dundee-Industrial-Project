@@ -31,7 +31,7 @@ namespace Star_Dundee_WPF.Models
                 {
                     Tuple<DateTime,decimal> timeAndRate; //The time stamp and the decimal is the rate between it and the next packet in kilobytes
                     TimeSpan difference = (packets[i+1].timeStamp - packets[i].timeStamp);
-                    decimal kiloBytesPerSecond = (decimal)(((double)packets[1].dataLength / difference.TotalSeconds)/1000);
+                    decimal kiloBytesPerSecond = (decimal)(((double)packets[i].dataLength / difference.TotalSeconds)/1000);
                     timeAndRate = new Tuple<DateTime,decimal>(packets[i].timeStamp,kiloBytesPerSecond);
                     rate.Add(timeAndRate);
                 }

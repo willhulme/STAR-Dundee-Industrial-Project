@@ -73,6 +73,7 @@ namespace Star_Dundee_WPF
         {
             RateCalculator2 RC2 = new RateCalculator2();
             columns = new List<DateTime>();
+            List<Tuple<DateTime,int>> portusedTime = new List<Tuple<DateTime,int>>();
             foreach (string fileName in filePaths)
             {
                 Port currentPort = new Port();
@@ -93,7 +94,7 @@ namespace Star_Dundee_WPF
 
                     currentPacket.setTimeStamp(DateTime.ParseExact(timeStamp, "dd-MM-yyyy HH:mm:ss.fff", null));
                     //Console.WriteLine("\t" + currentPacket.getTimestamp());
-                   
+                    Tuple<DateTime, int> timecheck = new Tuple<DateTime, int>(currentPacket.timestamp, currentPort.portNumber);
                     columns.Add(currentPacket.timestamp);
                     
                     string packetType = streamReader.ReadLine();
@@ -193,7 +194,7 @@ namespace Star_Dundee_WPF
                 streamReader.Close();
 
                 currentPort.calcTotalValues();
-                RC2.CalculateDataRate(currentPort.packets);
+                currentPort.dataRateTime = RC2.CalculateDataRate(currentPort.packets);
                 currentPort.packetRate = RC2.CalculatePacketRate(currentPort.packets);
                 currentPort.errorRate = RC2.CalculateErrorRate(currentPort);
                 mainRecording.addPort(currentPort);

@@ -9,6 +9,7 @@ namespace Star_Dundee_WPF.Models
     class GridColumn
     {
         public string time { get; set; }
+        public string index { get; set; }
         public string port1 { get; set; }
         public string port2 { get; set; }
         public string port3 { get; set; }

@@ -11,12 +11,15 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using LiveCharts;
+using LiveCharts.Wpf;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
-
+using System.Data;
+using System.ComponentModel;
 
 namespace Star_Dundee_WPF
 {
@@ -26,15 +29,16 @@ namespace Star_Dundee_WPF
     public partial class SpaceHome : Page
     {
         FileParser myFileParser;
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+
         public SpaceHome()
         {
 
-            
             InitializeComponent();
         }
-
-
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -48,10 +52,10 @@ namespace Star_Dundee_WPF
                 myFileParser.startParsing(files);
 
                 // Set the ItemsSource to autogenerate the columns.
-                List<GridColumn> listToDisplay = myFileParser.getListOfColumns();
+                List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                 //printListOfColumns(listToDisplay);
                 dataGrid1.ItemsSource = listToDisplay;
-
+                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                 //Set the recording to the datacontext
                 this.DataContext = myFileParser.mainRecording;
             }
@@ -80,10 +84,34 @@ namespace Star_Dundee_WPF
             // Get column header
             string portHeader = (string)dataGrid1.SelectedCells[0].Column.Header;
             int portIndex = dataGrid1.SelectedCells[0].Column.DisplayIndex;
+            portIndex -= 1;
             Console.WriteLine("port Index: " + portIndex);
             Console.WriteLine("Port Clicked: " + portHeader);
 
             updatePortSummury(portIndex);
+            //get row index
+            GridColumn row = (GridColumn)dataGrid1.CurrentItem;
+            
+            Console.WriteLine("Cell Time: " + row.time.ToString());
+            Console.WriteLine("Index: " + row.index.ToString());
+            //get timestamp 
+            string cellTime = row.time.ToString();
+            string cellIndex = row.index.ToString();
+
+
+            //look for the matching packet with the timestamps in the port
+
+
+            Packet myPacket = new Packet();
+
+            //for(int i = 0; i < myFileParser.mainRecording.ports[index].packets.Count; i++)
+            //{
+            //    if (cellTime == myFileParser.mainRecording.ports[index].packets[i].timestamp.ToString())
+            //    {
+            //        myPacket = myFileParser.mainRecording.ports[index].packets[i];
+            //        break;
+            //    }
+            //}
         }
 
         private void updatePortSummury(int port)
@@ -108,11 +136,17 @@ namespace Star_Dundee_WPF
             if (exists)
             {
                 myFileParser.mainRecording.portSummary = getPortSummary(portIndex);
-                
+                portPanel.Visibility = System.Windows.Visibility.Visible;
             }
             
                 
             DataContext = myFileParser.mainRecording;
+
+            //if empty hide lables
+            if (!exists)
+            {
+                portPanel.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
 
         public string[] getPortSummary(int port)
@@ -128,6 +162,13 @@ namespace Star_Dundee_WPF
 
             return portSummary;
         }
+
+        public string[] getPacketSummary(int port)
+        {
+            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
+
+            return packetSummary;
+        }
     }
 
 
@@ -137,17 +178,18 @@ namespace Star_Dundee_WPF
         {
             var errorString = value as string;
             if (errorString == null) return null;
-
-            if (errorString == "noError") return Brushes.Green;
+            if (errorString == "Packet") return Brushes.Green;
             else if (errorString == "Disconnect") return Brushes.Crimson;
             else if (errorString == "Parity") return Brushes.DarkRed;
-            else if (errorString == "crcHeader") return Brushes.DarkSalmon;
-            else if (errorString == "crcData") return Brushes.DarkSalmon;
+            else if (errorString == "CRCHeader") return Brushes.DarkSalmon;
+            else if (errorString == "CRCData") return Brushes.DarkSalmon;
+            else if (errorString == "CRC") return Brushes.DarkSalmon;
             else if (errorString == "EEP") return Brushes.Red;
-            else if (errorString == "timeout") return Brushes.IndianRed;
-            else if (errorString == "babblingIdiot") return Brushes.Plum;
-            else if (errorString == "length") return Brushes.Bisque;
-            else if (errorString == "sequence") return Brushes.BurlyWood;
+            else if (errorString == "Timeout") return Brushes.IndianRed;
+            else if (errorString == "BabblingIdiot") return Brushes.Plum;
+            else if (errorString == "Length") return Brushes.Bisque;
+            else if (errorString == "Sequence") return Brushes.BurlyWood;
+            else if (errorString == "None") return Brushes.Tomato;
             else if (errorString == "") return Brushes.LightBlue;
             else return Brushes.LightSteelBlue;
 
@@ -159,7 +201,10 @@ namespace Star_Dundee_WPF
 
         }
     }
+
+    
 }
+
 
    
 

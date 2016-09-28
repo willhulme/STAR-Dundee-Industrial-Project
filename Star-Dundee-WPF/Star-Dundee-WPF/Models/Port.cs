@@ -16,9 +16,9 @@ namespace Star_Dundee_WPF.Models
         public int totalPackets { get; set; }
         public int totalCharacters { get; set; }
 
-        public int dataRate { get; set; }
-        public int errorRate { get; set; }
-        public int packetRate { get; set; }
+        public decimal dataRate { get; set; }
+        public decimal errorRate { get; set; }
+        public decimal packetRate { get; set; }
 
         public Port(int prt, DateTime start, DateTime end) {
             this.portNumber = prt;
@@ -43,7 +43,7 @@ namespace Star_Dundee_WPF.Models
         {
             foreach (Packet p in packets)
             {
-                p.calcTotalChars();
+                p.calcDataLength();
                 totalCharacters += p.getTotalChars();
             }
         }

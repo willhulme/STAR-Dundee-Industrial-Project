@@ -65,11 +65,11 @@
                             </Setter>
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
-                   
+
                     <DataGrid.CellStyle>
-                        
+
                         <Style  TargetType="DataGridCell">
-                            
+
                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text, Converter={StaticResource bgcolourconverter}}"/>
                             <Setter Property="LayoutTransform">
                                 <Setter.Value>
@@ -84,7 +84,7 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type DataGridCell}">
                                         <Grid Background="{TemplateBinding Background}">
-                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"  />                                            
+                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"  />
                                         </Grid>
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -100,11 +100,11 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.CellStyle>
-                    
+
                 </DataGrid>
             </TabItem>
             <TabItem Header="Number Of Data Characters" FontFamily="Arial Bold"  Background="MidnightBlue" Foreground="MintCream">
-                
+
             </TabItem>
             <TabItem Header="Number Of Packets" FontFamily="Arial Bold"  Background="MidnightBlue" Foreground="MintCream">
                 <lvc:CartesianChart Series="{Binding graphs.SeriesCollection}"  LegendLocation="Bottom">
@@ -116,7 +116,7 @@
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
-                    
+
                 </lvc:CartesianChart>
 
 
@@ -193,9 +193,14 @@
             </TabItem>
             <TabItem Header="Packet Details" Background="MidnightBlue"  >
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
+
                     <DockPanel Background="MidnightBlue" >
-                        
+
                         <StackPanel Margin="15" Name="writePanel" Visibility="Hidden" DockPanel.Dock="Left" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[0]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Path Address:</Label>
                                 <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
@@ -219,133 +224,83 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
                                 <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Extended Write Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Write Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data CRC:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>                           
-                        </StackPanel>
-
-                        <StackPanel Margin="15" DockPanel.Dock="Left" Name="writeRepPanel" Visibility="Hidden">
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Protocol Identifier:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Status:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
                                     <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Extended Write Address:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Write Address:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data CRC:
+                                    </Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
 
-                        <StackPanel Margin="15" Name="readPanel" Visibility="Hidden" DockPanel.Dock="Left" >
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Path Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Protocol Identifier:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Key:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Extended Read Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Read Address:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Margin="15" DockPanel.Dock="Left" Name="readRepPanel" Visibility="Hidden">
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="15" DockPanel.Dock="Left" Name="writeRepPanel" Visibility="Hidden">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[5]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[0]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Protocol Identifier:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Status:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Margin="15" Name="readPanel" Visibility="Hidden" DockPanel.Dock="Left" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Path Address:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
@@ -357,11 +312,15 @@
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Status:</Label>
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Key:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
@@ -369,8 +328,12 @@
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Reserved:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">Random text</TextBlock>
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Extended Read Address:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Read Address:</Label>
+                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
@@ -380,17 +343,134 @@
                                     <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data CRC:</Label>
-                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
-                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
 
-                        <StackPanel Margin="15" DockPanel.Dock="Left" Name="dataPanel" Visibility="Hidden">
-                            <DockPanel >
-                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data:</Label>
-                                <TextBlock TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">So, we have three TextBlock controls, each with a different color (using the Foreground property) for an easier overview. They all handle the fact that their text content is too long in different ways:
+                            <StackPanel Margin="15" DockPanel.Dock="Left" Name="readRepPanel" Visibility="Hidden">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold"  FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[0]}"  FontFamily="Arial Bold" Foreground="MintCream"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold"  FontFamily="Arial Bold" Foreground="MintCream">Destination Path Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Protocol Identifier:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Status:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Logical Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Destination Key:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[5]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Extended Read Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Read Address:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="15" DockPanel.Dock="Left" Name="readRepPanel" Visibility="Hidden">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data CRC:</Label>
+                                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Packet Type:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[0]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Path Address:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[5]}" FontFamily="Arial Bold" Foreground="MintCream"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Source Logical Address:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Protocol Identifier:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Status:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream" >Destination Logical Address:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Transaction Identifier:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Reserved:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data Length:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Header CRC:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data CRC:</Label>
+                                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">Random text</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                    <StackPanel Margin="15" DockPanel.Dock="Left" Name="dataPanel" Visibility="Hidden">
+                                        <DockPanel >
+                                            <Label FontWeight="DemiBold" FontFamily="Arial Bold" Foreground="MintCream">Data:</Label>
+                                            <TextBlock TextWrapping="Wrap" FontFamily="Arial Bold" Foreground="MintCream">So, we have three TextBlock controls, each with a different color (using the Foreground property) for an easier overview. They all handle the fact that their text content is too long in different ways:
+>>>>>>> e2c485532e38dec066661ce0e9d29a0f0052ed69
 
 The red TextBlock uses a LineBreak tag to manually break the line at a designated location. This gives you absolute control over where you want the text to break onto a new line, but it's not very flexible for most situations. If the user makes the window bigger, the text will still wrap at the same position, even though there may now be room enough to fit the entire text onto one line.
 
@@ -399,10 +479,11 @@ The green TextBlock uses the TextTrimming property with the value CharacterEllip
 The blue TextBlock uses the TextWrapping property with the value Wrap, to make the TextBlock wrap to the next line whenever it can't fit anymore text into the previous line. Contrary to the first TextBlock, where we manually define where to wrap the text, this happens completely automatic and even better: It's also automatically adjusted as soon as the TextBlock get more or less space available. Try making the window in the example bigger or smaller and you will see how the wrapping is updated to match the situation.
 
 This was all about dealing with simple strings in the TextBlock. In the next chapter, we'll look into some of the more advanced functionality of the TextBlock, which allows us to create text of various styles within the TextBlock and much more.</TextBlock>
-                            </DockPanel>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-
-                    </DockPanel>
                 </ScrollViewer>
             </TabItem>
         </TabControl>

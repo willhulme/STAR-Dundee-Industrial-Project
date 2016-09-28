@@ -12,7 +12,7 @@ namespace Star_Dundee_WPF
     {
 
         public Recording mainRecording { get; set; }
-        
+        int currentPortNumber;
         public List<GridColumn> listOfColumns { get; set; }
         private Packet previousPacket = null;
         private List<DateTime> columns { get; set; }
@@ -24,8 +24,13 @@ namespace Star_Dundee_WPF
 
                 readFile(filePaths);
 
-                fillDataGrid();
+
+                //fillDataGrid();
+                fillDataGridSimply();
+
+               
                 return true;
+
             }
             else
             {
@@ -83,12 +88,15 @@ namespace Star_Dundee_WPF
 
                 currentPort.setStartTime(DateTime.ParseExact(streamReader.ReadLine(), "dd-MM-yyyy HH:mm:ss.fff", null));
                 currentPort.setPortNumber(int.Parse(streamReader.ReadLine()));
-
+                //use this to add to the packet when getting built
+                currentPortNumber = currentPort.portNumber;
                 streamReader.ReadLine();
 
                 while (streamReader.Peek() != -1)
                 {
                     Packet currentPacket = new Packet();
+                    //set the port number in the packet
+                    currentPacket.portIndex = currentPortNumber;
 
                     string timeStamp = streamReader.ReadLine();
                     //Console.WriteLine("time: " + timeStamp);
@@ -250,6 +258,133 @@ namespace Star_Dundee_WPF
             }
         }
 
+        public void fillDataGridSimply()
+        {
+            //fill our overview with the needed information
+            string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
+            listOfColumns = new List<GridColumn>();
+            
+            int gridIndex = 0;
+
+            //Search all ports
+            for (int portCounter = 0; portCounter < mainRecording.ports.Count; portCounter++)
+            {
+                //for every packet
+                for (int packetCounter = 0; packetCounter < mainRecording.ports[portCounter].packets.Count; packetCounter++)
+                {
+                    GridColumn currentGridColumn = new GridColumn();
+                    currentGridColumn.time = mainRecording.ports[portCounter].packets[packetCounter].timestamp.ToString(dateTimeFormat);
+
+                    bool exists = false;
+                    int columnIndex = 0;
+                    //check if column already exists and get its index
+                    for (int columnCounter = 0; columnCounter < listOfColumns.Count; columnCounter++)
+                    {
+                        if (currentGridColumn.time == listOfColumns[columnCounter].time)
+                        {
+                            exists = true;
+                            columnIndex = columnCounter;
+                            break;
+                        }
+                    }
+
+                    //Build up current column
+                    currentGridColumn.index = gridIndex.ToString();
+                    
+
+                    
+
+                    //check what port the error is on 
+                    int packetErrorPort = mainRecording.ports[portCounter].packets[packetCounter].portIndex;
+
+                    //Get the errorMessage
+                    string toDisplay = "";
+
+                    if (mainRecording.ports[portCounter].packets[packetCounter].getErrorType() == null)
+                    {
+                        toDisplay = "Packet";
+                    }
+                    else
+                    {
+                        toDisplay = mainRecording.ports[portCounter].packets[packetCounter].getErrorType();
+                    }
+
+                    //Add the error to the correct port on the grid
+                    switch (packetErrorPort)
+                    {
+                        case 1:
+                            currentGridColumn.port1 = toDisplay;
+                            break;
+                        case 2:
+                            currentGridColumn.port2 = toDisplay;
+                            break;
+                        case 3:
+                            currentGridColumn.port3 = toDisplay;
+                            break;
+                        case 4:
+                            currentGridColumn.port4 = toDisplay;
+                            break;
+                        case 5:
+                            currentGridColumn.port5 = toDisplay;
+                            break;
+                        case 6:
+                            currentGridColumn.port6 = toDisplay;
+                            break;
+                        case 7:
+                            currentGridColumn.port7 = toDisplay;
+                            break;
+                        case 8:
+                            currentGridColumn.port8 = toDisplay;
+                            break;
+                    }
+
+                   
+
+                    if (!exists)
+                    {
+                        //add column to the grid                            
+                        GridColumn newGridColumn = new GridColumn();
+                        newGridColumn = currentGridColumn;
+                        listOfColumns.Add(newGridColumn);
+                    }
+                    else
+                    {
+                        //write to column instead
+                        switch (packetErrorPort)
+                        {
+                            case 1:
+                                listOfColumns[columnIndex].port1 = currentGridColumn.port1;
+                                break;
+                            case 2:
+                                listOfColumns[columnIndex].port2 = currentGridColumn.port2;
+                                break;
+                            case 3:
+                                listOfColumns[columnIndex].port3 = currentGridColumn.port3;
+                                break;
+                            case 4:
+                                listOfColumns[columnIndex].port4 = currentGridColumn.port4;
+                                break;
+                            case 5:
+                                listOfColumns[columnIndex].port5 = currentGridColumn.port5;
+                                break;
+                            case 6:
+                                listOfColumns[columnIndex].port6 = currentGridColumn.port6;
+                                break;
+                            case 7:
+                                listOfColumns[columnIndex].port7 = currentGridColumn.port7;
+                                break;
+                            case 8:
+                                listOfColumns[columnIndex].port8 = currentGridColumn.port8;
+                                break;
+                        }
+
+                       
+                    }
+                    gridIndex++;
+
+                }
+            }
+        }
         public void fillDataGrid()
         {
             string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
@@ -289,7 +424,7 @@ namespace Star_Dundee_WPF
 
             //Console.WriteLine("Number of Columns: " + numberOfColumns);
 
-            for (int i = 1; i < numberOfColumns; i++)
+            for (int i = 0; i < numberOfColumns; i++)
             {
                 string currentTimeStamp = currentTime.ToString(dateTimeFormat);
 

@@ -44,7 +44,18 @@ namespace Star_Dundee_WPF
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Recording files (*.rec;)|*.rec;|All files (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, "../../DataFiles/"));
+
+            if (Directory.Exists(path))
+            {
+                openFileDialog.InitialDirectory = path;
+            }
+            else
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            }
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string[] files = openFileDialog.FileNames;

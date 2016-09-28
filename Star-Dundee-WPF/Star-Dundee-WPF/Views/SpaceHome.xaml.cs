@@ -44,20 +44,38 @@ namespace Star_Dundee_WPF
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Recording files (*.rec;)|*.rec;|All files (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, "../../DataFiles/"));
+
+            if (Directory.Exists(path))
+            {
+                openFileDialog.InitialDirectory = path;
+            }
+            else
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            }
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string[] files = openFileDialog.FileNames;
                 myFileParser = new FileParser();
-                myFileParser.startParsing(files);
-
-                // Set the ItemsSource to autogenerate the columns.
-                List<GridColumn> listToDisplay = myFileParser.listOfColumns;
-                //printListOfColumns(listToDisplay);
-                dataGrid1.ItemsSource = listToDisplay;
-                dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
-                //Set the recording to the datacontext
-                this.DataContext = myFileParser.mainRecording;
+                bool filesValid = myFileParser.startParsing(files);
+                if (filesValid)
+                {
+                    // Set the ItemsSource to autogenerate the columns.
+                    List<GridColumn> listToDisplay = myFileParser.listOfColumns;
+                    //printListOfColumns(listToDisplay);
+                    dataGrid1.ItemsSource = listToDisplay;
+                    dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                    //Set the recording to the datacontext
+                    this.DataContext = myFileParser.mainRecording;
+                }
+                else
+                {
+                    //message to say there was a file issue
+                    MessageBox.Show("Error reading file(s) - please try again", "File Error");
+                }
             }
         }
 

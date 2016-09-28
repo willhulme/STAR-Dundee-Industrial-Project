@@ -17,9 +17,9 @@ namespace Star_Dundee_WPF.Models
         public int totalErrors { get; set; }
         public int totalPackets { get; set; }
         public int totalCharacters { get; set; }
-        public int dataRate { get; set; }
-        public int errorRate { get; set; }
-        public int packetRate { get; set; }
+        public decimal dataRate { get; set; }
+        public decimal errorRate { get; set; }
+        public decimal packetRate { get; set; }
         private string[] portSum;
         public string[] portSummary {
             get { return portSum; }
@@ -79,6 +79,14 @@ namespace Star_Dundee_WPF.Models
             totalCharacters = charTot;
             totalErrors = errTot;
             totalPackets = packTot;
+
+            calcTotalErrorRate();
+        }
+
+
+        public void calcTotalErrorRate()
+        {
+            errorRate = Math.Round((decimal)totalErrors / totalPackets, 4);
         }
 
         public void addPort(Port newPort)

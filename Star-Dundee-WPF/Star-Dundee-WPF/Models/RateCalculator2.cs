@@ -51,7 +51,7 @@ namespace Star_Dundee_WPF.Models
                     int packetsAhead = 0;
                     for (int j = i; j < (i + 50) && j < packets.Count - 1; j++)
                     {
-                        Console.WriteLine(j);
+                        //Console.WriteLine(j);
                         totalLength += packets[j].dataLength;
                         packetsAhead = j - i;
                     }
@@ -70,7 +70,7 @@ namespace Star_Dundee_WPF.Models
                     int packetsAhead = 0;
                     for (int j = i; j < (i + 100) && j < packets.Count - 1; j++)
                     {
-                        Console.WriteLine(j);
+                        //Console.WriteLine(j);
                         totalLength += packets[j].dataLength;
                         packetsAhead = j - i;
                     }
@@ -89,7 +89,7 @@ namespace Star_Dundee_WPF.Models
                     int packetsAhead = 0;
                     for (int j = i; j < (i + 1000) && j < packets.Count - 1; j++)
                     {
-                        Console.WriteLine(j);
+                        //Console.WriteLine(j);
                         totalLength += packets[j].dataLength;
                         packetsAhead = j - i;
                     }
@@ -116,7 +116,7 @@ namespace Star_Dundee_WPF.Models
             decimal errorRate;
             int totalErrors = thePort.totalErrors;
             int totalPackets = thePort.totalPackets;
-            errorRate = (decimal)totalErrors / totalPackets;
+            errorRate = Math.Round((decimal)totalErrors / totalPackets,4);
             return errorRate;
         }
 

@@ -23,19 +23,13 @@ namespace Star_Dundee_WPF.Models
                 {
                     Values = new ChartValues<double> { 2000, 10000, 4000, 7000, 6000, 3000, 8000, 10000},
                     Title = "Packets"
-                    
                 }
-
-
-
             };
 
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
             {
                 System.Windows.Media.Colors.Chartreuse
             };
-
-
 
             //adding series updates and animates the chart
             //SeriesCollection.Add(new StackedColumnSeries
@@ -50,9 +44,6 @@ namespace Star_Dundee_WPF.Models
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             Formatter = value => value + " Packets";
         }
-
-
-
     }
 }
         

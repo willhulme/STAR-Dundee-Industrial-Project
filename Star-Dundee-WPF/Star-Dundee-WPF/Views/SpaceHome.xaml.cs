@@ -68,7 +68,7 @@ namespace Star_Dundee_WPF
                     List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                     //printListOfColumns(listToDisplay);
                     dataGrid1.ItemsSource = listToDisplay;
-                    //dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                    dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                     //Set the recording to the datacontext
                     this.DataContext = myFileParser.mainRecording;
                 }
@@ -128,7 +128,11 @@ namespace Star_Dundee_WPF
 
         private void updatePacketSummary(string cellIndex, int port)
         {
-            string[] packetSummary = new string[16];
+
+           // if(cellIndex != port)
+
+            string[] packetSummary = new string[21] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            myFileParser.mainRecording.packetSummary = packetSummary;
             Packet myPacket = new Packet();
             int pIndex = port - 1;
             Console.WriteLine("pINdex: " + pIndex);
@@ -148,8 +152,19 @@ namespace Star_Dundee_WPF
             }
             port -= 1;
 
-            //Get the packet
-            if (exists)
+            int packetPort = 0;
+            //Get the right port
+            for (int j = 0; j < myFileParser.mainRecording.ports.Count; j++)
+            {
+                if(myFileParser.mainRecording.ports[j].portNumber == pIndex)
+                {
+                    packetPort = j;
+                    break;
+                }
+            }
+
+                //Get the packet
+                if (exists)
             {
                 for (int i = 0; i < myFileParser.mainRecording.ports[pIndex].packets.Count; i++)
                 {
@@ -162,20 +177,25 @@ namespace Star_Dundee_WPF
                             break;
                         }
                     }
+                    else
+                    {
+
+                    }
                 }
             }
 
-            if (myPacket == null)
+            if (myPacket.packetIndex == null)
             {
-                writePanel.Visibility = System.Windows.Visibility.Hidden;
-                writeRepPanel.Visibility = System.Windows.Visibility.Hidden;
-                readPanel.Visibility = System.Windows.Visibility.Hidden;
-                readRepPanel.Visibility = System.Windows.Visibility.Hidden;
-                dataPanel.Visibility = System.Windows.Visibility.Hidden;
+                writePanel.Visibility = System.Windows.Visibility.Collapsed;
+                writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                dataPanel.Visibility = System.Windows.Visibility.Collapsed;
+                notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
             else
             {
-                getPacketSummary(myPacket);
+                myFileParser.mainRecording.packetSummary = getPacketSummary(myPacket);
             }
 
         }
@@ -187,19 +207,88 @@ namespace Star_Dundee_WPF
             myRMAP.buildPacket(packet.dataArray);
 
             //Get command/packet type
-            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
-            packetSummary[0] = myRMAP.command;
-            Console.WriteLine("Command: " + packetSummary[0]);
+            string[] packetSummary = new string[21] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" , "", "", "", "" };
 
-            //if (myRMAP.command == "READ REPLY")
-            //{
-            writePanel.Visibility = System.Windows.Visibility.Visible;
-            writeRepPanel.Visibility = System.Windows.Visibility.Visible;
-            readPanel.Visibility = System.Windows.Visibility.Visible;
-            readRepPanel.Visibility = System.Windows.Visibility.Visible;
+            packetSummary[0] = myRMAP.command;
+            packetSummary[1] = packet.protocol;
+            packetSummary[2] = myRMAP.destinationKey.ToString("X");
+            packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X");
+            //packetSummary[4] = myRMAP.getTransactionID().ToString();
+            packetSummary[5] = myRMAP.extWriteAdd.ToString("X");
+            packetSummary[6] = myRMAP.dataLengthInt.ToString();
+            packetSummary[7] = myRMAP.headerCRC.ToString("X");
+            packetSummary[8] = myRMAP.dataCRC.ToString("X");
+            packetSummary[9] = myRMAP.status.ToString("X");
+            packetSummary[10] = myRMAP.destinationlogicalAddress.ToString("X");
+            packetSummary[13] = myRMAP.replyCRC.ToString("X");
+            packetSummary[14] = myRMAP.extReadAdd.ToString("X");
+            packetSummary[15] = myRMAP.readAddress.ToString("X");
+            packetSummary[16] = myRMAP.writeAddress.ToString("X");
+            packetSummary[17] = packet.protocol;
+            packetSummary[18] = packet.packetType.ToString();
+            if (myRMAP.data != null)
+            {
+                
+                packetSummary[19] = System.Text.Encoding.Default.GetString(myRMAP.data); 
+            }
+            
+            // packetSummary[20] = packet.theData.getTheData().ToString();
+
+            Console.WriteLine("Command: " + packetSummary[0]);
+            Console.WriteLine("Protocol: " + packet.protocol);
+
+            if(packet.protocol != "RMAP")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Collapsed;
+                writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                notRmapPanel.Visibility = System.Windows.Visibility.Visible;
+                dataPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+
+            else if (myRMAP.command == "WRITE")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Visible;
+                writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
+                dataPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (myRMAP.command == "WRITE REPLY")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Collapsed;
+                writeRepPanel.Visibility = System.Windows.Visibility.Visible;
+                readPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
+                dataPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (myRMAP.command == "READ")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Collapsed;
+                writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readPanel.Visibility = System.Windows.Visibility.Visible;
+                readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
+                dataPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (myRMAP.command == "READ REPLY")
+            {
+                writePanel.Visibility = System.Windows.Visibility.Collapsed;
+                writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readPanel.Visibility = System.Windows.Visibility.Collapsed;
+                readRepPanel.Visibility = System.Windows.Visibility.Visible;
+                notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
+                dataPanel.Visibility = System.Windows.Visibility.Visible;
+            }
+
+
+
 
             return packetSummary;
-            //}
+           
         }
 
         //string hexValue = intValue.ToString("X");

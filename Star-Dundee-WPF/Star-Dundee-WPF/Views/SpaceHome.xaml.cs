@@ -71,6 +71,9 @@ namespace Star_Dundee_WPF
                     dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                     //Set the recording to the datacontext
                     this.DataContext = myFileParser.mainRecording;
+                    //set graph values
+                    setGraphValues();
+
                 }
                 else
                 {
@@ -78,6 +81,67 @@ namespace Star_Dundee_WPF
                     MessageBox.Show("Error reading file(s) - please try again", "File Error");
                 }
             }
+        }
+
+        private void setGraphValues()
+        {
+            //for the ports
+            int port1 = 0;
+            int port2 = 0;
+            int port3 = 0;
+            int port4 = 0;
+            int port5 = 0;
+            int port6 = 0;
+            int port7 = 0;
+            int port8 = 0;
+
+            //get the error values
+            for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
+            {
+                switch(myFileParser.mainRecording.ports[i].portNumber)
+                {
+                    case 1:
+                        port1 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 2:
+                        port2 = myFileParser.mainRecording.ports[i].totalPackets;
+                        ;
+                        break;
+
+                    case 3:
+                        port3 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 4:
+                        port4 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 5:
+                        port5 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 6:
+                        port6 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 7:
+                        port7 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                    case 8:
+                        port8 = myFileParser.mainRecording.ports[i].totalPackets;
+                        break;
+
+                }
+            }
+
+            myFileParser.mainRecording.graphs.packetTotalCollection.Add(new RowSeries
+            {
+                Title = "Packets",
+                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },
+                
+        });
         }
 
         private void printListOfColumns(List<GridColumn> listToDisplay)
@@ -162,6 +226,8 @@ namespace Star_Dundee_WPF
                     break;
                 }
             }
+            if (myFileParser.mainRecording.ports.Count == 1)
+                pIndex = 0;
 
                 //Get the packet
                 if (exists)

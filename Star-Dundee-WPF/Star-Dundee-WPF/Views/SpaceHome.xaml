@@ -107,7 +107,7 @@
                 
             </TabItem>
             <TabItem Header="# Of Packets">
-                <lvc:CartesianChart Series="{Binding graphs.SeriesCollection}"  LegendLocation="Bottom">
+                <lvc:CartesianChart Series="{Binding graphs.packetTotalCollection}"  LegendLocation="Bottom">
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Ports" 
                           Labels="{Binding graphs.Labels}" 

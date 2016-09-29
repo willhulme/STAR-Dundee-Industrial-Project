@@ -18,7 +18,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="8*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -33,11 +33,10 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Grid.Column="3" Click="Button_Click">Upload Recording</Button>
+        <Button Grid.Row="0" Grid.Column="3" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue" Click="Button_Click">Upload Recording</Button>
         <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3">
-            <TabItem Header="Overview" >
-
-                <DataGrid x:Name="dataGrid1" IsReadOnly="True" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false">
+            <TabItem Header="Overview" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue" >
+                <DataGrid x:Name="dataGrid1" IsReadOnly="True" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false" Background="LightSteelBlue">
                     <DataGrid.ItemContainerStyle>
                         <Style TargetType="DataGridRow">
                             <EventSetter Event="PreviewMouseLeftButtonUp"  Handler="dataDrid1_PreviewMouseLeftButtonUp"/>
@@ -103,118 +102,115 @@
                     
                 </DataGrid>
             </TabItem>
-            <TabItem Header="# Data Characters">
-                <lvc:CartesianChart Series="{Binding graphs.charactersTotalCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Number Of Data Characters" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
+                <lvc:CartesianChart Series="{Binding graphs.charactersTotalCollection}"  LegendLocation="Bottom" Foreground="MidnightBlue" Background="LightSteelBlue">
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Ports" 
                           Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Characters" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Characters" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="# Of Packets">
-                <lvc:CartesianChart Series="{Binding graphs.packetTotalCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Number Of Packets" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
+                <lvc:CartesianChart Series="{Binding graphs.packetTotalCollection}"  LegendLocation="Bottom" Background="LightSteelBlue">
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Ports" 
-                          Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                        <lvc:Axis Title="Ports" Labels="{Binding graphs.Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
-                    
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="# Of Errors">
-                <lvc:CartesianChart Series="{Binding graphs.errorsTotalCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Number Of Errors" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
+                <lvc:CartesianChart Series="{Binding graphs.errorsTotalCollection}"  LegendLocation="Bottom" Background="LightSteelBlue" Foreground="MidnightBlue">
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Ports" 
-                          Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                        <lvc:Axis Title="Ports" Labels="{Binding graphs.Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Errors" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Errors" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
-
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="Data Rate" >
-                <lvc:CartesianChart Series="{Binding graphs.dataRateCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Data Rate" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue" >
+                <lvc:CartesianChart Series="{Binding graphs.dataRateCollection}" LegendLocation="Bottom" Background="LightSteelBlue" Foreground="MidnightBlue">
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Ports" 
-                          Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                        <lvc:Axis Title="Ports" Labels="{Binding graphs.Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Data Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Data Rate" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="Packet Rate" >
-                <lvc:CartesianChart Series="{Binding graphs.packetRateCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Packet Rate" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue" >
+                <lvc:CartesianChart Series="{Binding graphs.packetRateCollection}"  LegendLocation="Bottom" Background="LightSteelBlue" Foreground="MidnightBlue">
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Ports" 
-                          Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                        <lvc:Axis Title="Ports" Labels="{Binding graphs.Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Packet Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Packet Rate" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="Error Rate" >
-                <lvc:CartesianChart Series="{Binding graphs.errorRateCollection}"  LegendLocation="Bottom">
+            <TabItem Header="Error Rate" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue" >
+                <lvc:CartesianChart Series="{Binding graphs.errorRateCollection}"  LegendLocation="Bottom" Background="LightSteelBlue" Foreground="MidnightBlue">
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Ports" 
-                          Labels="{Binding graphs.Labels}" 
-                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                        <lvc:Axis Title="Ports" Labels="{Binding graphs.Labels}" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="MidnightBlue"/>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Error Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Error Rate" LabelFormatter="{Binding graphs.Formatter}" Foreground="MidnightBlue"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="Data Rate/Time" />
+            <TabItem Header="Data Rate/Time" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
+                <lvc:CartesianChart Series="{Binding dataRateTimeCollection}" LegendLocation="Right" Background="LightSteelBlue" Foreground="MidnightBlue">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Kbps" LabelFormatter="{Binding YFormatter}" Foreground="MidnightBlue"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Seconds" Labels="{Binding Labels}" Foreground="MidnightBlue"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </TabItem>
         </TabControl>
 
         <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >
-            <TabItem Header="Recording Summary" Background="LightBlue">
+            <TabItem Header="Recording Summary"  FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Background="LightBlue" >
+                    <StackPanel Background="LightSteelBlue" >
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Number Of Packets:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalPackets}"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalPackets}" Foreground="MidnightBlue"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label FontWeight="DemiBold" >Number Of Errors:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalErrors}"/>
+                            <Label FontWeight="DemiBold">Number Of Errors:</Label>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalErrors}" Foreground="MidnightBlue"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Number Of Data Characters:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalCharacters}"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding totalCharacters}" Foreground="MidnightBlue"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Data Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding dataRate}"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding dataRate}" Foreground="MidnightBlue"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Packet Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetRate}"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetRate}" Foreground="MidnightBlue"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label FontWeight="DemiBold">Error Rate:</Label>
-                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding errorRate}"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding errorRate}" Foreground="MidnightBlue"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Port Summary" Background="LightBlue" >
+            <TabItem Header="Port Summary"  FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Background="LightBlue" >
-                        <StackPanel Name="portPanel" Visibility="Visible" Background="LightBlue" >
+                    <StackPanel Background="LightSteelBlue" >
+                        <StackPanel Name="portPanel" Visibility="Visible">
                             <StackPanel Orientation="Horizontal">
                                 <Label FontWeight="DemiBold">Number Of Packets:</Label>
                                 <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding portSummary[0]}"/>
@@ -243,14 +239,13 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Packet Details" Background="LightBlue">
+            <TabItem Header="Packet Details" FontFamily="Arial Black" Background="MidnightBlue" Foreground="LightSteelBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <DockPanel Background="LightBlue" >
-                        
-                        <StackPanel Background="LightBlue" >
+                    <DockPanel Background="LightSteelBlue" >
+                        <StackPanel Background="LightSteelBlue" >
                             <StackPanel Margin="15" Name="writePanel" Visibility="Collapsed" >
                                 <StackPanel Orientation="Horizontal">
-                                    <Label FontWeight="DemiBold">Packet Type:</Label>
+                                    <Label FontWeight="DemiBold" Foreground="Black">Packet Type:</Label>
                                     <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding packetSummary[0]}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
@@ -293,7 +288,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Background="LightBlue" >
+                        <StackPanel Background="LightSteelBlue" >
                             <StackPanel Margin="15" Name="notRmapPanel" Visibility="Collapsed" >
                                 
                                 <StackPanel Orientation="Horizontal">
@@ -307,7 +302,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Background="LightBlue">
+                        <StackPanel Background="LightSteelBlue">
                             <StackPanel Margin="15" DockPanel.Dock="Bottom"  Name="writeRepPanel" Visibility="Collapsed">
 
                                 <StackPanel Orientation="Horizontal">
@@ -338,7 +333,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Background="LightBlue">
+                        <StackPanel Background="LightSteelBlue">
                             <StackPanel Margin="15" Name="readPanel" Visibility="Collapsed" DockPanel.Dock="Bottom" >
                                 <StackPanel Orientation="Horizontal">
                                     <Label FontWeight="DemiBold">Packet Type:</Label>
@@ -381,7 +376,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Background="LightBlue">
+                        <StackPanel Background="LightSteelBlue">
                             <StackPanel Margin="15" DockPanel.Dock="Bottom" Name="readRepPanel" Visibility="Collapsed">
                                 
                                     <StackPanel Orientation="Horizontal">

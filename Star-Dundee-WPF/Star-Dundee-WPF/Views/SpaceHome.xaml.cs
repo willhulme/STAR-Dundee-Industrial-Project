@@ -193,12 +193,13 @@ namespace Star_Dundee_WPF
         private void updatePacketSummary(string cellIndex, int port)
         {
 
-           // if(cellIndex != port)
+            // if(cellIndex != port)
 
             string[] packetSummary = new string[21] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
             myFileParser.mainRecording.packetSummary = packetSummary;
             Packet myPacket = new Packet();
-            int pIndex = port - 1;
+            int pIndex = myFileParser.mainRecording.ports.FindIndex(p => p.portNumber == port);
+
             Console.WriteLine("pINdex: " + pIndex);
             bool hasError = false;
 

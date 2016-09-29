@@ -285,6 +285,7 @@ namespace Star_Dundee_WPF
 
             Console.WriteLine("pINdex: " + pIndex);
             bool hasError = false;
+            bool isRMAP = false;
 
             //check if port exists
             bool exists = false;
@@ -325,6 +326,21 @@ namespace Star_Dundee_WPF
                         {
                             myPacket = myFileParser.mainRecording.ports[pIndex].packets[i];
                             Console.WriteLine("index in packet: " + myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex.ToString());
+                            if (myPacket.protocol !=null)
+                            {
+                                if (myPacket.protocol.Equals("RMAP"))
+                                {
+                                    isRMAP = true;
+                                }
+                                else
+                                {
+                                    isRMAP = false;
+                                }
+                            }
+                            else
+                            {
+                                isRMAP = false;
+                            }
                             hasError = myPacket.getErrorStatus();
                             break;
                         }
@@ -344,9 +360,13 @@ namespace Star_Dundee_WPF
             }
             else
             {
-                if (!hasError)
+                if (!hasError && isRMAP)
                 {
                     myFileParser.mainRecording.packetSummary = getPacketSummary(myPacket);
+                }
+                else if (!hasError && !isRMAP)
+                {
+                    myFileParser.mainRecording.packetSummary = getCustomSummary(myPacket);
                 }
                 else
                 {
@@ -356,8 +376,41 @@ namespace Star_Dundee_WPF
 
         }
 
+
+
+        private string[] getCustomSummary(Packet packet)
+        {
+            //Get command/packet type
+            string[] packetSummary = new string[21] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+
+            //packetSummary[0] = myRMAP.command;
+            packetSummary[1] = packet.protocol;
+            //packetSummary[2] = myRMAP.destinationKey.ToString("X");
+           // packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X");
+            packetSummary[17] = packet.protocol;
+            packetSummary[18] = packet.packetType.ToString();
+
+            if (packet.dataArray != null)
+            {
+
+                packetSummary[19] = String.Join(" ", packet.dataArray.Select(s => s.ToString()));
+            }
+
+
+            
+            writePanel.Visibility = System.Windows.Visibility.Collapsed;
+            writeRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+            readPanel.Visibility = System.Windows.Visibility.Collapsed;
+            readRepPanel.Visibility = System.Windows.Visibility.Collapsed;
+            notRmapPanel.Visibility = System.Windows.Visibility.Visible;
+            dataPanel.Visibility = System.Windows.Visibility.Visible;
+
+            return packetSummary;
+        }
+
         private string[] getPacketSummary(Packet packet)
         {
+            //if(placeholder)
             //Get the rmap details for the packet
             RMAP myRMAP = new RMAP();
             myRMAP.buildPacket(packet.dataArray);
@@ -439,9 +492,6 @@ namespace Star_Dundee_WPF
                 notRmapPanel.Visibility = System.Windows.Visibility.Collapsed;
                 dataPanel.Visibility = System.Windows.Visibility.Visible;
             }
-
-
-
 
             return packetSummary;
            

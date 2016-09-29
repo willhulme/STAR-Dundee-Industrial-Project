@@ -28,6 +28,7 @@ namespace Star_Dundee_WPF.Models
 
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
             {
+
                 System.Windows.Media.Colors.Aqua
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
@@ -38,6 +39,8 @@ namespace Star_Dundee_WPF.Models
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
             {
                 System.Windows.Media.Colors.Coral
+
+
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             Formatter = value => value + " Characters";
@@ -51,6 +54,7 @@ namespace Star_Dundee_WPF.Models
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             Formatter = value => value + " Errors";
 
+
             dataRateCollection = new SeriesCollection { };
 
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
@@ -61,6 +65,7 @@ namespace Star_Dundee_WPF.Models
             Formatter = value => value + " Data Rate";
 
             errorRateCollection = new SeriesCollection { };
+
 
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
             {
@@ -88,9 +93,6 @@ namespace Star_Dundee_WPF.Models
             Formatter = value => value + " Packets";
 
         }
-
-
-
     }
 }
         

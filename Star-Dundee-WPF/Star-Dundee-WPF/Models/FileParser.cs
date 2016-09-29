@@ -43,23 +43,29 @@ namespace Star_Dundee_WPF
         public bool filesExistAndMatch(string[] filePaths)
         {
             string[] startTimes = new string[filePaths.Length];
-
-            for (int i = 0; i < filePaths.Length; i++)
+            if (filePaths.Count() < 9)
             {
-                Console.WriteLine("Checking file " + (i + 1));
+                for (int i = 0; i < filePaths.Length; i++)
+                {
+                    Console.WriteLine("Checking file " + (i + 1));
 
-                if (System.IO.File.Exists(filePaths[i]))
-                {
-                    System.IO.StreamReader currentFile = new System.IO.StreamReader(filePaths[i]);
-                    startTimes[i] = currentFile.ReadLine();
+                    if (System.IO.File.Exists(filePaths[i]))
+                    {
+                        System.IO.StreamReader currentFile = new System.IO.StreamReader(filePaths[i]);
+                        startTimes[i] = currentFile.ReadLine();
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
+
+                return timeStampsMatch(startTimes);
             }
-
-            return timeStampsMatch(startTimes);
+            else
+            {
+                return false;
+            }
         }
 
         public bool timeStampsMatch(string[] startTimes)

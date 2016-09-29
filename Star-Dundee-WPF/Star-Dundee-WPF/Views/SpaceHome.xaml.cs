@@ -200,6 +200,7 @@ namespace Star_Dundee_WPF
             Packet myPacket = new Packet();
             int pIndex = port - 1;
             Console.WriteLine("pINdex: " + pIndex);
+            bool hasError = false;
 
             //check if port exists
             bool exists = false;
@@ -240,6 +241,7 @@ namespace Star_Dundee_WPF
                         {
                             myPacket = myFileParser.mainRecording.ports[pIndex].packets[i];
                             Console.WriteLine("index in packet: " + myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex.ToString());
+                            hasError = myPacket.getErrorStatus();
                             break;
                         }
                     }
@@ -261,7 +263,13 @@ namespace Star_Dundee_WPF
             }
             else
             {
-                myFileParser.mainRecording.packetSummary = getPacketSummary(myPacket);
+                if (!hasError)
+                {
+                    myFileParser.mainRecording.packetSummary = getPacketSummary(myPacket);
+                }
+                else {
+                    //do something with error details?
+                }
             }
 
         }

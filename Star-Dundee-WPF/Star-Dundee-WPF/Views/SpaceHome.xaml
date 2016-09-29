@@ -104,7 +104,16 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="# Data Characters">
-                
+                <lvc:CartesianChart Series="{Binding graphs.charactersTotalCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Characters" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
             </TabItem>
             <TabItem Header="# Of Packets">
                 <lvc:CartesianChart Series="{Binding graphs.packetTotalCollection}"  LegendLocation="Bottom">
@@ -118,13 +127,56 @@
                     </lvc:CartesianChart.AxisX>
                     
                 </lvc:CartesianChart>
-
-
             </TabItem>
-            <TabItem Header="# Of Errors" />
-            <TabItem Header="Data Rate" />
-            <TabItem Header="Packet Rate" />
-            <TabItem Header="Error Rate" />
+            <TabItem Header="# Of Errors">
+                <lvc:CartesianChart Series="{Binding graphs.errorsTotalCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Errors" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+
+                </lvc:CartesianChart>
+            </TabItem>
+            <TabItem Header="Data Rate" >
+                <lvc:CartesianChart Series="{Binding graphs.dataRateCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Data Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </TabItem>
+            <TabItem Header="Packet Rate" >
+                <lvc:CartesianChart Series="{Binding graphs.packetRateCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Packet Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </TabItem>
+            <TabItem Header="Error Rate" >
+                <lvc:CartesianChart Series="{Binding graphs.errorRateCollection}"  LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Ports" 
+                          Labels="{Binding graphs.Labels}" 
+                          Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Error Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </TabItem>
             <TabItem Header="Data Rate/Time" />
         </TabControl>
 

@@ -85,52 +85,101 @@ namespace Star_Dundee_WPF
 
         private void setGraphValues()
         {
-            //for the ports
-            int port1 = 0;
-            int port2 = 0;
-            int port3 = 0;
-            int port4 = 0;
-            int port5 = 0;
-            int port6 = 0;
-            int port7 = 0;
-            int port8 = 0;
+            //for the ports on the graphs
+            int port1, port2, port3, port4, port5, port6, port7, port8; //Packets
+            port1 = port2 = port3 = port4 = port5 = port6 = port7 = port8 = 0;
+            int port1A, port2A, port3A, port4A, port5A, port6A, port7A, port8A; //Characters
+            port1A = port2A = port3A = port4A = port5A = port6A = port7A = port8A = 0;
+            int port1B, port2B, port3B, port4B, port5B, port6B, port7B, port8B; //Errors
+            port1B = port2B = port3B = port4B = port5B = port6B = port7B = port8B = 0;
+            decimal port1C, port2C, port3C, port4C, port5C, port6C, port7C, port8C; //Packet Rate
+            port1C = port2C = port3C = port4C = port5C = port6C = port7C = port8C = 0;
+            decimal port1D, port2D, port3D, port4D, port5D, port6D, port7D, port8D; //Data Rate
+            port1D = port2D = port3D = port4D = port5D = port6D = port7D = port8D = 0;
+            decimal port1E, port2E, port3E, port4E, port5E, port6E, port7E, port8E; //Error Rate
+            port1E = port2E = port3E = port4E = port5E = port6E = port7E = port8E = 0;
+           
+            
 
-            //get the error values
+
+
+
+            //get the chart values
             for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
             {
                 switch(myFileParser.mainRecording.ports[i].portNumber)
                 {
                     case 1:
                         port1 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port1A= myFileParser.mainRecording.ports[i].totalCharacters;
+                        port1B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port1C = myFileParser.mainRecording.ports[i].packetRate;
+                        port1D = myFileParser.mainRecording.ports[i].dataRate;
+                        port1E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 2:
                         port2 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port2A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port2B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port2C = myFileParser.mainRecording.ports[i].packetRate;
+                        port2D = myFileParser.mainRecording.ports[i].dataRate;
+                        port2E = myFileParser.mainRecording.ports[i].errorRate;
                         ;
                         break;
 
                     case 3:
                         port3 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port3A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port3B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port3C = myFileParser.mainRecording.ports[i].packetRate;
+                        port3D = myFileParser.mainRecording.ports[i].dataRate;
+                        port3E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 4:
                         port4 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port4A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port4B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port4C = myFileParser.mainRecording.ports[i].packetRate;
+                        port4D = myFileParser.mainRecording.ports[i].dataRate;
+                        port4E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 5:
                         port5 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port5A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port5B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port5C = myFileParser.mainRecording.ports[i].packetRate;
+                        port5D = myFileParser.mainRecording.ports[i].dataRate;
+                        port5E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 6:
                         port6 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port6A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port6B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port6C = myFileParser.mainRecording.ports[i].packetRate;
+                        port6D = myFileParser.mainRecording.ports[i].dataRate;
+                        port6E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 7:
                         port7 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port7A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port7B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port7C = myFileParser.mainRecording.ports[i].packetRate;
+                        port7D = myFileParser.mainRecording.ports[i].dataRate;
+                        port7E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                     case 8:
                         port8 = myFileParser.mainRecording.ports[i].totalPackets;
+                        port8A = myFileParser.mainRecording.ports[i].totalCharacters;
+                        port8B = myFileParser.mainRecording.ports[i].totalErrors;
+                        port8C = myFileParser.mainRecording.ports[i].packetRate;
+                        port8D = myFileParser.mainRecording.ports[i].dataRate;
+                        port8E = myFileParser.mainRecording.ports[i].errorRate;
                         break;
 
                 }
@@ -139,10 +188,40 @@ namespace Star_Dundee_WPF
             myFileParser.mainRecording.graphs.packetTotalCollection.Add(new RowSeries
             {
                 Title = "Packets",
-                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },
-                
+                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },                
         });
-        }
+
+            myFileParser.mainRecording.graphs.charactersTotalCollection.Add(new RowSeries
+            {
+                Title = "Characters",
+                Values = new ChartValues<double> { port8A, port7A, port6A, port5A, port4A, port3A, port2A, port1A },
+            });
+
+            myFileParser.mainRecording.graphs.errorsTotalCollection.Add(new RowSeries
+            {
+                Title = "Errors",
+                Values = new ChartValues<double> { port8B, port7B, port6B, port5B, port4B, port3B, port2B, port1B },
+            });
+
+            myFileParser.mainRecording.graphs.dataRateCollection.Add(new RowSeries
+            {
+                Title = "Packet Rate",
+                Values = new ChartValues<decimal> { port8C, port7C, port6C, port5C, port4C, port3C, port2C, port1C },
+            });
+
+            myFileParser.mainRecording.graphs.errorRateCollection.Add(new RowSeries
+            {
+                Title = "Data Rate",
+                Values = new ChartValues<decimal> { port8D, port7D, port6D, port5D, port4D, port3D, port2D, port1D },
+            });
+
+            myFileParser.mainRecording.graphs.packetRateCollection.Add(new RowSeries
+            {
+                Title = "Error Rate",
+                Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
+            });
+
+           }
 
         private void printListOfColumns(List<GridColumn> listToDisplay)
         {

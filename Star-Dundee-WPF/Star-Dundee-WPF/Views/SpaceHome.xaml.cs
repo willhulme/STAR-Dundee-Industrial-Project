@@ -20,6 +20,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Data;
 using System.ComponentModel;
+using LiveCharts.Defaults;
 
 namespace Star_Dundee_WPF
 {
@@ -216,13 +217,29 @@ namespace Star_Dundee_WPF
                 Title = "Packet Rate",
                 Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
             });
-
-            myFileParser.mainRecording.graphs.dataRateTimeCollection.Add(new LineSeries
+            foreach (Port port in myFileParser.mainRecording.ports)
             {
-                Title = "Data Rate/Time",
-                Values = new ChartValues<double> { 20, 33, 47, 52, 41, 32, 24, 12 },
-                PointGeometry = null
-            });
+                int k = 0;
+                System.Windows.Media.Brush brush = new SolidColorBrush();
+                brush.Opacity = 0;
+                Random df = new Random(port.portNumber);
+                Brush brushColor = new SolidColorBrush(Color.FromRgb((byte)df.Next(), (byte)df.Next(), (byte)df.Next()));
+                ChartValues<ObservablePoint> points = new ChartValues<ObservablePoint>();
+                foreach (Tuple<DateTime, decimal> tuple in port.dataRateTime)
+                {
+                    points.Add(new ObservablePoint(k, (double)tuple.Item2));
+                    k++;
+                }
+                myFileParser.mainRecording.graphs.dataRateTimeCollection.Add(new LineSeries
+                {
+                    Title = "Port: " + port.portNumber.ToString(),
+                    Values = points ,
+                    PointGeometry = null,
+                    Fill = brush,
+                    Stroke = brushColor
+                     
+                });
+            }
 
            
         }

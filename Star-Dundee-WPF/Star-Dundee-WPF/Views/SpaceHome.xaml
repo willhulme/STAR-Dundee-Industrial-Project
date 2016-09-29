@@ -243,7 +243,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Packet Details" Background="LightBlue"  >
+            <TabItem Header="Packet Details" Background="LightBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <DockPanel Background="LightBlue" >
                         
@@ -433,8 +433,5 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-
-
-
     </Grid>
 </Page>

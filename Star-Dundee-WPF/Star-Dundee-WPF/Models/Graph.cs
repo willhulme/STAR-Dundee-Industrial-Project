@@ -21,7 +21,13 @@ namespace Star_Dundee_WPF.Models
         public SeriesCollection packetRateCollection { get; set; }
         public SeriesCollection dataRateTimeCollection { get; set; }
         public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
+        public string[] LabelsLine { get; set; }
+        public Func<double, string> FormatterPackets { get; set; }
+        public Func<double, string> FormatterCharacters { get; set; }
+        public Func<double, string> FormatterErrors { get; set; }
+        public Func<double, string> FormatterDataRate { get; set; }
+        public Func<double, string> FormatterPacketRate { get; set; }
+        public Func<double, string> FormatterErrorRate { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
 
@@ -35,8 +41,7 @@ namespace Star_Dundee_WPF.Models
                 System.Windows.Media.Colors.Aqua
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " Packets";
-
+            FormatterPackets = value => value + " Packets";
             charactersTotalCollection = new SeriesCollection { };
 
             LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
@@ -46,7 +51,7 @@ namespace Star_Dundee_WPF.Models
 
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " Characters";
+            FormatterCharacters = value => value + " Characters";
 
             errorsTotalCollection = new SeriesCollection { };
 
@@ -55,7 +60,7 @@ namespace Star_Dundee_WPF.Models
                 System.Windows.Media.Colors.DarkGreen
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " Errors";
+            FormatterErrors = value => value + " Errors";
 
 
             dataRateCollection = new SeriesCollection { };
@@ -65,7 +70,7 @@ namespace Star_Dundee_WPF.Models
                 System.Windows.Media.Colors.DarkBlue
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " Data Rate";
+            FormatterDataRate = value => value + " kB/s";
 
             errorRateCollection = new SeriesCollection { };
 
@@ -75,7 +80,7 @@ namespace Star_Dundee_WPF.Models
                 System.Windows.Media.Colors.DarkOrange
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " Error Rate";
+            FormatterErrorRate = value => value + " Error Rate";
 
             packetRateCollection = new SeriesCollection { };
 
@@ -84,7 +89,7 @@ namespace Star_Dundee_WPF.Models
                 System.Windows.Media.Colors.Khaki
             };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
-            Formatter = value => value + " packet Rate";
+            FormatterPacketRate = value => value + " packet Rate";
 
             dataRateTimeCollection = new SeriesCollection { };
 
@@ -92,7 +97,7 @@ namespace Star_Dundee_WPF.Models
             {
                 System.Windows.Media.Colors.Khaki
             };
-            Labels = new[] { "20", "40", "60", "80", "100", "120", "140", "160" };
+            LabelsLine = new[] { "20", "40", "60", "80", "100", "120", "140", "160" };
             YFormatter = value => value.ToString("C");
 
         }

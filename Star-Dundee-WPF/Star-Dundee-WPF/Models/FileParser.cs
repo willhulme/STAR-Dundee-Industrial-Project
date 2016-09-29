@@ -43,7 +43,7 @@ namespace Star_Dundee_WPF
         public bool filesExistAndMatch(string[] filePaths)
         {
             string[] startTimes = new string[filePaths.Length];
-            if (filePaths.Count() < 9)
+            if (filePaths.Count() <=8)
             {
                 for (int i = 0; i < filePaths.Length; i++)
                 {

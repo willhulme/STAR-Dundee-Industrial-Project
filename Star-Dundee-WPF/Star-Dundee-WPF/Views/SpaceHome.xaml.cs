@@ -29,9 +29,10 @@ namespace Star_Dundee_WPF
     public partial class SpaceHome : Page
     {
         FileParser myFileParser;
-        public SeriesCollection SeriesCollection { get; set; }
+        //public SeriesCollection SeriesCollection { get; set; }
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
+        public Func<double, string> YFormatter { get; set; }
 
         public SpaceHome()
         {
@@ -216,7 +217,15 @@ namespace Star_Dundee_WPF
                 Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
             });
 
-           }
+            myFileParser.mainRecording.graphs.dataRateTimeCollection.Add(new LineSeries
+            {
+                Title = "Data Rate/Time",
+                Values = new ChartValues<double> { 20, 33, 47, 52, 41, 32, 24, 12 },
+                PointGeometry = null
+            });
+
+           
+        }
 
         private void printListOfColumns(List<GridColumn> listToDisplay)
         {
@@ -375,8 +384,8 @@ namespace Star_Dundee_WPF
             packetSummary[18] = packet.packetType.ToString();
             if (myRMAP.data != null)
             {
-                
-                packetSummary[19] = System.Text.Encoding.Default.GetString(myRMAP.data); 
+
+                packetSummary[19] = String.Join(" ", myRMAP.data.Select(s => s.ToString("X2")));
             }
             
             // packetSummary[20] = packet.theData.getTheData().ToString();

@@ -109,73 +109,73 @@ namespace Star_Dundee_WPF
                         port1 = myFileParser.mainRecording.ports[i].totalPackets;
                         port1A= myFileParser.mainRecording.ports[i].totalCharacters;
                         port1B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port1C = myFileParser.mainRecording.ports[i].packetRate;
-                        port1D = myFileParser.mainRecording.ports[i].dataRate;
-                        port1E = myFileParser.mainRecording.ports[i].errorRate;
+                        port1C = myFileParser.mainRecording.ports[i].dataRate;
+                        port1D = myFileParser.mainRecording.ports[i].errorRate;
+                        port1E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 2:
                         port2 = myFileParser.mainRecording.ports[i].totalPackets;
                         port2A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port2B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port2C = myFileParser.mainRecording.ports[i].packetRate;
-                        port2D = myFileParser.mainRecording.ports[i].dataRate;
-                        port2E = myFileParser.mainRecording.ports[i].errorRate;
-                        ;
+                        port2C = myFileParser.mainRecording.ports[i].dataRate;
+                        port2D = myFileParser.mainRecording.ports[i].errorRate;
+                        port2E = myFileParser.mainRecording.ports[i].packetRate;
+                        
                         break;
 
                     case 3:
                         port3 = myFileParser.mainRecording.ports[i].totalPackets;
                         port3A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port3B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port3C = myFileParser.mainRecording.ports[i].packetRate;
-                        port3D = myFileParser.mainRecording.ports[i].dataRate;
-                        port3E = myFileParser.mainRecording.ports[i].errorRate;
+                        port3C = myFileParser.mainRecording.ports[i].dataRate;
+                        port3D = myFileParser.mainRecording.ports[i].errorRate;
+                        port3E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 4:
                         port4 = myFileParser.mainRecording.ports[i].totalPackets;
                         port4A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port4B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port4C = myFileParser.mainRecording.ports[i].packetRate;
-                        port4D = myFileParser.mainRecording.ports[i].dataRate;
-                        port4E = myFileParser.mainRecording.ports[i].errorRate;
+                        port4C = myFileParser.mainRecording.ports[i].dataRate;
+                        port4D = myFileParser.mainRecording.ports[i].errorRate;
+                        port4E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 5:
                         port5 = myFileParser.mainRecording.ports[i].totalPackets;
                         port5A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port5B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port5C = myFileParser.mainRecording.ports[i].packetRate;
-                        port5D = myFileParser.mainRecording.ports[i].dataRate;
-                        port5E = myFileParser.mainRecording.ports[i].errorRate;
+                        port5C = myFileParser.mainRecording.ports[i].dataRate;
+                        port5D = myFileParser.mainRecording.ports[i].errorRate;                        
+                        port5E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 6:
                         port6 = myFileParser.mainRecording.ports[i].totalPackets;
                         port6A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port6B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port6C = myFileParser.mainRecording.ports[i].packetRate;
-                        port6D = myFileParser.mainRecording.ports[i].dataRate;
-                        port6E = myFileParser.mainRecording.ports[i].errorRate;
+                        port6C = myFileParser.mainRecording.ports[i].dataRate;
+                        port6D = myFileParser.mainRecording.ports[i].errorRate;
+                        port6E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 7:
                         port7 = myFileParser.mainRecording.ports[i].totalPackets;
                         port7A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port7B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port7C = myFileParser.mainRecording.ports[i].packetRate;
-                        port7D = myFileParser.mainRecording.ports[i].dataRate;
-                        port7E = myFileParser.mainRecording.ports[i].errorRate;
+                        port7C = myFileParser.mainRecording.ports[i].dataRate;
+                        port7D = myFileParser.mainRecording.ports[i].errorRate;
+                        port7E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                     case 8:
                         port8 = myFileParser.mainRecording.ports[i].totalPackets;
                         port8A = myFileParser.mainRecording.ports[i].totalCharacters;
                         port8B = myFileParser.mainRecording.ports[i].totalErrors;
-                        port8C = myFileParser.mainRecording.ports[i].packetRate;
-                        port8D = myFileParser.mainRecording.ports[i].dataRate;
-                        port8E = myFileParser.mainRecording.ports[i].errorRate;
+                        port8C = myFileParser.mainRecording.ports[i].dataRate;
+                        port8D = myFileParser.mainRecording.ports[i].errorRate;
+                        port8E = myFileParser.mainRecording.ports[i].packetRate;
                         break;
 
                 }

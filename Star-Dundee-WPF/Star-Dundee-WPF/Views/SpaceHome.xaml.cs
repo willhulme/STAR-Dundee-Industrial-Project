@@ -366,11 +366,12 @@ namespace Star_Dundee_WPF
                 }
                 else if (!hasError && !isRMAP)
                 {
-                    myFileParser.mainRecording.packetSummary = getCustomSummary(myPacket);
+                    myFileParser.mainRecording.packetSummary = getCustomSummary(myPacket,false);
                 }
                 else
                 {
                     //do something with error details?
+                    myFileParser.mainRecording.packetSummary = getCustomSummary(myPacket,true);
                 }
             }
 
@@ -378,24 +379,37 @@ namespace Star_Dundee_WPF
 
 
 
-        private string[] getCustomSummary(Packet packet)
+        private string[] getCustomSummary(Packet packet, bool isErroneous)
         {
             //Get command/packet type
             string[] packetSummary = new string[21] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
-            //packetSummary[0] = myRMAP.command;
-            packetSummary[1] = packet.protocol;
-            //packetSummary[2] = myRMAP.destinationKey.ToString("X");
-           // packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X");
-            packetSummary[17] = packet.protocol;
-            packetSummary[18] = packet.packetType.ToString();
-
-            if (packet.dataArray != null)
+            if (!isErroneous)
             {
 
-                packetSummary[19] = String.Join(" ", packet.dataArray.Select(s => s.ToString()));
-            }
 
+                //packetSummary[0] = myRMAP.command;
+               // packetSummary[1] = packet.protocol;
+                //packetSummary[2] = myRMAP.destinationKey.ToString("X");
+                // packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X");
+                //packetSummary[17] = packet.protocol;
+               // packetSummary[18] = packet.packetType.ToString();
+
+                if (packet.dataArray != null)
+                {
+
+                    packetSummary[19] = String.Join(" ", packet.dataArray.Select(s => s.ToString()));
+                }
+            }
+            else
+            {
+                packetSummary[1] = packet.protocol;
+                packetSummary[18] = packet.packetType.ToString();
+
+
+                packetSummary[19] += "Error Type : " + packet.getErrorType().ToString();
+                
+            }
 
             
             writePanel.Visibility = System.Windows.Visibility.Collapsed;
@@ -420,19 +434,19 @@ namespace Star_Dundee_WPF
 
             packetSummary[0] = myRMAP.command;
             packetSummary[1] = packet.protocol;
-            packetSummary[2] = myRMAP.destinationKey.ToString("X");
-            packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X");
-            //packetSummary[4] = myRMAP.getTransactionID().ToString();
-            packetSummary[5] = myRMAP.extWriteAdd.ToString("X");
+            packetSummary[2] = myRMAP.destinationKey.ToString("X2");
+            packetSummary[3] = myRMAP.sourcelogicalAddress.ToString("X2");
+            packetSummary[4] = String.Join(" ", myRMAP.transactionID.Select(s => s.ToString("X2")));
+            packetSummary[5] = myRMAP.extWriteAdd.ToString("X2");
             packetSummary[6] = myRMAP.dataLengthInt.ToString();
-            packetSummary[7] = myRMAP.headerCRC.ToString("X");
-            packetSummary[8] = myRMAP.dataCRC.ToString("X");
-            packetSummary[9] = myRMAP.status.ToString("X");
-            packetSummary[10] = myRMAP.destinationlogicalAddress.ToString("X");
-            packetSummary[13] = myRMAP.replyCRC.ToString("X");
-            packetSummary[14] = myRMAP.extReadAdd.ToString("X");
-            packetSummary[15] = myRMAP.readAddress.ToString("X");
-            packetSummary[16] = myRMAP.writeAddress.ToString("X");
+            packetSummary[7] = myRMAP.headerCRC.ToString("X2");
+            packetSummary[8] = myRMAP.dataCRC.ToString("X2");
+            packetSummary[9] = myRMAP.status.ToString("X2");
+            packetSummary[10] = myRMAP.destinationlogicalAddress.ToString("X2");
+            packetSummary[13] = myRMAP.replyCRC.ToString("X2");
+            packetSummary[14] = myRMAP.extReadAdd.ToString("X2");
+            packetSummary[15] = myRMAP.readAddress.ToString("X2");
+            packetSummary[16] = myRMAP.writeAddress.ToString("X2");
             packetSummary[17] = packet.protocol;
             packetSummary[18] = packet.packetType.ToString();
             if (myRMAP.data != null)

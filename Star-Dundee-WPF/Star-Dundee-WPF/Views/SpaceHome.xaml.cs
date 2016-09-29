@@ -97,13 +97,8 @@ namespace Star_Dundee_WPF
             decimal port1D, port2D, port3D, port4D, port5D, port6D, port7D, port8D; //Data Rate
             port1D = port2D = port3D = port4D = port5D = port6D = port7D = port8D = 0;
             decimal port1E, port2E, port3E, port4E, port5E, port6E, port7E, port8E; //Error Rate
-            port1E = port2E = port3E = port4E = port5E = port6E = port7E = port8E = 0;
-           
+            port1E = port2E = port3E = port4E = port5E = port6E = port7E = port8E = 0;   
             
-
-
-
-
             //get the chart values
             for (int i = 0; i < myFileParser.mainRecording.ports.Count; i++)
             {
@@ -205,19 +200,19 @@ namespace Star_Dundee_WPF
 
             myFileParser.mainRecording.graphs.dataRateCollection.Add(new RowSeries
             {
-                Title = "Packet Rate",
+                Title = "Data Rate",
                 Values = new ChartValues<decimal> { port8C, port7C, port6C, port5C, port4C, port3C, port2C, port1C },
             });
 
             myFileParser.mainRecording.graphs.errorRateCollection.Add(new RowSeries
             {
-                Title = "Data Rate",
+                Title = "Error Rate",
                 Values = new ChartValues<decimal> { port8D, port7D, port6D, port5D, port4D, port3D, port2D, port1D },
             });
 
             myFileParser.mainRecording.graphs.packetRateCollection.Add(new RowSeries
             {
-                Title = "Error Rate",
+                Title = "Packet Rate",
                 Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
             });
 
@@ -325,10 +320,7 @@ namespace Star_Dundee_WPF
                             break;
                         }
                     }
-                    else
-                    {
-
-                    }
+                   
                 }
             }
 
@@ -347,7 +339,8 @@ namespace Star_Dundee_WPF
                 {
                     myFileParser.mainRecording.packetSummary = getPacketSummary(myPacket);
                 }
-                else {
+                else
+                {
                     //do something with error details?
                 }
             }

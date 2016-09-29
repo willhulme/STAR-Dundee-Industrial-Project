@@ -38,7 +38,7 @@ namespace Star_Dundee_WPF
 
             InitializeComponent();
         }
-        
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,7 +112,7 @@ namespace Star_Dundee_WPF
 
             //Update packet summary
             GridColumn row = (GridColumn)dataGrid1.CurrentItem;
-            
+
             Console.WriteLine("Cell Time: " + row.time.ToString());
             Console.WriteLine("Cell Index: " + row.index.ToString());
 
@@ -121,12 +121,12 @@ namespace Star_Dundee_WPF
             string cellIndex = row.index.ToString();
 
             //look for the matching packet with the timestamps in the port if that cell has a packet
-            
+
             updatePacketSummary(cellIndex, portIndex);
-            
+
         }
 
-        private void updatePacketSummary(string cellIndex, int port )
+        private void updatePacketSummary(string cellIndex, int port)
         {
             string[] packetSummary = new string[16];
             Packet myPacket = new Packet();
@@ -158,9 +158,10 @@ namespace Star_Dundee_WPF
                         if (cellIndex == myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex.ToString())
                         {
                             myPacket = myFileParser.mainRecording.ports[pIndex].packets[i];
+                            Console.WriteLine("index in packet: " + myFileParser.mainRecording.ports[pIndex].packets[i].packetIndex.ToString());
                             break;
                         }
-                    }                  
+                    }
                 }
             }
 
@@ -176,32 +177,35 @@ namespace Star_Dundee_WPF
             {
                 getPacketSummary(myPacket);
             }
-              
+
         }
 
-        private void getPacketSummary(Packet packet)
+        private string[] getPacketSummary(Packet packet)
         {
             //Get the rmap details for the packet
             RMAP myRMAP = new RMAP();
             myRMAP.buildPacket(packet.dataArray);
 
             //Get command/packet type
-            string[] packetSummary = new string[16];
-            myFileParser.mainRecording.portSummary[0] = myRMAP.command;
+            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
+            packetSummary[0] = myRMAP.command;
+            Console.WriteLine("Command: " + packetSummary[0]);
 
-            if (myRMAP.command == "READ")
-            {
-                writePanel.Visibility = System.Windows.Visibility.Visible;
-                writeRepPanel.Visibility = System.Windows.Visibility.Visible;
-                readPanel.Visibility = System.Windows.Visibility.Visible;
-                readRepPanel.Visibility = System.Windows.Visibility.Visible;
-            }
+            //if (myRMAP.command == "READ REPLY")
+            //{
+            writePanel.Visibility = System.Windows.Visibility.Visible;
+            writeRepPanel.Visibility = System.Windows.Visibility.Visible;
+            readPanel.Visibility = System.Windows.Visibility.Visible;
+            readRepPanel.Visibility = System.Windows.Visibility.Visible;
+
+            return packetSummary;
+            //}
         }
 
         //string hexValue = intValue.ToString("X");
         private void updatePortSummury(int port)
         {
-            string[]portSummary = new string[6] { "", "", "", "", "", "" };
+            string[] portSummary = new string[6] { "", "", "", "", "", "" };
             myFileParser.mainRecording.portSummary = portSummary;
             //check if port exists
             bool exists = false;
@@ -214,7 +218,7 @@ namespace Star_Dundee_WPF
                     exists = true;
                     portIndex = i;
                 }
-                    
+
             }
             port -= 1;
             if (exists)
@@ -222,8 +226,8 @@ namespace Star_Dundee_WPF
                 myFileParser.mainRecording.portSummary = getPortSummary(portIndex);
                 portPanel.Visibility = System.Windows.Visibility.Visible;
             }
-            
-                
+
+
             DataContext = myFileParser.mainRecording;
 
             //if empty hide lables
@@ -235,7 +239,7 @@ namespace Star_Dundee_WPF
 
         public string[] getPortSummary(int port)
         {
-            string[] portSummary = new string[6] { "", "", "", "", "", ""};
+            string[] portSummary = new string[6] { "", "", "", "", "", "" };
 
             portSummary[0] = myFileParser.mainRecording.ports[port].totalPackets.ToString();
             portSummary[1] = myFileParser.mainRecording.ports[port].totalErrors.ToString();
@@ -246,14 +250,9 @@ namespace Star_Dundee_WPF
 
             return portSummary;
         }
-
-        public string[] getPacketSummary(int port)
-        {
-            string[] packetSummary = new string[6] { "", "", "", "", "", "" };
-
-            return packetSummary;
-        }
     }
+
+       
 
 
     public class ErrorHighlighter : IValueConverter

@@ -20,6 +20,7 @@ namespace Star_Dundee_WPF.Models
         public decimal dataRate { get; set; }
         public decimal errorRate { get; set; }
         public decimal packetRate { get; set; }
+
         private string[] portSum;
         public string[] portSummary {
             get { return portSum; }
@@ -33,10 +34,10 @@ namespace Star_Dundee_WPF.Models
         private string[] packetSum;
         public string[] packetSummary
         {
-            get { return portSum; }
+            get { return packetSum; }
             set
             {
-                portSum = value;
+                packetSum = value;
 
                 OnPropertyChanged("packetSummary");
             }

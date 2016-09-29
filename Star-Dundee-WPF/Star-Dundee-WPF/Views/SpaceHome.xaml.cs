@@ -68,7 +68,7 @@ namespace Star_Dundee_WPF
                     List<GridColumn> listToDisplay = myFileParser.listOfColumns;
                     //printListOfColumns(listToDisplay);
                     dataGrid1.ItemsSource = listToDisplay;
-                    dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
+                    //dataGrid1.Columns[1].Visibility = Visibility.Collapsed;
                     //Set the recording to the datacontext
                     this.DataContext = myFileParser.mainRecording;
                 }
@@ -160,10 +160,7 @@ namespace Star_Dundee_WPF
                             myPacket = myFileParser.mainRecording.ports[pIndex].packets[i];
                             break;
                         }
-                    }
-                    
-
-
+                    }                  
                 }
             }
 

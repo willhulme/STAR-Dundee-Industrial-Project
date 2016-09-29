@@ -111,7 +111,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Characters" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Characters" LabelFormatter="{Binding graphs.FormatterCharacters}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
@@ -123,7 +123,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Packets" LabelFormatter="{Binding graphs.FormatterPackets}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
 
                 </lvc:CartesianChart>
@@ -136,7 +136,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Errors" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Errors" LabelFormatter="{Binding graphs.FormatterErrors}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
 
                 </lvc:CartesianChart>
@@ -149,7 +149,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Data Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Data Rate" LabelFormatter="{Binding graphs.FormatterDataRate}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
@@ -161,7 +161,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Packet Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Packet Rate" LabelFormatter="{Binding graphs.FormatterPacketRate}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
@@ -173,7 +173,7 @@
                           Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" />
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Error Rate" LabelFormatter="{Binding graphs.Formatter}"></lvc:Axis>
+                        <lvc:Axis Title="Error Rate" LabelFormatter="{Binding graphs.FormatterErrorRate}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>

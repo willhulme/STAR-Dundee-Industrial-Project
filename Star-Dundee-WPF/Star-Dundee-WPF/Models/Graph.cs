@@ -11,13 +11,13 @@ namespace Star_Dundee_WPF.Models
 {
     class Graph
     {
-        public SeriesCollection SeriesCollection { get; set; }
+        public SeriesCollection packetTotalCollection { get; set; }
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
         public Graph()
         {
-            SeriesCollection = new SeriesCollection
+            packetTotalCollection = new SeriesCollection
             {
                 new RowSeries
                 {

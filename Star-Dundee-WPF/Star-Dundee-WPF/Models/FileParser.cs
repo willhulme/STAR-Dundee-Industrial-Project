@@ -25,10 +25,11 @@ namespace Star_Dundee_WPF
                 readFile(filePaths);
 
 
-                //fillDataGrid();
-                fillDataGridSimply();
-
-               
+                fillDataGrid();
+                //fillDataGridSimply();
+                mindTheGap();
+                mindTheGap();
+                mindTheGap();
                 return true;
 
             }
@@ -263,7 +264,56 @@ namespace Star_Dundee_WPF
             //fill our overview with the needed information
             string dateTimeFormat = "dd-MM-yyyy HH:mm:ss.fff";
             listOfColumns = new List<GridColumn>();
-            
+
+            //get start and end times of recording
+            DateTime startTime = mainRecording.getPort(0).getStartTime();
+            DateTime timeOfLastPacket = mainRecording.getPort(0).getPacket(mainRecording.getPort(0).getTotalPackets() - 1).getTimestamp();
+
+            DateTime currentLastPacket;
+            DateTime currentFirstPacket;
+            DateTime earliestPacket = mainRecording.getPorts()[0].packets[0].timestamp;
+
+            foreach (Port currentPort in mainRecording.getPorts())
+            {
+                currentLastPacket = currentPort.getPacket(currentPort.getPackets().Count - 1).getTimestamp();
+                currentFirstPacket = currentPort.packets[0].timestamp;
+
+                //Console.WriteLine(currentLastPacket + "\t" + timeOfLastPacket);
+
+                if (DateTime.Compare(currentLastPacket, timeOfLastPacket) > 0)
+                {
+                    timeOfLastPacket = currentLastPacket;
+                }
+                if (DateTime.Compare(currentFirstPacket, earliestPacket) < 0)
+                {
+                    earliestPacket = currentFirstPacket;
+                }
+            }
+
+            startTime = earliestPacket;
+
+            //double numberOfColumns = (timeOfLastPacket - startTime).TotalMilliseconds;
+            double numberOfColumns = columns.Count;
+            //numberOfColumns += 2;
+
+            listOfColumns = new List<GridColumn>();
+            //DateTime currentTime = startTime;
+            DateTime currentTime = columns[0];
+
+            //build the grid
+            for (int i = 0; i < numberOfColumns; i++)
+            {
+                string currentTimeStamp = currentTime.ToString(dateTimeFormat);
+
+                GridColumn currentGridColumn = new GridColumn();
+
+                currentGridColumn.setTime(currentTimeStamp);
+                currentGridColumn.index = i.ToString();
+                listOfColumns.Add(currentGridColumn);
+                //currentTime = currentTime.AddMilliseconds(1);
+                currentTime = columns[i];
+            }
+
             int gridIndex = 0;
 
             //Search all ports
@@ -289,8 +339,7 @@ namespace Star_Dundee_WPF
                     }
 
                     //Build up current column
-                    currentGridColumn.index = gridIndex.ToString();
-                    
+                    currentGridColumn.index = gridIndex.ToString();               
 
                     
 
@@ -478,6 +527,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -497,6 +548,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -517,6 +570,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -536,6 +591,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -555,6 +612,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -574,6 +633,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -593,6 +654,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -612,6 +675,8 @@ namespace Star_Dundee_WPF
                                         {
                                             timeStampCounter++;
                                             newColumn.index = timeStampCounter.ToString();
+                                            //add same index to the packet
+                                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
                                             listOfColumns.Insert((timeStampCounter), newColumn);
                                         }
                                         else
@@ -674,41 +739,81 @@ namespace Star_Dundee_WPF
                         {
                             case 1:
                                 listOfColumns[timeStampCounter].setPort1(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 2:
                                 listOfColumns[timeStampCounter].setPort2(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 3:
                                 listOfColumns[timeStampCounter].setPort3(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 4:
                                 listOfColumns[timeStampCounter].setPort4(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 5:
                                 listOfColumns[timeStampCounter].setPort5(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 6:
                                 listOfColumns[timeStampCounter].setPort6(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 7:
                                 listOfColumns[timeStampCounter].setPort7(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
 
                             case 8:
                                 listOfColumns[timeStampCounter].setPort8(toDisplay);
-                                break;
+                            //add same index to the packet
+                            portToCheck.packets[packetCounter].packetIndex = timeStampCounter.ToString();
+                            break;
                         }
                         
                     
                 }
             }
         }
+
+        //take out gap column
+        public void mindTheGap()
+        {
+
+            string time = "";
+
+            //check all columns and remove the gaps
+            for (int i = 0; i < listOfColumns.Count; i++)
+            {
+                if (listOfColumns[i].port1 == null && listOfColumns[i].port2 == null && listOfColumns[i].port3 == null
+                    && listOfColumns[i].port4 == null && listOfColumns[i].port5 == null && listOfColumns[i].port6 == null &&
+                    listOfColumns[i].port7 == null && listOfColumns[i].port8 == null)
+                {
+                    //finds the time that repeats
+                    time = listOfColumns[i].time;                   
+                    listOfColumns.RemoveAt(i);
+                        
+                    }
+                   
+                }
+            }
+            
+        
 
         public List<GridColumn> getListOfColumns()
         {

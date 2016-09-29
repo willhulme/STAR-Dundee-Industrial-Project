@@ -212,6 +212,7 @@ namespace Star_Dundee_WPF
                 currentPort.calcTotalValues();
                 currentPort.dataRateTime = RC2.CalculateDataRate(currentPort.packets);
 
+                currentPort.dataRate = RC2.CalculateAveragePortDataRate(currentPort);
                 currentPort.packetRate = Math.Round(RC2.CalculatePacketRate(currentPort.packets), 4);
                 currentPort.errorRate = Math.Round(RC2.CalculateErrorRate(currentPort), 4);
 

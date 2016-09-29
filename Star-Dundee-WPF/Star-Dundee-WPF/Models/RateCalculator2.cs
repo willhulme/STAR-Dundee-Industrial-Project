@@ -120,6 +120,18 @@ namespace Star_Dundee_WPF.Models
             return errorRate;
         }
 
+        public decimal CalculateAveragePortDataRate(Port thePort)
+        {
+            //Calculate packet error rate for a port
+            decimal dataRate;
+            List<Packet> packets = thePort.packets;
+            TimeSpan difference = (packets[packets.Count - 1].timestamp - packets[0].timestamp);
+            int totalData = thePort.totalCharacters;
+
+            dataRate = (decimal) ((double)totalData / difference.TotalSeconds);
+            dataRate = Math.Round(dataRate,4);
+            return dataRate;
+        }
 
 
     }

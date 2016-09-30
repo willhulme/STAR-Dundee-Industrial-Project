@@ -177,7 +177,16 @@
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </TabItem>
-            <TabItem Header="Data Rate/Time" />
+            <TabItem Header="Data Rate/Time">
+                <lvc:CartesianChart Series="{Binding graphs.dataRateTimeCollection}"  LegendLocation="Bottom" >
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Rate" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" Labels="{Binding LabelsLine}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </TabItem>
         </TabControl>
 
         <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >

@@ -20,6 +20,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Data;
 using System.ComponentModel;
+using LiveCharts.Defaults;
 
 namespace Star_Dundee_WPF
 {
@@ -180,49 +181,74 @@ namespace Star_Dundee_WPF
 
                 }
             }
-
+            Random bar = new Random(100);
+            
             myFileParser.mainRecording.graphs.packetTotalCollection.Add(new RowSeries
             {
                 Title = "Packets",
-                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },                
-        });
+                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+            });
 
             myFileParser.mainRecording.graphs.charactersTotalCollection.Add(new RowSeries
             {
                 Title = "Characters",
                 Values = new ChartValues<double> { port8A, port7A, port6A, port5A, port4A, port3A, port2A, port1A },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
 
             myFileParser.mainRecording.graphs.errorsTotalCollection.Add(new RowSeries
             {
                 Title = "Errors",
                 Values = new ChartValues<double> { port8B, port7B, port6B, port5B, port4B, port3B, port2B, port1B },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
 
             myFileParser.mainRecording.graphs.dataRateCollection.Add(new RowSeries
             {
                 Title = "Data Rate",
                 Values = new ChartValues<decimal> { port8C, port7C, port6C, port5C, port4C, port3C, port2C, port1C },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+
             });
 
             myFileParser.mainRecording.graphs.errorRateCollection.Add(new RowSeries
             {
                 Title = "Error Rate",
                 Values = new ChartValues<decimal> { port8D, port7D, port6D, port5D, port4D, port3D, port2D, port1D },
-            });
+                
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+        });
 
             myFileParser.mainRecording.graphs.packetRateCollection.Add(new RowSeries
             {
                 Title = "Packet Rate",
                 Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
-
-            myFileParser.mainRecording.graphs.dataRateTimeCollection.Add(new LineSeries
+            foreach (Port port in myFileParser.mainRecording.ports)
             {
-                Title = "Data Rate/Time",
-                Values = new ChartValues<double> { 20, 33, 47, 52, 41, 32, 24, 12 },
-                PointGeometry = null
-            });
+                int k = 0;
+                System.Windows.Media.Brush brush = new SolidColorBrush();
+                brush.Opacity = 0;
+                Random df = new Random(port.portNumber);
+                Brush brushColor = new SolidColorBrush(Color.FromRgb((byte)df.Next(), (byte)df.Next(), (byte)df.Next()));
+                ChartValues<ObservablePoint> points = new ChartValues<ObservablePoint>();
+                foreach (Tuple<DateTime, decimal> tuple in port.dataRateTime)
+                {
+                    points.Add(new ObservablePoint(k, (double)tuple.Item2));
+                    k++;
+                }
+                myFileParser.mainRecording.graphs.dataRateTimeCollection.Add(new LineSeries
+                {
+                    Title = "Port: " + port.portNumber.ToString(),
+                    Values = points ,
+                    PointGeometry = null,
+                    Fill = brush,
+                    Stroke = brushColor
+                     
+                });
+            }
 
            
         }

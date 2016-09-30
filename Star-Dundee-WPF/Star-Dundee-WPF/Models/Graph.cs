@@ -35,68 +35,37 @@ namespace Star_Dundee_WPF.Models
         {
             packetTotalCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-
-                System.Windows.Media.Colors.Aqua
-            };
+           
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterPackets = value => value + " Packets";
             charactersTotalCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.Coral
-
-
-            };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterCharacters = value => value + " Characters";
 
             errorsTotalCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.DarkGreen
-            };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterErrors = value => value + " Errors";
 
 
             dataRateCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.DarkBlue
-            };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterDataRate = value => value + " kB/s";
 
             errorRateCollection = new SeriesCollection { };
 
-
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.DarkOrange
-            };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterErrorRate = value => value + " Error Rate";
 
             packetRateCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.Khaki
-            };
             Labels = new[] { "Port 8", "Port 7", "Port 6", "Port 5", "Port 4", "Port 3", "Port 2", "Port 1" };
             FormatterPacketRate = value => value + " packet Rate";
 
             dataRateTimeCollection = new SeriesCollection { };
 
-            LiveCharts.Wpf.Charts.Base.Chart.Colors = new List<System.Windows.Media.Color>
-            {
-                System.Windows.Media.Colors.Khaki
-            };
             LabelsLine = new[] { "20", "40", "60", "80", "100", "120", "140", "160" };
             YFormatter = value => value.ToString("C");
 

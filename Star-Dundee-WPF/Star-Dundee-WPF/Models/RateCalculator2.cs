@@ -64,11 +64,11 @@ namespace Star_Dundee_WPF.Models
             }
             else if (packets.Count < 5000)
             {
-                for (int i = 0; i < packets.Count - 1; i += 100)
+                for (int i = 0; i < packets.Count - 1; i += 30)
                 {
                     int totalLength = 0;
                     int packetsAhead = 0;
-                    for (int j = i; j < (i + 100) && j < packets.Count - 1; j++)
+                    for (int j = i; j < (i + 30) && j < packets.Count - 1; j++)
                     {
                         //Console.WriteLine(j);
                         totalLength += packets[j].dataLength;

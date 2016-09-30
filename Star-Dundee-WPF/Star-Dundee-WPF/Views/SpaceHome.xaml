@@ -431,8 +431,8 @@
                         </StackPanel>
 
                         <StackPanel Margin="15" DockPanel.Dock="Left"  Name="dataPanel" Visibility="Collapsed">
-                            <DockPanel >
-                                <Label FontWeight="DemiBold">Data:</Label>
+                            <DockPanel Width="600">
+                                <Label Padding="0 0 5 0" FontWeight="DemiBold">Data: </Label>
                                 <TextBlock TextWrapping="Wrap" Text="{Binding packetSummary[19]}"/>
                             </DockPanel>
                         </StackPanel>

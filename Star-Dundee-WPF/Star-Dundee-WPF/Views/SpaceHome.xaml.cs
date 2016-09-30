@@ -181,41 +181,50 @@ namespace Star_Dundee_WPF
 
                 }
             }
+            Random bar = new Random(57);
 
             myFileParser.mainRecording.graphs.packetTotalCollection.Add(new RowSeries
             {
                 Title = "Packets",
-                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },                
-        });
+                Values = new ChartValues<double> { port8, port7, port6, port5, port4, port3, port2, port1 },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+            });
 
             myFileParser.mainRecording.graphs.charactersTotalCollection.Add(new RowSeries
             {
                 Title = "Characters",
                 Values = new ChartValues<double> { port8A, port7A, port6A, port5A, port4A, port3A, port2A, port1A },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
 
             myFileParser.mainRecording.graphs.errorsTotalCollection.Add(new RowSeries
             {
                 Title = "Errors",
                 Values = new ChartValues<double> { port8B, port7B, port6B, port5B, port4B, port3B, port2B, port1B },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
 
             myFileParser.mainRecording.graphs.dataRateCollection.Add(new RowSeries
             {
                 Title = "Data Rate",
                 Values = new ChartValues<decimal> { port8C, port7C, port6C, port5C, port4C, port3C, port2C, port1C },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+
             });
 
             myFileParser.mainRecording.graphs.errorRateCollection.Add(new RowSeries
             {
                 Title = "Error Rate",
                 Values = new ChartValues<decimal> { port8D, port7D, port6D, port5D, port4D, port3D, port2D, port1D },
-            });
+                
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
+        });
 
             myFileParser.mainRecording.graphs.packetRateCollection.Add(new RowSeries
             {
                 Title = "Packet Rate",
                 Values = new ChartValues<decimal> { port8E, port7E, port6E, port5E, port4E, port3E, port2E, port1E },
+                Fill = new SolidColorBrush(Color.FromRgb((byte)bar.Next(), (byte)bar.Next(), (byte)bar.Next()))
             });
             foreach (Port port in myFileParser.mainRecording.ports)
             {

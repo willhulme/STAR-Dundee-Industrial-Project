@@ -38,7 +38,7 @@
         <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="4">
             <TabItem Header="Overview" >
 
-                <DataGrid x:Name="dataGrid1" IsReadOnly="True" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false">
+                <DataGrid Background="LightBlue" x:Name="dataGrid1" IsReadOnly="True" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false">
                     <DataGrid.ItemContainerStyle>
                         <Style TargetType="DataGridRow">
                             <EventSetter Event="PreviewMouseLeftButtonUp"  Handler="dataDrid1_PreviewMouseLeftButtonUp"/>

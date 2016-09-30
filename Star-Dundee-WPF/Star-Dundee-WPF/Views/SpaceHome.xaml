@@ -17,7 +17,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="4*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -34,7 +35,7 @@
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Grid.Column="3" Click="Button_Click">Upload Recording</Button>
-        <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3">
+        <TabControl  Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="4">
             <TabItem Header="Overview" >
 
                 <DataGrid x:Name="dataGrid1" IsReadOnly="True" AutoGenerateColumns="True" ColumnWidth="1*"  SelectionUnit="cell" CanUserAddRows="false">
@@ -189,7 +190,7 @@
             </TabItem>
         </TabControl>
 
-        <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >
+        <TabControl  Grid.Row="10" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="2" >
             <TabItem Header="Recording Summary" Background="LightBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Background="LightBlue" >
@@ -252,6 +253,9 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+            
+        </TabControl>
+        <TabControl  Grid.Row="10" Grid.Column="2" Grid.RowSpan="9" Grid.ColumnSpan="2" >
             <TabItem Header="Packet Details" Background="LightBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <DockPanel Background="LightBlue" >
@@ -432,7 +436,7 @@
 
                         <StackPanel Margin="15" DockPanel.Dock="Left"  Name="dataPanel" Visibility="Collapsed">
                             <DockPanel Width="600">
-                                <Label Padding="0 0 5 0" FontWeight="DemiBold">Data: </Label>
+                                <Label Padding="0 0 5 0" FontWeight="DemiBold">Data:</Label>
                                 <TextBlock TextWrapping="Wrap" Text="{Binding packetSummary[19]}"/>
                             </DockPanel>
                         </StackPanel>
@@ -441,6 +445,7 @@
                     </DockPanel>
                 </ScrollViewer>
             </TabItem>
+
         </TabControl>
     </Grid>
 </Page>

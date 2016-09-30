@@ -20,6 +20,7 @@ namespace Star_Dundee_WPF.Models
         public decimal dataRate { get; set; }
         public decimal errorRate { get; set; }
         public decimal packetRate { get; set; }
+        public TimeSpan recordingTime { get; set; }
 
         private string[] portSum;
         public string[] portSummary {
@@ -82,6 +83,46 @@ namespace Star_Dundee_WPF.Models
             totalPackets = packTot;
 
             calcTotalErrorRate();
+            calcRecordingTime();
+            calcDataRate();
+            calcPacketRate();
+
+        }
+
+    public void calcDataRate() {
+            dataRate = (decimal)(((double)totalCharacters / recordingTime.TotalSeconds) / 1000);
+            dataRate = Math.Round(dataRate, 4);
+        }
+
+        public void calcPacketRate()
+        {
+            packetRate = (decimal)(((double)totalPackets/ recordingTime.TotalSeconds));
+            packetRate = Math.Round(packetRate, 4);
+        }
+
+        public TimeSpan calcRecordingTime()
+        {
+            DateTime start = ports[0].startTime;
+            DateTime end;
+            int x = ports[0].packets.Count();
+            end = ports[0].packets[x - 1].timestamp;
+
+            foreach (Port p in ports)
+            {
+                DateTime currEnd = p.packets[p.packets.Count() - 1].timestamp;
+
+                if (end.CompareTo(currEnd) > 0)
+                {
+                    end = currEnd;
+                }
+
+            }
+
+            //double recordingTime =
+            TimeSpan thetimeSpan = (end - start);
+            recordingTime = thetimeSpan;
+
+            return recordingTime;
         }
 
 

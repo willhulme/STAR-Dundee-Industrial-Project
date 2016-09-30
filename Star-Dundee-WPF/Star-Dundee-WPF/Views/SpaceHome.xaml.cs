@@ -181,8 +181,8 @@ namespace Star_Dundee_WPF
 
                 }
             }
-            Random bar = new Random(57);
-
+            Random bar = new Random(100);
+            
             myFileParser.mainRecording.graphs.packetTotalCollection.Add(new RowSeries
             {
                 Title = "Packets",
